@@ -1,0 +1,16 @@
+/* ProjectCard.module.css */
+.card {
+  height: 220px;
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.card:hover {
+  box-shadow: var(--mantine-shadow-md);
+  transform: scale(1.05);
+}
+
+.departmentPill {
+  display: inline-flex;    
+  width: max-content;       
+}

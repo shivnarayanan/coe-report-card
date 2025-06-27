@@ -9,8 +9,11 @@ import {
   Text,
   Skeleton,
   Center,
+  TextInput,
+  ActionIcon,
+  Tooltip,
 } from "@mantine/core";
-import { IconPlus } from "@tabler/icons-react";
+import { IconPlus, IconSearch } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 import { Project } from "./types";
 import { mockProjects } from "../data/mockProjects";
@@ -28,6 +31,7 @@ export default function ReportPage() {
   const [toDelete, setToDelete] = useState<Project | null>(null);
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [detailsProject, setDetailsProject] = useState<Project | null>(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     setTimeout(() => {
@@ -42,10 +46,7 @@ export default function ReportPage() {
   };
 
   const handleSubmit = (
-    values: Pick<
-      Project,
-      "title" | "description" | "status" | "dueDate" | "department"
-    >
+    values: Pick<Project, "title" | "description" | "status" | "tags">
   ) => {
     if (currentProject) {
       setProjects((prev) =>
@@ -81,18 +82,35 @@ export default function ReportPage() {
     setDetailsModalOpen(true);
   };
 
+  const filteredProjects = projects.filter((project) => {
+    const query = search.toLowerCase();
+    return (
+      project.title.toLowerCase().includes(query) ||
+      project.tags.some((tag) => tag.toLowerCase().includes(query))
+    );
+  });
+
   return (
     <Container size="xl">
-      <Group justify="flex-end" mb="md">
-        <Button
-          size="compact-md"
-          variant="transparent"
-          color="#343a40"
-          leftSection={<IconPlus size={16} />}
-          onClick={() => openProjectModal()}
-        >
-          New Project
-        </Button>
+      <Group justify="space-between" mb="xs">
+        <TextInput
+          placeholder="Search by Title or Tag"
+          leftSection={<IconSearch size={16} />}
+          value={search}
+          onChange={(e) => setSearch(e.currentTarget.value)}
+          style={{ maxWidth: 320 }}
+        />
+        <Tooltip label="New Project" withArrow position="left">
+          <ActionIcon
+            variant="transparent"
+            color="#343a40"
+            size="compact-lg"
+            onClick={() => openProjectModal()}
+            aria-label="New Project"
+          >
+            <IconPlus size={25} />
+          </ActionIcon>
+        </Tooltip>
       </Group>
 
       {loading ? (
@@ -103,7 +121,7 @@ export default function ReportPage() {
             </Grid.Col>
           ))}
         </Grid>
-      ) : projects.length === 0 ? (
+      ) : filteredProjects.length === 0 ? (
         <Center style={{ height: 300, flexDirection: "column" }}>
           <Text size="lg" mb="md">
             No projects found.
@@ -111,7 +129,7 @@ export default function ReportPage() {
         </Center>
       ) : (
         <Grid>
-          {projects.map((project) => (
+          {filteredProjects.map((project) => (
             <Grid.Col key={project.id} span={4}>
               <ProjectCard
                 project={project}

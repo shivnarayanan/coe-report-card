@@ -106,14 +106,14 @@ export default function ReportPage() {
   return (
     <Container size="xl">
       <Group justify="space-between" mb="xs">
-        <Group gap={1}>
+        <Group>
           <Select
             placeholder="Filter by Tag"
             data={allTags}
             value={tagFilter}
             onChange={setTagFilter}
             clearable
-            style={{ minWidth: 180, marginRight: 12 }}
+            w={200}
           />
           <Select
             placeholder="Filter by Status"
@@ -121,7 +121,7 @@ export default function ReportPage() {
             value={statusFilter}
             onChange={setStatusFilter}
             clearable
-            style={{ minWidth: 180 }}
+            w={200}
           />
         </Group>
         <Tooltip label="New Project" withArrow position="left">

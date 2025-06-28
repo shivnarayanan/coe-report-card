@@ -9,8 +9,3 @@
   box-shadow: var(--mantine-shadow-md);
   transform: scale(1.05);
 }
-
-.departmentPill {
-  display: inline-flex;    
-  width: max-content;       
-}

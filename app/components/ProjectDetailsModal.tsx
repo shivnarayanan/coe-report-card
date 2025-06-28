@@ -1,6 +1,6 @@
 import React from "react";
-import { Modal, Box, Text, Tabs, rem, Badge } from "@mantine/core";
-import { Project } from "../types";
+import { Modal, Box, Text, Tabs, rem, Badge, Group, Pill } from "@mantine/core";
+import { Project } from "../report/types";
 
 interface ProjectDetailsModalProps {
   opened: boolean;
@@ -47,9 +47,16 @@ export function ProjectDetailsModal({
             >
               <Modal.Title style={{ fontWeight: 700, fontSize: rem(20), display: 'flex', alignItems: 'center', gap: rem(12) }}>
                 {project.title}
-                <Badge color={colorMap[project.status]} variant="light" size="lg">
-                  {project.status}
-                </Badge>
+                <Group gap={8} align="center">
+                  <Badge color={colorMap[project.status]} variant="light" size="lg">
+                    {project.status}
+                  </Badge>
+                  {project.tags.map((tag) => (
+                    <Pill key={tag} c="dimmed" size="lg" style={{ fontWeight: 400, background: '#e9ecef' }}>
+                      {tag}
+                    </Pill>
+                  ))}
+                </Group>
               </Modal.Title>
               <Modal.CloseButton />
             </Box>

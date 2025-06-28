@@ -18,6 +18,10 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["app/components/*"]
+    },
     "plugins": [
       {
         "name": "next"

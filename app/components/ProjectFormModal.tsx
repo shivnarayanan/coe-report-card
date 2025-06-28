@@ -6,6 +6,7 @@ import {
   Select,
   Group,
   Button,
+  TagsInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Project } from '../types';
@@ -14,16 +15,18 @@ interface ProjectFormModalProps {
   opened: boolean;
   onClose: () => void;
   project?: Project | null;
-  onSubmit: (values: Pick<Project, 'title' | 'description' | 'status' | 'tags'>) => void;
+  onSubmit: (values: Pick<Project, 'title' | 'description' | 'status' | 'tags' | 'whyWeBuiltThis' | 'whatWeveBuilt'>) => void;
 }
 
 export function ProjectFormModal({ opened, onClose, project, onSubmit }: ProjectFormModalProps) {
-  const form = useForm<{ title: string; description: string; status: string; tags: string }>({
+  const form = useForm<{ title: string; description: string; status: string; tags: string[]; whyWeBuiltThis: string; whatWeveBuilt: string }>({
     initialValues: {
       title: '',
       description: '',
       status: 'PILOT',
-      tags: '',
+      tags: [],
+      whyWeBuiltThis: '',
+      whatWeveBuilt: '',
     },
     validate: {
       title: (v) => (v ? null : 'Title is required'),
@@ -39,7 +42,9 @@ export function ProjectFormModal({ opened, onClose, project, onSubmit }: Project
           title: project.title,
           description: project.description,
           status: project.status,
-          tags: project.tags.join(', '),
+          tags: project.tags,
+          whyWeBuiltThis: project.whyWeBuiltThis || '',
+          whatWeveBuilt: project.whatWeveBuilt || '',
         });
       } else {
         form.reset();
@@ -48,11 +53,12 @@ export function ProjectFormModal({ opened, onClose, project, onSubmit }: Project
   }, [opened, project]);
 
   const handleSubmit = (values: typeof form.values) => {
-    const tags = values.tags.split(',').map(t => t.trim()).filter(Boolean);
     onSubmit({
       ...values,
       status: values.status as Project['status'],
-      tags,
+      tags: values.tags,
+      whyWeBuiltThis: values.whyWeBuiltThis,
+      whatWeveBuilt: values.whatWeveBuilt,
     });
     onClose();
   };
@@ -61,7 +67,7 @@ export function ProjectFormModal({ opened, onClose, project, onSubmit }: Project
     <Modal
       opened={opened}
       onClose={onClose}
-      title={project ? 'Edit Project' : 'New Project'}
+      title={project ? 'Edit Project' : 'Add New Project'}
       centered
     >
       <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -72,16 +78,29 @@ export function ProjectFormModal({ opened, onClose, project, onSubmit }: Project
           {...form.getInputProps('description')}
           required
         />
+        <Textarea
+          label="WHY WE BUILT THIS"
+          mt="sm"
+          {...form.getInputProps('whyWeBuiltThis')}
+        />
+        <Textarea
+          label="WHAT WE'VE BUILT"
+          mt="sm"
+          {...form.getInputProps('whatWeveBuilt')}
+        />
         <Select
           label="Status"
           mt="sm"
           data={['PILOT', 'ACTIVE', 'RETIRED', 'MAINTENANCE']}
           {...form.getInputProps('status')}
         />
-        <TextInput
-          label="Tags (comma separated)"
+        <TagsInput
+          label="Tags"
+          placeholder="Enter tags"
           mt="sm"
-          {...form.getInputProps('tags')}
+          value={form.values.tags}
+          onChange={(tags) => form.setFieldValue('tags', tags)}
+          data={[]}
         />
         <Group justify="flex-start" mt="md">
           <Button type="submit">

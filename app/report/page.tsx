@@ -4,23 +4,22 @@ import React, { useState, useEffect } from "react";
 import {
   Container,
   Grid,
-  Button,
   Group,
   Text,
   Skeleton,
   Center,
-  TextInput,
   ActionIcon,
   Tooltip,
+  Select,
 } from "@mantine/core";
-import { IconPlus, IconSearch } from "@tabler/icons-react";
+import { IconPlus } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 import { Project } from "./types";
 import { mockProjects } from "../data/mockProjects";
-import { ProjectCard } from "./components/ProjectCard/ProjectCard";
-import { ProjectFormModal } from "./components/ProjectFormModal";
-import { DeleteConfirmationModal } from "./components/DeleteConfirmationModal";
-import { ProjectDetailsModal } from "./components/ProjectDetailsModal";
+import { ProjectCard } from "@components/ProjectCard/ProjectCard";
+import { ProjectFormModal } from "@components/ProjectFormModal";
+import { DeleteConfirmationModal } from "@components/DeleteConfirmationModal";
+import { ProjectDetailsModal } from "@components/ProjectDetailsModal";
 
 export default function ReportPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -32,6 +31,15 @@ export default function ReportPage() {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [detailsProject, setDetailsProject] = useState<Project | null>(null);
   const [search, setSearch] = useState("");
+  const [tagFilter, setTagFilter] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
+
+  const statusOptions = [
+    { value: 'PILOT', label: 'PILOT' },
+    { value: 'ACTIVE', label: 'ACTIVE' },
+    { value: 'RETIRED', label: 'RETIRED' },
+    { value: 'MAINTENANCE', label: 'MAINTENANCE' },
+  ];
 
   useEffect(() => {
     setTimeout(() => {
@@ -46,7 +54,7 @@ export default function ReportPage() {
   };
 
   const handleSubmit = (
-    values: Pick<Project, "title" | "description" | "status" | "tags">
+    values: Pick<Project, "title" | "description" | "status" | "tags" | "whyWeBuiltThis" | "whatWeveBuilt">
   ) => {
     if (currentProject) {
       setProjects((prev) =>
@@ -82,24 +90,40 @@ export default function ReportPage() {
     setDetailsModalOpen(true);
   };
 
+  // Get all unique tags from projects
+  const allTags = Array.from(new Set(projects.flatMap((p) => p.tags))).sort();
+
   const filteredProjects = projects.filter((project) => {
     const query = search.toLowerCase();
-    return (
+    const matchesSearch =
       project.title.toLowerCase().includes(query) ||
-      project.tags.some((tag) => tag.toLowerCase().includes(query))
-    );
+      project.tags.some((tag) => tag.toLowerCase().includes(query));
+    const matchesTag = tagFilter ? project.tags.includes(tagFilter) : true;
+    const matchesStatus = statusFilter ? project.status === statusFilter : true;
+    return matchesSearch && matchesTag && matchesStatus;
   });
 
   return (
     <Container size="xl">
       <Group justify="space-between" mb="xs">
-        <TextInput
-          placeholder="Search by Title or Tag"
-          leftSection={<IconSearch size={16} />}
-          value={search}
-          onChange={(e) => setSearch(e.currentTarget.value)}
-          style={{ maxWidth: 320 }}
-        />
+        <Group gap={1}>
+          <Select
+            placeholder="Filter by Tag"
+            data={allTags}
+            value={tagFilter}
+            onChange={setTagFilter}
+            clearable
+            style={{ minWidth: 180, marginRight: 12 }}
+          />
+          <Select
+            placeholder="Filter by Status"
+            data={statusOptions}
+            value={statusFilter}
+            onChange={setStatusFilter}
+            clearable
+            style={{ minWidth: 180 }}
+          />
+        </Group>
         <Tooltip label="New Project" withArrow position="left">
           <ActionIcon
             variant="transparent"

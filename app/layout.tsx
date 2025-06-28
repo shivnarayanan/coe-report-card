@@ -8,7 +8,7 @@ import {
   Box,
 } from "@mantine/core";
 import { theme } from "../theme";
-import { Header } from "./components/Header/Header";
+import { Header } from "@components/Header/Header";
 
 export const metadata = {
   title: "CHINOU",

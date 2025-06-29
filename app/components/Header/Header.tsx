@@ -9,6 +9,7 @@ import classes from "./Header.module.css";
 const links = [
   { link: "/report", label: "Report Card" },
   { link: "/usage", label: "Usage Metrics" },
+  { link: "/survey", label: "Survey Metrics" },
 ];
 
 export function Header() {

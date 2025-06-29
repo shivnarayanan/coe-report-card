@@ -6,4 +6,5 @@ export interface Project {
   tags: string[];
   whyWeBuiltThis?: string;
   whatWeveBuilt?: string;
+  individualsInvolved?: string[];
 } 

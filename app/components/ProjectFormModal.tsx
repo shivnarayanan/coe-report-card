@@ -7,7 +7,8 @@ import {
   Group,
   Button,
   TagsInput,
-  Flex,
+  MultiSelect,
+  SimpleGrid,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Project } from "../report/types";
@@ -25,6 +26,7 @@ interface ProjectFormModalProps {
       | "tags"
       | "whyWeBuiltThis"
       | "whatWeveBuilt"
+      | "individualsInvolved"
     >
   ) => void;
 }
@@ -42,6 +44,7 @@ export function ProjectFormModal({
     tags: string[];
     whyWeBuiltThis: string;
     whatWeveBuilt: string;
+    individualsInvolved: string[];
   }>({
     initialValues: {
       title: "",
@@ -50,6 +53,7 @@ export function ProjectFormModal({
       tags: [],
       whyWeBuiltThis: "",
       whatWeveBuilt: "",
+      individualsInvolved: [],
     },
     validate: {
       title: (v) => (v ? null : "Title is required"),
@@ -68,6 +72,7 @@ export function ProjectFormModal({
           tags: project.tags,
           whyWeBuiltThis: project.whyWeBuiltThis || "",
           whatWeveBuilt: project.whatWeveBuilt || "",
+          individualsInvolved: project.individualsInvolved || [],
         });
       } else {
         form.reset();
@@ -82,6 +87,7 @@ export function ProjectFormModal({
       tags: values.tags,
       whyWeBuiltThis: values.whyWeBuiltThis,
       whatWeveBuilt: values.whatWeveBuilt,
+      individualsInvolved: values.individualsInvolved,
     });
     onClose();
   };
@@ -101,12 +107,11 @@ export function ProjectFormModal({
       size="lg"
     >
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Flex gap="md">
+        <SimpleGrid cols={2}>
           <TextInput
             label="Project Title"
             description="Enter a short, descriptive project name."
             variant="filled"
-            w="50%"
             {...form.getInputProps("title")}
           />
           <Select
@@ -114,46 +119,53 @@ export function ProjectFormModal({
             description="Select the current status of the project."
             variant="filled"
             data={["DRAFT", "PILOT", "ACTIVE", "RETIRED", "MAINTENANCE"]}
-            w="50%"
             {...form.getInputProps("status")}
           />
-        </Flex>
+        </SimpleGrid>
         <Textarea
           label="Project Description"
           description="Summarize the project's purpose and scope."
-          mt="sm"
           variant="filled"
-          autosize
           minRows={3}
+          autosize
+          mt="sm"
           {...form.getInputProps("description")}
         />
         <Textarea
           label="Why was this built?"
           description="Explain the motivation or problem this project addresses."
-          mt="sm"
           variant="filled"
-          autosize
           minRows={3}
+          autosize
+          mt="sm"
           {...form.getInputProps("whyWeBuiltThis")}
         />
         <Textarea
           label="What has been built?"
           description="Describe the features or deliverables completed so far."
-          mt="sm"
           variant="filled"
-          autosize
           minRows={3}
+          autosize
+          mt="sm"
           {...form.getInputProps("whatWeveBuilt")}
+        />
+        <MultiSelect
+          label="Individuals Involved"
+          description="Select team members or stakeholders involved in this project"
+          placeholder="Search and select individuals"
+          variant="filled"
+          searchable
+          mt="sm"
+          {...form.getInputProps("individualsInvolved")}
         />
         <TagsInput
           label="Project Tags"
           description="Add relevant tags to organize and improve searchability for this project"
           placeholder="Type a tag and press Enter to add"
-          mt="sm"
           variant="filled"
           value={form.values.tags}
           onChange={(tags) => form.setFieldValue("tags", tags)}
-          data={[]}
+          mt="sm"
         />
         <Group justify="flex-end" mt="md" gap={0}>
           <Button variant="transparent" color="#495057" onClick={onClose}>

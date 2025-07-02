@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Modal,
+  Box,
   TextInput,
   Textarea,
   Select,
@@ -9,9 +10,11 @@ import {
   TagsInput,
   MultiSelect,
   SimpleGrid,
+  ActionIcon,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Project } from "../report/types";
+import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
 
 interface ProjectFormModalProps {
   opened: boolean;
@@ -37,6 +40,7 @@ export function ProjectFormModal({
   project,
   onSubmit,
 }: ProjectFormModalProps) {
+  const [page, setPage] = React.useState(1);
   const form = useForm<{
     title: string;
     description: string;
@@ -61,9 +65,10 @@ export function ProjectFormModal({
     },
   });
 
-  // Reset form when modal opens/closes or project changes
+  // Reset form and page when modal opens/closes or project changes
   React.useEffect(() => {
     if (opened) {
+      setPage(1);
       if (project) {
         form.setValues({
           title: project.title,
@@ -105,75 +110,107 @@ export function ProjectFormModal({
       }
       centered
       size="lg"
+      h={480}
     >
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <SimpleGrid cols={2}>
-          <TextInput
-            label="Project Title"
-            description="Enter a short, descriptive project name."
-            variant="filled"
-            {...form.getInputProps("title")}
-          />
-          <Select
-            label="Status"
-            description="Select the current status of the project."
-            variant="filled"
-            data={["DRAFT", "PILOT", "ACTIVE", "RETIRED", "MAINTENANCE"]}
-            {...form.getInputProps("status")}
-          />
-        </SimpleGrid>
-        <Textarea
-          label="Project Description"
-          description="Summarize the project's purpose and scope."
-          variant="filled"
-          minRows={3}
-          autosize
-          mt="sm"
-          {...form.getInputProps("description")}
-        />
-        <Textarea
-          label="Why was this built?"
-          description="Explain the motivation or problem this project addresses."
-          variant="filled"
-          minRows={3}
-          autosize
-          mt="sm"
-          {...form.getInputProps("whyWeBuiltThis")}
-        />
-        <Textarea
-          label="What has been built?"
-          description="Describe the features or deliverables completed so far."
-          variant="filled"
-          minRows={3}
-          autosize
-          mt="sm"
-          {...form.getInputProps("whatWeveBuilt")}
-        />
-        <MultiSelect
-          label="Individuals Involved"
-          description="Select team members or stakeholders involved in this project"
-          placeholder="Search and select individuals"
-          variant="filled"
-          searchable
-          mt="sm"
-          {...form.getInputProps("individualsInvolved")}
-        />
-        <TagsInput
-          label="Project Tags"
-          description="Add relevant tags to organize and improve searchability for this project"
-          placeholder="Type a tag and press Enter to add"
-          variant="filled"
-          value={form.values.tags}
-          onChange={(tags) => form.setFieldValue("tags", tags)}
-          mt="sm"
-        />
-        <Group justify="flex-end" mt="md" gap={0}>
-          <Button variant="transparent" color="#495057" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="submit" color="#CA2420" radius="sm">
-            {project ? "Update" : "Add Project"}
-          </Button>
+        <Box h={480} style={{ overflowY: "auto" }}>
+          {page === 1 && (
+            <>
+              <SimpleGrid cols={2}>
+                <TextInput
+                  label="Project Title"
+                  description="Enter a short, descriptive project name."
+                  variant="filled"
+                  {...form.getInputProps("title")}
+                />
+                <Select
+                  label="Status"
+                  description="Select the current status of the project."
+                  variant="filled"
+                  data={["DRAFT", "PILOT", "ACTIVE", "RETIRED", "MAINTENANCE"]}
+                  {...form.getInputProps("status")}
+                />
+              </SimpleGrid>
+              <Textarea
+                label="Project Description"
+                description="Summarize the project's purpose and scope."
+                variant="filled"
+                minRows={4}
+                autosize
+                mt="sm"
+                {...form.getInputProps("description")}
+              />
+              <MultiSelect
+                label="Individuals Involved"
+                description="Select team members or stakeholders involved in this project."
+                placeholder="Type to select Individuals Involved"
+                variant="filled"
+                searchable
+                mt="sm"
+                {...form.getInputProps("individualsInvolved")}
+              />
+              <TagsInput
+                label="Project Tags"
+                description="Add relevant tags to organize and improve searchability for this project."
+                placeholder="Type and press Enter to add tags"
+                variant="filled"
+                value={form.values.tags}
+                onChange={(tags) => form.setFieldValue("tags", tags)}
+                mt="sm"
+              />
+            </>
+          )}
+          {page === 2 && (
+            <>
+              <Textarea
+                label="Why was this built?"
+                description="Explain the motivation or problem this project addresses."
+                variant="filled"
+                minRows={4}
+                autosize
+                {...form.getInputProps("whyWeBuiltThis")}
+              />
+              <Textarea
+                label="What has been built?"
+                description="Describe the features or deliverables completed so far."
+                variant="filled"
+                minRows={4}
+                autosize
+                mt="sm"
+                {...form.getInputProps("whatWeveBuilt")}
+              />
+            </>
+          )}
+        </Box>
+        <Group justify="space-between" mt="md" gap={0}>
+          <Group gap="xs">
+            <ActionIcon
+              variant="default"
+              size={36}
+              onClick={() => setPage(1)}
+              disabled={page === 1}
+              aria-label="Previous page"
+            >
+              <IconArrowLeft size={20} />
+            </ActionIcon>
+            <ActionIcon
+              variant="default"
+              size={36}
+              onClick={() => setPage(2)}
+              disabled={page === 2}
+              aria-label="Next page"
+            >
+              <IconArrowRight size={20} />
+            </ActionIcon>
+          </Group>
+          <Group gap={0}>
+            <Button variant="transparent" color="#495057" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button type="submit" color="#CA2420" radius="sm">
+              {project ? "Update" : "Add Project"}
+            </Button>
+          </Group>
         </Group>
       </form>
     </Modal>

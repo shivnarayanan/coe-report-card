@@ -15,15 +15,21 @@ export function ProjectDetailsModal({
 }: ProjectDetailsModalProps) {
   if (!project) return null;
 
-  const colorMap: Record<Project['status'], string> = {
-    PILOT: 'yellow',
-    ACTIVE: 'green',
-    RETIRED: 'gray',
-    MAINTENANCE: 'blue',
+  const colorMap: Record<Project["status"], string> = {
+    PILOT: "yellow",
+    ACTIVE: "green",
+    RETIRED: "gray",
+    MAINTENANCE: "blue",
   };
 
   return (
-    <Modal.Root opened={opened} onClose={onClose} size="xl" radius="lg" centered>
+    <Modal.Root
+      opened={opened}
+      onClose={onClose}
+      size="xl"
+      radius="lg"
+      centered
+    >
       <Modal.Overlay />
       <Modal.Content style={{ overflow: "hidden" }}>
         <Tabs defaultValue="overview" color="#CA2420">
@@ -45,14 +51,31 @@ export function ProjectDetailsModal({
                 alignItems: "center",
               }}
             >
-              <Modal.Title style={{ fontWeight: 700, fontSize: rem(20), display: 'flex', alignItems: 'center', gap: rem(12) }}>
+              <Modal.Title
+                style={{
+                  fontWeight: 700,
+                  fontSize: rem(20),
+                  display: "flex",
+                  alignItems: "center",
+                  gap: rem(12),
+                }}
+              >
                 {project.title}
                 <Group gap={8} align="center">
-                  <Badge color={colorMap[project.status]} variant="light" size="lg">
+                  <Badge
+                    color={colorMap[project.status]}
+                    variant="light"
+                    size="lg"
+                  >
                     {project.status}
                   </Badge>
                   {project.tags.map((tag) => (
-                    <Pill key={tag} c="dimmed" size="lg" style={{ fontWeight: 400, background: '#e9ecef' }}>
+                    <Pill
+                      key={tag}
+                      c="dimmed"
+                      size="lg"
+                      style={{ fontWeight: 400, background: "#e9ecef" }}
+                    >
                       {tag}
                     </Pill>
                   ))}
@@ -65,7 +88,7 @@ export function ProjectDetailsModal({
             </Text>
           </Modal.Header>
 
-          <Box style={{ background: "#f8f9fa" }} >
+          <Box style={{ background: "#f8f9fa" }}>
             <Tabs.List pl={8}>
               <Tabs.Tab value="overview">OVERVIEW</Tabs.Tab>
               <Tabs.Tab value="metrics">METRICS</Tabs.Tab>
@@ -81,24 +104,41 @@ export function ProjectDetailsModal({
             }}
           >
             <Tabs.Panel value="overview">
-              <Text fw={700} size="lg" style={{ color: '#CA2420' }} mb="xs">
+              <Text fw={700} size="lg" style={{ color: "#CA2420" }} mb="xs">
                 WHY WAS THIS BUILT
               </Text>
-              {project.whyWeBuiltThis && (
-                <Text mb="xs" c="dimmed">{project.whyWeBuiltThis}</Text>
+              {project.whyWeBuiltThis ? (
+                <Text mb="xs">{project.whyWeBuiltThis}</Text>
+              ) : (
+                <Text mb="xs" c="dimmed">
+                  No description available.
+                </Text>
               )}
-              <Text mb="md">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </Text>
-              <Text fw={700} size="lg" style={{ color: '#CA2420' }} mb="xs">
+              <Text fw={700} size="lg" style={{ color: "#CA2420" }} mb="xs">
                 WHAT HAS BEEN BUILT
               </Text>
-              {project.whatWeveBuilt && (
-                <Text mb="xs" c="dimmed">{project.whatWeveBuilt}</Text>
+              {project.whatWeveBuilt ? (
+                <Text mb="xs">{project.whatWeveBuilt}</Text>
+              ) : (
+                <Text mb="xs" c="dimmed">
+                  No description available.
+                </Text>
               )}
-              <Text mb="md">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              <Text fw={700} size="lg" style={{ color: "#CA2420" }} mb="xs">
+                INDIVIDUALS INVOLVED
               </Text>
+              <Box mb="md">
+                {project.individualsInvolved &&
+                project.individualsInvolved.length > 0 ? (
+                  <ul style={{ margin: 0, paddingLeft: 20 }}>
+                    {project.individualsInvolved.map((name) => (
+                      <li key={name}>{name}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <Text c="dimmed">No individuals listed.</Text>
+                )}
+              </Box>
             </Tabs.Panel>
             <Tabs.Panel value="updates">
               <Text></Text>

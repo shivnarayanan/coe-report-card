@@ -11,6 +11,8 @@ import {
   ActionIcon,
   Tooltip,
   Select,
+  Modal,
+  useModalsStack,
 } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
@@ -18,49 +20,67 @@ import { Project } from "./types";
 import { mockProjects } from "../data/mockProjects";
 import { ProjectCard } from "@components/ProjectCard/ProjectCard";
 import { ProjectFormModal } from "@components/ProjectFormModal";
-import { DeleteConfirmationModal } from "@components/DeleteConfirmationModal";
 import { ProjectDetailsModal } from "@components/ProjectDetailsModal";
+
+type ModalId = "details" | "form";
 
 export default function ReportPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [currentProject, setCurrentProject] = useState<Project | null>(null);
-  const [toDelete, setToDelete] = useState<Project | null>(null);
-  const [detailsModalOpen, setDetailsModalOpen] = useState(false);
-  const [detailsProject, setDetailsProject] = useState<Project | null>(null);
-  const [search, setSearch] = useState("");
   const [tagFilter, setTagFilter] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
-  const statusOptions = [
-    { value: 'PILOT', label: 'PILOT' },
-    { value: 'ACTIVE', label: 'ACTIVE' },
-    { value: 'RETIRED', label: 'RETIRED' },
-    { value: 'MAINTENANCE', label: 'MAINTENANCE' },
-  ];
+  // define your two modal slots
+  const modalIds: ModalId[] = ["details", "form"];
+  const stack = useModalsStack<ModalId>(modalIds);
 
+  // register each slot to get opened/onClose/zIndex etc.
+  const detailModal = stack.register("details");
+  const formModal = stack.register("form");
+
+  // simulate loading
   useEffect(() => {
-    setTimeout(() => {
+    const t = setTimeout(() => {
       setProjects(mockProjects);
       setLoading(false);
-    }, 1000);
+    }, 1_000);
+    return () => clearTimeout(t);
   }, []);
 
-  const openProjectModal = (project?: Project) => {
-    setCurrentProject(project || null);
-    setModalOpen(true);
-  };
+  const statusOptions = [
+    { value: "PILOT", label: "PILOT" },
+    { value: "ACTIVE", label: "ACTIVE" },
+    { value: "RETIRED", label: "RETIRED" },
+    { value: "MAINTENANCE", label: "MAINTENANCE" },
+  ];
 
+  // handle create / update
   const handleSubmit = (
-    values: Pick<Project, "title" | "description" | "status" | "tags" | "whyWeBuiltThis" | "whatWeveBuilt">
+    values: Pick<
+      Project,
+      | "title"
+      | "description"
+      | "status"
+      | "tags"
+      | "whyWeBuiltThis"
+      | "whatWeveBuilt"
+      | "individualsInvolved"
+    >
   ) => {
     if (currentProject) {
       setProjects((prev) =>
-        prev.map((p) => (p.id === currentProject.id ? { ...p, ...values } : p))
+        prev.map((p) =>
+          p.id === currentProject.id ? { ...p, ...values } : p
+        )
       );
       showNotification({ message: "Project updated", color: "blue" });
+      stack.close("form");
+      // after close, re-open details with updated data
+      setTimeout(() => {
+        setCurrentProject({ ...currentProject, ...values });
+        stack.open("details");
+      }, 0);
     } else {
       setProjects((prev) => [
         ...prev,
@@ -70,37 +90,16 @@ export default function ReportPage() {
         message: "Project added successfully!",
         color: "green",
       });
+      stack.close("form");
     }
   };
 
-  const openDeleteModal = (project: Project) => {
-    setToDelete(project);
-    setDeleteModalOpen(true);
-  };
-
-  const handleDelete = () => {
-    if (toDelete) {
-      setProjects((prev) => prev.filter((p) => p.id !== toDelete.id));
-      showNotification({ message: "Project deleted", color: "red" });
-    }
-  };
-
-  const openDetailsModal = (project: Project) => {
-    setDetailsProject(project);
-    setDetailsModalOpen(true);
-  };
-
-  // Get all unique tags from projects
+  // filtering logic
   const allTags = Array.from(new Set(projects.flatMap((p) => p.tags))).sort();
-
-  const filteredProjects = projects.filter((project) => {
-    const query = search.toLowerCase();
-    const matchesSearch =
-      project.title.toLowerCase().includes(query) ||
-      project.tags.some((tag) => tag.toLowerCase().includes(query));
-    const matchesTag = tagFilter ? project.tags.includes(tagFilter) : true;
-    const matchesStatus = statusFilter ? project.status === statusFilter : true;
-    return matchesSearch && matchesTag && matchesStatus;
+  const filtered = projects.filter((p) => {
+    const matchesTag = tagFilter ? p.tags.includes(tagFilter) : true;
+    const matchesStatus = statusFilter ? p.status === statusFilter : true;
+    return matchesTag && matchesStatus;
   });
 
   return (
@@ -127,9 +126,11 @@ export default function ReportPage() {
         <Tooltip label="New Project" withArrow position="left">
           <ActionIcon
             variant="transparent"
-            color="#343a40"
-            size="compact-lg"
-            onClick={() => openProjectModal()}
+            size="lg"
+            onClick={() => {
+              setCurrentProject(null);
+              stack.open("form");
+            }}
             aria-label="New Project"
           >
             <IconPlus size={25} />
@@ -139,13 +140,13 @@ export default function ReportPage() {
 
       {loading ? (
         <Grid>
-          {[...Array(3)].map((_, idx) => (
-            <Grid.Col key={idx} span={4}>
+          {[...Array(3)].map((_, i) => (
+            <Grid.Col key={i} span={4}>
               <Skeleton height={200} radius="md" />
             </Grid.Col>
           ))}
         </Grid>
-      ) : filteredProjects.length === 0 ? (
+      ) : filtered.length === 0 ? (
         <Center style={{ height: 300, flexDirection: "column" }}>
           <Text size="lg" mb="md">
             No projects found.
@@ -153,38 +154,41 @@ export default function ReportPage() {
         </Center>
       ) : (
         <Grid>
-          {filteredProjects.map((project) => (
-            <Grid.Col key={project.id} span={4}>
+          {filtered.map((proj) => (
+            <Grid.Col key={proj.id} span={4}>
               <ProjectCard
-                project={project}
-                onEdit={openProjectModal}
-                onDelete={openDeleteModal}
-                onView={openDetailsModal}
+                project={proj}
+                onEdit={(p) => {
+                  setCurrentProject(p);
+                  stack.open("form");
+                }}
+                onView={(p) => {
+                  setCurrentProject(p);
+                  stack.open("details");
+                }}
               />
             </Grid.Col>
           ))}
         </Grid>
       )}
 
-      <ProjectFormModal
-        opened={modalOpen}
-        onClose={() => setModalOpen(false)}
-        project={currentProject}
-        onSubmit={handleSubmit}
-      />
+      {/* Mantine will now handle z-indexes automatically */}
+      <Modal.Stack>
+        <ProjectDetailsModal
+          {...detailModal}
+          project={currentProject}
+          onEdit={(p) => {
+            setCurrentProject(p);
+            stack.open("form");
+          }}
+        />
 
-      <DeleteConfirmationModal
-        opened={deleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        project={toDelete}
-        onConfirm={handleDelete}
-      />
-
-      <ProjectDetailsModal
-        opened={detailsModalOpen}
-        onClose={() => setDetailsModalOpen(false)}
-        project={detailsProject}
-      />
+        <ProjectFormModal
+          {...formModal}
+          project={currentProject}
+          onSubmit={handleSubmit}
+        />
+      </Modal.Stack>
     </Container>
   );
 }

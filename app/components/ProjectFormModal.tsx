@@ -98,121 +98,141 @@ export function ProjectFormModal({
   };
 
   return (
-    <Modal
+    <Modal.Root
       opened={opened}
       onClose={onClose}
-      title={
-        project ? (
-          <strong>Edit Project</strong>
-        ) : (
-          <strong>Add New Project</strong>
-        )
-      }
+      size="xl"
+      radius="lg"
+      zIndex={1100}
       centered
-      size="lg"
-      h={480}
     >
-      <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Box h={480} style={{ overflowY: "auto" }}>
-          {page === 1 && (
-            <>
-              <SimpleGrid cols={2}>
-                <TextInput
-                  label="Project Title"
-                  description="Enter a short, descriptive project name."
+      <Modal.Overlay />
+      <Modal.Content style={{ overflow: "hidden" }}>
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Modal.Header
+            style={{
+              backgroundColor: "#f8f9fa",
+              borderTopLeftRadius: 8,
+              borderTopRightRadius: 8,
+              padding: "16px 24px 12px 24px",
+              flexDirection: "column",
+              alignItems: "flex-start",
+            }}
+          >
+            <Box style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
+              <Modal.Title style={{ fontWeight: 700, fontSize: 20 }}>
+                {project ? "Edit Project" : "Add New Project"}
+              </Modal.Title>
+              <Group>
+                <Modal.CloseButton />
+              </Group>
+            </Box>
+          </Modal.Header>
+          <Modal.Body style={{ height: "70vh", overflowY: "auto", padding: 24 }}>
+            {page === 1 && (
+              <>
+                <SimpleGrid cols={2}>
+                  <TextInput
+                    label="Project Title"
+                    description="Enter a short, descriptive project name."
+                    variant="filled"
+                    {...form.getInputProps("title")}
+                  />
+                  <Select
+                    label="Status"
+                    description="Select the current status of the project."
+                    variant="filled"
+                    data={["DRAFT", "PILOT", "ACTIVE", "RETIRED", "MAINTENANCE"]}
+                    {...form.getInputProps("status")}
+                  />
+                </SimpleGrid>
+                <Textarea
+                  label="Project Description"
+                  description="Summarize the project's purpose and scope."
                   variant="filled"
-                  {...form.getInputProps("title")}
+                  minRows={4}
+                  autosize
+                  mt="sm"
+                  {...form.getInputProps("description")}
                 />
-                <Select
-                  label="Status"
-                  description="Select the current status of the project."
+                <MultiSelect
+                  label="Individuals Involved"
+                  description="Select team members or stakeholders involved in this project."
+                  placeholder="Type to select Individuals Involved"
                   variant="filled"
-                  data={["DRAFT", "PILOT", "ACTIVE", "RETIRED", "MAINTENANCE"]}
-                  {...form.getInputProps("status")}
+                  searchable
+                  mt="sm"
+                  {...form.getInputProps("individualsInvolved")}
                 />
-              </SimpleGrid>
-              <Textarea
-                label="Project Description"
-                description="Summarize the project's purpose and scope."
-                variant="filled"
-                minRows={4}
-                autosize
-                mt="sm"
-                {...form.getInputProps("description")}
-              />
-              <MultiSelect
-                label="Individuals Involved"
-                description="Select team members or stakeholders involved in this project."
-                placeholder="Type to select Individuals Involved"
-                variant="filled"
-                searchable
-                mt="sm"
-                {...form.getInputProps("individualsInvolved")}
-              />
-              <TagsInput
-                label="Project Tags"
-                description="Add relevant tags to organize and improve searchability for this project."
-                placeholder="Type and press Enter to add tags"
-                variant="filled"
-                value={form.values.tags}
-                onChange={(tags) => form.setFieldValue("tags", tags)}
-                mt="sm"
-              />
-            </>
-          )}
-          {page === 2 && (
-            <>
-              <Textarea
-                label="Why was this built?"
-                description="Explain the motivation or problem this project addresses."
-                variant="filled"
-                minRows={4}
-                autosize
-                {...form.getInputProps("whyWeBuiltThis")}
-              />
-              <Textarea
-                label="What has been built?"
-                description="Describe the features or deliverables completed so far."
-                variant="filled"
-                minRows={4}
-                autosize
-                mt="sm"
-                {...form.getInputProps("whatWeveBuilt")}
-              />
-            </>
-          )}
-        </Box>
-        <Group justify="space-between" mt="md" gap={0}>
-          <Group gap="xs">
-            <ActionIcon
-              variant="default"
-              size={36}
-              onClick={() => setPage(1)}
-              disabled={page === 1}
-              aria-label="Previous page"
-            >
-              <IconArrowLeft size={20} />
-            </ActionIcon>
-            <ActionIcon
-              variant="default"
-              size={36}
-              onClick={() => setPage(2)}
-              disabled={page === 2}
-              aria-label="Next page"
-            >
-              <IconArrowRight size={20} />
-            </ActionIcon>
+                <TagsInput
+                  label="Project Tags"
+                  description="Add up to 3 relevant tags to organize and improve searchability for this project."
+                  placeholder="Type and press Enter to add tags"
+                  variant="filled"
+                  value={form.values.tags}
+                  onChange={(tags) => {
+                    if (tags.length <= 3) {
+                      form.setFieldValue("tags", tags);
+                    }
+                  }}
+                  mt="sm"
+                />
+              </>
+            )}
+            {page === 2 && (
+              <>
+                <Textarea
+                  label="Why was this built?"
+                  description="Explain the motivation or problem this project addresses."
+                  variant="filled"
+                  minRows={4}
+                  autosize
+                  {...form.getInputProps("whyWeBuiltThis")}
+                />
+                <Textarea
+                  label="What has been built?"
+                  description="Describe the features or deliverables completed so far."
+                  variant="filled"
+                  minRows={4}
+                  autosize
+                  mt="sm"
+                  {...form.getInputProps("whatWeveBuilt")}
+                />
+              </>
+            )}
+          </Modal.Body>
+          <Group justify="space-between" mt="md" gap={0} style={{ padding: "0 24px 24px 24px" }}>
+            <Group gap="xs">
+              <ActionIcon
+                variant="default"
+                size={36}
+                onClick={() => setPage(1)}
+                disabled={page === 1}
+                aria-label="Previous page"
+              >
+                <IconArrowLeft size={20} />
+              </ActionIcon>
+              <ActionIcon
+                variant="default"
+                size={36}
+                onClick={() => setPage(2)}
+                disabled={page === 2}
+                aria-label="Next page"
+              >
+                <IconArrowRight size={20} />
+              </ActionIcon>
+            </Group>
+            <Group gap={0}>
+              <Button variant="transparent" color="#495057" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button type="submit" color="#CA2420" radius="sm">
+                {project ? "Update" : "Add Project"}
+              </Button>
+            </Group>
           </Group>
-          <Group gap={0}>
-            <Button variant="transparent" color="#495057" onClick={onClose}>
-              Cancel
-            </Button>
-            <Button type="submit" color="#CA2420" radius="sm">
-              {project ? "Update" : "Add Project"}
-            </Button>
-          </Group>
-        </Group>
-      </form>
-    </Modal>
+        </form>
+      </Modal.Content>
+    </Modal.Root>
   );
 }

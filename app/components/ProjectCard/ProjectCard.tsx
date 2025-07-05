@@ -1,29 +1,21 @@
 // ProjectCard.tsx
 import React from "react";
 import { Card, Badge, Group, Text, Pill } from "@mantine/core";
-import { Project } from "../../types";
+import { Project } from "../../report/types";
+import { getProjectStatusColor } from "../../report/types";
 import styles from "./ProjectCard.module.css";
 
 export type ProjectCardProps = {
   project: Project;
   onEdit: (project: Project) => void;
-  onDelete: (project: Project) => void;
   onView: (project: Project) => void;
 };
 
 export function ProjectCard({
   project,
   onEdit,
-  onDelete,
   onView,
 }: ProjectCardProps) {
-  const colorMap: Record<Project["status"], string> = {
-    PILOT: "yellow",
-    ACTIVE: "green",
-    RETIRED: "gray",
-    MAINTENANCE: "blue",
-  };
-
   return (
     <Card
       shadow="sm"
@@ -38,7 +30,7 @@ export function ProjectCard({
           <Text fw={600} size="lg">
             {project.title}
           </Text>
-          <Badge color={colorMap[project.status]} variant="light" size="lg">
+          <Badge color={getProjectStatusColor(project.status)} variant="light" size="lg">
             {project.status}
           </Badge>
         </Group>
@@ -48,7 +40,7 @@ export function ProjectCard({
         {project.description}
       </Text>
       <Group mt="md" gap={8}>
-        {project.tags.map((tag) => (
+        {project.tags.map((tag: string) => (
           <Pill key={tag} className={styles.departmentPill} c="dimmed" size="lg">
             {tag}
           </Pill>

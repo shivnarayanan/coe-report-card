@@ -1,3 +1,12 @@
+export interface TimelineItem {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  status: 'completed' | 'active' | 'pending' | 'future';
+  color: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -7,4 +16,17 @@ export interface Project {
   whyWeBuiltThis?: string;
   whatWeveBuilt?: string;
   individualsInvolved?: string[];
+  timeline?: TimelineItem[];
+}
+
+// Shared status color map and utility
+export const PROJECT_STATUS_COLOR_MAP: Record<Project["status"], string> = {
+  PILOT: "yellow",
+  ACTIVE: "green",
+  RETIRED: "gray",
+  MAINTENANCE: "blue",
+};
+
+export function getProjectStatusColor(status: Project["status"]): string {
+  return PROJECT_STATUS_COLOR_MAP[status] || "gray";
 } 

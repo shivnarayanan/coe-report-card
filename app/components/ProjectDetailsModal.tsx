@@ -1,26 +1,35 @@
 import React from "react";
-import { Modal, Box, Text, Tabs, rem, Badge, Group, Pill } from "@mantine/core";
+import {
+  Modal,
+  Box,
+  Text,
+  Tabs,
+  rem,
+  Badge,
+  Group,
+  Pill,
+  ActionIcon,
+  Tooltip,
+  Timeline,
+} from "@mantine/core";
 import { Project } from "../report/types";
+import { IconEdit, IconCheck, IconClock, IconAlertCircle, IconCircle } from "@tabler/icons-react";
+import { getProjectStatusColor } from "../report/types";
 
 interface ProjectDetailsModalProps {
   opened: boolean;
   onClose: () => void;
   project: Project | null;
+  onEdit?: (project: Project) => void;
 }
 
 export function ProjectDetailsModal({
   opened,
   onClose,
   project,
+  onEdit,
 }: ProjectDetailsModalProps) {
   if (!project) return null;
-
-  const colorMap: Record<Project["status"], string> = {
-    PILOT: "yellow",
-    ACTIVE: "green",
-    RETIRED: "gray",
-    MAINTENANCE: "blue",
-  };
 
   return (
     <Modal.Root
@@ -28,6 +37,7 @@ export function ProjectDetailsModal({
       onClose={onClose}
       size="xl"
       radius="lg"
+      zIndex={1000}
       centered
     >
       <Modal.Overlay />
@@ -57,13 +67,29 @@ export function ProjectDetailsModal({
                   fontSize: rem(20),
                   display: "flex",
                   alignItems: "center",
-                  gap: rem(12),
+                  gap: rem(5),
                 }}
               >
                 {project.title}
+                {onEdit && (
+                  <Tooltip label="Edit Project Details" withArrow position="bottom" zIndex={1050}>
+                    <ActionIcon
+                      variant="subtle"
+                      aria-label="Edit Project"
+                      color="#adb5bd"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEdit(project);
+                      }}
+                      size="md"
+                    >
+                      <IconEdit size={30} stroke={1.5} />
+                    </ActionIcon>
+                  </Tooltip>
+                )}
                 <Group gap={8} align="center">
                   <Badge
-                    color={colorMap[project.status]}
+                    color={getProjectStatusColor(project.status)}
                     variant="light"
                     size="lg"
                   >
@@ -81,7 +107,9 @@ export function ProjectDetailsModal({
                   ))}
                 </Group>
               </Modal.Title>
-              <Modal.CloseButton />
+              <Group>
+                <Modal.CloseButton />
+              </Group>
             </Box>
             <Text size="md" c="dimmed" mt="xs" mb="sm">
               {project.description}
@@ -92,14 +120,14 @@ export function ProjectDetailsModal({
             <Tabs.List pl={8}>
               <Tabs.Tab value="overview">OVERVIEW</Tabs.Tab>
               <Tabs.Tab value="metrics">METRICS</Tabs.Tab>
-              <Tabs.Tab value="updates">UPDATES</Tabs.Tab>
+              <Tabs.Tab value="timeline">TIMELINE</Tabs.Tab>
             </Tabs.List>
           </Box>
 
           <Modal.Body
             style={{
               padding: rem(24),
-              height: "60vh",
+              height: "70vh",
               overflowY: "auto",
             }}
           >
@@ -140,8 +168,51 @@ export function ProjectDetailsModal({
                 )}
               </Box>
             </Tabs.Panel>
-            <Tabs.Panel value="updates">
-              <Text></Text>
+            <Tabs.Panel value="timeline">
+              {project.timeline && project.timeline.length > 0 ? (
+                <Timeline 
+                  active={project.timeline.findIndex(item => item.status === 'active')} 
+                  bulletSize={24} 
+                  lineWidth={2}
+                >
+                  {project.timeline.map((item) => {
+                    const getBulletIcon = () => {
+                      switch (item.status) {
+                        case 'completed':
+                          return <IconCheck size={12} />;
+                        case 'active':
+                          return <IconClock size={12} />;
+                        case 'pending':
+                          return <IconAlertCircle size={12} />;
+                        case 'future':
+                          return <IconCircle size={12} />;
+                        default:
+                          return <IconCircle size={12} />;
+                      }
+                    };
+
+                    return (
+                      <Timeline.Item 
+                        key={item.id}
+                        bullet={getBulletIcon()} 
+                        title={item.title}
+                        color={item.color}
+                      >
+                        <Text size="sm" c="dimmed" mt={4}>
+                          {item.description}
+                        </Text>
+                        <Text size="xs" c="dimmed" mt={4}>
+                          {item.date}
+                        </Text>
+                      </Timeline.Item>
+                    );
+                  })}
+                </Timeline>
+              ) : (
+                <Text c="dimmed" ta="center" py="xl">
+                  No timeline data available for this project.
+                </Text>
+              )}
             </Tabs.Panel>
           </Modal.Body>
         </Tabs>

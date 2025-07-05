@@ -1,4 +1,5 @@
-import React from "react";
+// src/components/ProjectDetailsModal.tsx
+import React, { useMemo } from "react";
 import {
   Modal,
   Box,
@@ -11,9 +12,15 @@ import {
   ActionIcon,
   Tooltip,
   Timeline,
+  ThemeIcon,
 } from "@mantine/core";
+import {
+  IconEdit,
+  IconCheck,
+  IconClock,
+  IconCircle,
+} from "@tabler/icons-react";
 import { Project } from "../report/types";
-import { IconEdit, IconCheck, IconClock, IconAlertCircle, IconCircle } from "@tabler/icons-react";
 import { getProjectStatusColor } from "../report/types";
 
 interface ProjectDetailsModalProps {
@@ -29,7 +36,24 @@ export function ProjectDetailsModal({
   project,
   onEdit,
 }: ProjectDetailsModalProps) {
-  if (!project) return null;
+  if (!project) {
+    return null;
+  }
+
+  // Keep oldest → newest for chronological order
+  const sortedTimeline = useMemo(
+    () =>
+      [...project.timeline].sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      ),
+    [project.timeline]
+  );
+
+  // Find the first ACTIVE step; if none, highlight last item
+  const rawActive = sortedTimeline.findIndex(
+    (item) => item.status === "ACTIVE"
+  );
+  const activeIndex = rawActive >= 0 ? rawActive : sortedTimeline.length - 1;
 
   return (
     <Modal.Root
@@ -41,8 +65,10 @@ export function ProjectDetailsModal({
       centered
     >
       <Modal.Overlay />
+
       <Modal.Content style={{ overflow: "hidden" }}>
-        <Tabs defaultValue="overview" color="#CA2420">
+        <Tabs defaultValue="overview" color="#C42138">
+          {/* ─── Header ─────────────────────────────────────────────────────────── */}
           <Modal.Header
             style={{
               backgroundColor: "#f8f9fa",
@@ -71,6 +97,7 @@ export function ProjectDetailsModal({
                 }}
               >
                 {project.title}
+
                 {onEdit && (
                   <Tooltip label="Edit Project Details" withArrow position="bottom" zIndex={1050}>
                     <ActionIcon
@@ -88,24 +115,24 @@ export function ProjectDetailsModal({
                   </Tooltip>
                 )}
                 <Group gap={8} align="center">
-                  <Badge
-                    color={getProjectStatusColor(project.status)}
-                    variant="light"
+                <Badge
+                  color={getProjectStatusColor(project.status)}
+                  variant="light"
+                  size="lg"
+                >
+                  {project.status}
+                </Badge>
+                {project.tags.map((tag) => (
+                  <Pill
+                    key={tag}
+                    c="dimmed"
                     size="lg"
+                    style={{ fontWeight: 400, background: "#e9ecef" }}
                   >
-                    {project.status}
-                  </Badge>
-                  {project.tags.map((tag) => (
-                    <Pill
-                      key={tag}
-                      c="dimmed"
-                      size="lg"
-                      style={{ fontWeight: 400, background: "#e9ecef" }}
-                    >
-                      {tag}
-                    </Pill>
-                  ))}
-                </Group>
+                    {tag}
+                  </Pill>
+                ))}
+              </Group>
               </Modal.Title>
               <Group>
                 <Modal.CloseButton />
@@ -116,6 +143,7 @@ export function ProjectDetailsModal({
             </Text>
           </Modal.Header>
 
+          {/* ─── Tabs ───────────────────────────────────────────────────────────── */}
           <Box style={{ background: "#f8f9fa" }}>
             <Tabs.List pl={8}>
               <Tabs.Tab value="overview">OVERVIEW</Tabs.Tab>
@@ -125,39 +153,37 @@ export function ProjectDetailsModal({
           </Box>
 
           <Modal.Body
-            style={{
-              padding: rem(24),
-              height: "70vh",
-              overflowY: "auto",
-            }}
+            style={{ padding: rem(24), height: "70vh", overflowY: "auto" }}
           >
+            {/* Overview Panel */}
             <Tabs.Panel value="overview">
-              <Text fw={700} size="lg" style={{ color: "#CA2420" }} mb="xs">
+              <Text fw={700} size="lg" style={{ color: "#C42138" }} mb="xs">
                 WHY WAS THIS BUILT
               </Text>
               {project.whyWeBuiltThis ? (
-                <Text mb="xs">{project.whyWeBuiltThis}</Text>
+                <Text mb="sm">{project.whyWeBuiltThis}</Text>
               ) : (
-                <Text mb="xs" c="dimmed">
+                <Text mb="sm" c="dimmed">
                   No description available.
                 </Text>
               )}
-              <Text fw={700} size="lg" style={{ color: "#CA2420" }} mb="xs">
+
+              <Text fw={700} size="lg" style={{ color: "#C42138" }} mb="xs">
                 WHAT HAS BEEN BUILT
               </Text>
               {project.whatWeveBuilt ? (
-                <Text mb="xs">{project.whatWeveBuilt}</Text>
+                <Text mb="sm">{project.whatWeveBuilt}</Text>
               ) : (
-                <Text mb="xs" c="dimmed">
+                <Text mb="sm" c="dimmed">
                   No description available.
                 </Text>
               )}
-              <Text fw={700} size="lg" style={{ color: "#CA2420" }} mb="xs">
+
+              <Text fw={700} size="lg" style={{ color: "#C42138" }} mb="xs">
                 INDIVIDUALS INVOLVED
               </Text>
               <Box mb="md">
-                {project.individualsInvolved &&
-                project.individualsInvolved.length > 0 ? (
+                {project.individualsInvolved?.length ? (
                   <ul style={{ margin: 0, paddingLeft: 20 }}>
                     {project.individualsInvolved.map((name) => (
                       <li key={name}>{name}</li>
@@ -168,35 +194,70 @@ export function ProjectDetailsModal({
                 )}
               </Box>
             </Tabs.Panel>
+
+            {/* Metrics Panel */}
+            <Tabs.Panel value="metrics">
+              <Text c="dimmed" ta="center" py="xl">
+                No metrics available.
+              </Text>
+            </Tabs.Panel>
+
+            {/* Timeline Panel */}
             <Tabs.Panel value="timeline">
-              {project.timeline && project.timeline.length > 0 ? (
-                <Timeline 
-                  active={project.timeline.findIndex(item => item.status === 'active')} 
-                  bulletSize={24} 
-                  lineWidth={2}
-                >
-                  {project.timeline.map((item) => {
-                    const getBulletIcon = () => {
-                      switch (item.status) {
-                        case 'completed':
-                          return <IconCheck size={12} />;
-                        case 'active':
-                          return <IconClock size={12} />;
-                        case 'pending':
-                          return <IconAlertCircle size={12} />;
-                        case 'future':
-                          return <IconCircle size={12} />;
-                        default:
-                          return <IconCircle size={12} />;
-                      }
-                    };
+              {sortedTimeline.length > 0 ? (
+                <Timeline active={activeIndex} bulletSize={24} lineWidth={2}>
+                  {sortedTimeline.map((item, index) => {
+                    const isCompleted = index < activeIndex;
+                    const isActive = index === activeIndex;
+
+                    let bullet: React.ReactNode;
+                    let opacity = 1;
+
+                    if (isCompleted) {
+                      bullet = (
+                        <ThemeIcon
+                          color="#C42138"
+                          variant="filled"
+                          size={24}
+                          radius="xl"
+                        >
+                          <IconCheck size={16} />
+                        </ThemeIcon>
+                      );
+                    } else if (isActive) {
+                      bullet = (
+                        <ThemeIcon
+                          color="#C42138"
+                          variant="filled"
+                          size={24}
+                          radius="xl"
+                        >
+                          <IconClock size={16} />
+                        </ThemeIcon>
+                      );
+                    } else {
+                      bullet = (
+                        <ThemeIcon
+                          color="#C42138"
+                          variant="subtle"
+                          size={24}
+                          radius="xl"
+                        >
+                          <IconCircle size={16} />
+                        </ThemeIcon>
+                      );
+                      opacity = 0.6;
+                    }
 
                     return (
-                      <Timeline.Item 
+                      <Timeline.Item
                         key={item.id}
-                        bullet={getBulletIcon()} 
+                        bullet={bullet}
+                        color="#C42138" // unified line color
+                        lineVariant="solid" // or dashed if you prefer
+                        style={{ opacity }}
                         title={item.title}
-                        color={item.color}
+                        aria-label={`${item.title}, ${item.status} on ${item.date}`}
                       >
                         <Text size="sm" c="dimmed" mt={4}>
                           {item.description}
@@ -210,7 +271,7 @@ export function ProjectDetailsModal({
                 </Timeline>
               ) : (
                 <Text c="dimmed" ta="center" py="xl">
-                  No timeline data available for this project.
+                  No timeline data available.
                 </Text>
               )}
             </Tabs.Panel>

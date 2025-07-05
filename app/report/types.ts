@@ -3,8 +3,7 @@ export interface TimelineItem {
   title: string;
   description: string;
   date: string;
-  status: 'completed' | 'active' | 'pending' | 'future';
-  color: string;
+  status: 'COMPLETED' | 'ACTIVE' | 'FUTURE';
 }
 
 export interface Project {

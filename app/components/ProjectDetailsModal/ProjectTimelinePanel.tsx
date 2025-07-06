@@ -33,7 +33,6 @@ const ProjectTimelinePanel: React.FC<ProjectTimelinePanelProps> = ({ timeline, a
           lineVariant="solid"
           style={{ opacity: index > activeIndex ? 0.6 : 1 }}
           title={item.title}
-          aria-label={`${item.title} on ${item.date}`}
         >
           <Text size="sm" c="dimmed" mt={4}>
             {item.description}

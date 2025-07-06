@@ -132,7 +132,6 @@ export default function ReportPage() {
               setCurrentProject(null);
               stack.open("form");
             }}
-            aria-label="New Project"
           >
             <IconPlus size={25} />
           </ActionIcon>

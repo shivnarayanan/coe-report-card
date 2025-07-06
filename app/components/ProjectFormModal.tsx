@@ -303,19 +303,23 @@ export function ProjectFormModal({
                             <ActionIcon
                               variant="default"
                               onClick={() => moveTimelineItemDown(index)}
-                              disabled={index === form.values.timeline.length - 1}
+                              disabled={
+                                index === form.values.timeline.length - 1
+                              }
                             >
                               <IconChevronDown size={25} stroke={1.5} />
                             </ActionIcon>
                           </Tooltip>
                         </Group>
-                        <ActionIcon
-                          variant="transparent"
-                          color="#CA2420"
-                          onClick={() => removeTimelineItem(index)}
-                        >
-                          <IconTrash size={25} stroke={1.5} />
-                        </ActionIcon>
+                        <Tooltip label="Delete Event" withArrow zIndex={1200}>
+                          <ActionIcon
+                            variant="transparent"
+                            color="#CA2420"
+                            onClick={() => removeTimelineItem(index)}
+                          >
+                            <IconTrash size={25} stroke={1.5} />
+                          </ActionIcon>
+                        </Tooltip>
                       </Group>
                     </Group>
 
@@ -379,7 +383,6 @@ export function ProjectFormModal({
               size="lg"
               onClick={() => setPage(1)}
               disabled={page === 1}
-              aria-label="Previous page"
             >
               <IconArrowLeft size={20} />
             </ActionIcon>
@@ -388,7 +391,6 @@ export function ProjectFormModal({
               size="lg"
               onClick={() => setPage(2)}
               disabled={page === 2}
-              aria-label="Next page"
             >
               <IconArrowRight size={20} />
             </ActionIcon>

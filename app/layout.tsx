@@ -12,7 +12,7 @@ import { Header } from "@components/Header/Header";
 
 export const metadata = {
   title: "CHINOU",
-  description: "I am using Mantine with Next.js!",
+  description: "",
 };
 
 export default function RootLayout({ children }: { children: any }) {

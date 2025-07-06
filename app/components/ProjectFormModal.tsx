@@ -15,6 +15,7 @@ import {
   Stack,
   Card,
   Checkbox,
+  Tooltip,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
@@ -23,6 +24,8 @@ import {
   IconArrowRight,
   IconPlus,
   IconTrash,
+  IconChevronUp,
+  IconChevronDown,
 } from "@tabler/icons-react";
 import { Project, TimelineItem } from "../report/types";
 
@@ -51,6 +54,14 @@ export function ProjectFormModal({
   project,
   onSubmit,
 }: ProjectFormModalProps) {
+  const emptyTimelineItem = (): TimelineItem => ({
+    id: Date.now().toString() + Math.random().toString(36).slice(2),
+    title: "",
+    description: "",
+    date: "",
+    isStepActive: false,
+  });
+
   const [page, setPage] = React.useState(1);
   const form = useForm({
     initialValues: {
@@ -61,7 +72,7 @@ export function ProjectFormModal({
       whyWeBuiltThis: "",
       whatWeveBuilt: "",
       individualsInvolved: [] as string[],
-      timeline: [] as TimelineItem[],
+      timeline: [emptyTimelineItem(), emptyTimelineItem()],
     },
     validate: {
       title: (v) => (v ? null : "Title is required"),
@@ -85,7 +96,16 @@ export function ProjectFormModal({
         timeline: project.timeline || [],
       });
     } else {
-      form.reset();
+      form.setValues({
+        title: "",
+        description: "",
+        status: "PILOT",
+        tags: [],
+        whyWeBuiltThis: "",
+        whatWeveBuilt: "",
+        individualsInvolved: [],
+        timeline: [emptyTimelineItem(), emptyTimelineItem()],
+      });
     }
   }, [opened, project]);
 
@@ -125,7 +145,7 @@ export function ProjectFormModal({
   ) => {
     const newTimeline = [...form.values.timeline];
     newTimeline[index] = { ...newTimeline[index], [field]: value };
-    
+
     // If setting an item as active, uncheck all other items
     if (field === "isStepActive" && value === true) {
       newTimeline.forEach((item, i) => {
@@ -134,7 +154,27 @@ export function ProjectFormModal({
         }
       });
     }
-    
+
+    form.setFieldValue("timeline", newTimeline);
+  };
+
+  const moveTimelineItemUp = (index: number) => {
+    if (index === 0) return;
+    const newTimeline = [...form.values.timeline];
+    [newTimeline[index - 1], newTimeline[index]] = [
+      newTimeline[index],
+      newTimeline[index - 1],
+    ];
+    form.setFieldValue("timeline", newTimeline);
+  };
+
+  const moveTimelineItemDown = (index: number) => {
+    if (index === form.values.timeline.length - 1) return;
+    const newTimeline = [...form.values.timeline];
+    [newTimeline[index], newTimeline[index + 1]] = [
+      newTimeline[index + 1],
+      newTimeline[index],
+    ];
     form.setFieldValue("timeline", newTimeline);
   };
 
@@ -153,7 +193,7 @@ export function ProjectFormModal({
       withCloseButton
     >
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Box style={{ height: "700px", overflowY: "auto", paddingRight: 16 }}>
+        <Box style={{ height: "800px", overflowY: "auto", paddingRight: 16 }}>
           {page === 1 && (
             <>
               <SimpleGrid cols={{ base: 1, sm: 2 }}>
@@ -249,11 +289,30 @@ export function ProjectFormModal({
                       </Group>
 
                       <Group gap="md">
+                        <Group gap={4}>
+                          <Tooltip label="Move Up" withArrow zIndex={1200}>
+                            <ActionIcon
+                              variant="default"
+                              onClick={() => moveTimelineItemUp(index)}
+                              disabled={index === 0}
+                            >
+                              <IconChevronUp size={25} stroke={1.5} />
+                            </ActionIcon>
+                          </Tooltip>
+                          <Tooltip label="Move Down" withArrow zIndex={1200}>
+                            <ActionIcon
+                              variant="default"
+                              onClick={() => moveTimelineItemDown(index)}
+                              disabled={index === form.values.timeline.length - 1}
+                            >
+                              <IconChevronDown size={25} stroke={1.5} />
+                            </ActionIcon>
+                          </Tooltip>
+                        </Group>
                         <ActionIcon
                           variant="transparent"
                           color="#CA2420"
                           onClick={() => removeTimelineItem(index)}
-                          aria-label="Remove timeline item"
                         >
                           <IconTrash size={25} stroke={1.5} />
                         </ActionIcon>
@@ -271,18 +330,18 @@ export function ProjectFormModal({
                         }
                       />
 
-                                              <DatePickerInput
-                          label="Date"
-                          placeholder="Select date"
-                          variant="filled"
-                          value={item.date ? new Date(item.date) : null}
-                          onChange={(dateString: string | null) => {
-                            updateTimelineItem(index, "date", dateString || "");
-                          }}
-                          clearable
-                          popoverProps={{ withinPortal: true, zIndex: 1200 }}
-                          allowDeselect
-                        />
+                      <DatePickerInput
+                        label="Date"
+                        placeholder="Select date"
+                        variant="filled"
+                        value={item.date ? new Date(item.date) : null}
+                        onChange={(dateString: string | null) => {
+                          updateTimelineItem(index, "date", dateString || "");
+                        }}
+                        clearable
+                        popoverProps={{ withinPortal: true, zIndex: 1200 }}
+                        allowDeselect
+                      />
                     </SimpleGrid>
 
                     <Textarea
@@ -313,11 +372,7 @@ export function ProjectFormModal({
           )}
         </Box>
 
-        <Group
-          justify="space-between"
-          mt="md"
-          style={{ padding: "0 16px 16px 16px" }}
-        >
+        <Group justify="space-between" mt="md">
           <Group gap="xs">
             <ActionIcon
               variant="default"

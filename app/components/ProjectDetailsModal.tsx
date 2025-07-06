@@ -12,6 +12,7 @@ import {
   Tooltip,
   Timeline,
   ThemeIcon,
+  FocusTrap,
 } from "@mantine/core";
 import {
   IconEdit,
@@ -40,7 +41,7 @@ export function ProjectDetailsModal({
   // Sort timeline oldest → newest
   const sortedTimeline = useMemo(
     () =>
-      [...project.timeline].sort(
+      [...(project.timeline || [])].sort(
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
       ),
     [project.timeline]
@@ -89,6 +90,7 @@ export function ProjectDetailsModal({
     >
       <Modal.Overlay />
       <Modal.Content style={{ overflow: "hidden" }}>
+        <FocusTrap.InitialFocus />
         <Tabs defaultValue="overview" color="#C42138">
           <Modal.Header
             style={{
@@ -163,7 +165,7 @@ export function ProjectDetailsModal({
           </Box>
 
           <Modal.Body
-            style={{ padding: rem(24), height: "70vh", overflowY: "auto" }}
+            style={{ padding: rem(24), height: "600px", overflowY: "auto" }}
           >
             {/* Overview Panel */}
             <Tabs.Panel value="overview">

@@ -12,10 +12,19 @@ import {
   MultiSelect,
   SimpleGrid,
   ActionIcon,
+  Stack,
+  Card,
+  Checkbox,
 } from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
-import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
-import { Project } from "../report/types";
+import {
+  IconArrowLeft,
+  IconArrowRight,
+  IconPlus,
+  IconTrash,
+} from "@tabler/icons-react";
+import { Project, TimelineItem } from "../report/types";
 
 interface ProjectFormModalProps {
   opened: boolean;
@@ -31,6 +40,7 @@ interface ProjectFormModalProps {
       | "whyWeBuiltThis"
       | "whatWeveBuilt"
       | "individualsInvolved"
+      | "timeline"
     >
   ) => void;
 }
@@ -51,6 +61,7 @@ export function ProjectFormModal({
       whyWeBuiltThis: "",
       whatWeveBuilt: "",
       individualsInvolved: [] as string[],
+      timeline: [] as TimelineItem[],
     },
     validate: {
       title: (v) => (v ? null : "Title is required"),
@@ -71,6 +82,7 @@ export function ProjectFormModal({
         whyWeBuiltThis: project.whyWeBuiltThis || "",
         whatWeveBuilt: project.whatWeveBuilt || "",
         individualsInvolved: project.individualsInvolved || [],
+        timeline: project.timeline || [],
       });
     } else {
       form.reset();
@@ -85,8 +97,45 @@ export function ProjectFormModal({
       whyWeBuiltThis: values.whyWeBuiltThis,
       whatWeveBuilt: values.whatWeveBuilt,
       individualsInvolved: values.individualsInvolved,
+      timeline: values.timeline,
     });
     onClose();
+  };
+
+  const addTimelineItem = () => {
+    const newItem: TimelineItem = {
+      id: Date.now().toString(),
+      title: "",
+      description: "",
+      date: "",
+      isStepActive: false,
+    };
+    form.setFieldValue("timeline", [...form.values.timeline, newItem]);
+  };
+
+  const removeTimelineItem = (index: number) => {
+    const newTimeline = form.values.timeline.filter((_, i) => i !== index);
+    form.setFieldValue("timeline", newTimeline);
+  };
+
+  const updateTimelineItem = (
+    index: number,
+    field: keyof TimelineItem,
+    value: any
+  ) => {
+    const newTimeline = [...form.values.timeline];
+    newTimeline[index] = { ...newTimeline[index], [field]: value };
+    
+    // If setting an item as active, uncheck all other items
+    if (field === "isStepActive" && value === true) {
+      newTimeline.forEach((item, i) => {
+        if (i !== index) {
+          item.isStepActive = false;
+        }
+      });
+    }
+    
+    form.setFieldValue("timeline", newTimeline);
   };
 
   return (
@@ -104,10 +153,10 @@ export function ProjectFormModal({
       withCloseButton
     >
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Box style={{ height: "70vh", overflowY: "auto", paddingRight: 16 }}>
+        <Box style={{ height: "700px", overflowY: "auto", paddingRight: 16 }}>
           {page === 1 && (
             <>
-              <SimpleGrid cols={2} breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
+              <SimpleGrid cols={{ base: 1, sm: 2 }}>
                 <TextInput
                   label="Project Title"
                   description="Enter a short, descriptive project name."
@@ -131,6 +180,26 @@ export function ProjectFormModal({
                 autosize
                 mt="sm"
                 {...form.getInputProps("description")}
+              />
+
+              <Textarea
+                label="Why was this built?"
+                description="Explain the motivation or problem this project addresses."
+                variant="filled"
+                minRows={4}
+                autosize
+                mt="sm"
+                {...form.getInputProps("whyWeBuiltThis")}
+              />
+
+              <Textarea
+                label="What has been built?"
+                description="Describe the features or deliverables completed so far."
+                variant="filled"
+                minRows={4}
+                autosize
+                mt="sm"
+                {...form.getInputProps("whatWeveBuilt")}
               />
 
               <MultiSelect
@@ -158,30 +227,97 @@ export function ProjectFormModal({
           )}
 
           {page === 2 && (
-            <>
-              <Textarea
-                label="Why was this built?"
-                description="Explain the motivation or problem this project addresses."
-                variant="filled"
-                minRows={4}
-                autosize
-                {...form.getInputProps("whyWeBuiltThis")}
-              />
+            <Stack gap="md">
+              {form.values.timeline.map((item, index) => (
+                <Card key={item.id} withBorder p="md">
+                  <Stack gap="sm">
+                    <Group justify="space-between" align="flex-start">
+                      <Group>
+                        <Text fw={500}>Timeline Event {index + 1}</Text>
+                        <Checkbox
+                          label="Set Active"
+                          checked={item.isStepActive}
+                          color="#CA2420"
+                          onChange={(e) =>
+                            updateTimelineItem(
+                              index,
+                              "isStepActive",
+                              e.currentTarget.checked
+                            )
+                          }
+                        />
+                      </Group>
 
-              <Textarea
-                label="What has been built?"
-                description="Describe the features or deliverables completed so far."
-                variant="filled"
-                minRows={4}
-                autosize
-                mt="sm"
-                {...form.getInputProps("whatWeveBuilt")}
-              />
-            </>
+                      <Group gap="md">
+                        <ActionIcon
+                          variant="transparent"
+                          color="#CA2420"
+                          onClick={() => removeTimelineItem(index)}
+                          aria-label="Remove timeline item"
+                        >
+                          <IconTrash size={25} stroke={1.5} />
+                        </ActionIcon>
+                      </Group>
+                    </Group>
+
+                    <SimpleGrid cols={2}>
+                      <TextInput
+                        label="Title"
+                        placeholder="Enter milestone title"
+                        variant="filled"
+                        value={item.title}
+                        onChange={(e) =>
+                          updateTimelineItem(index, "title", e.target.value)
+                        }
+                      />
+
+                                              <DatePickerInput
+                          label="Date"
+                          placeholder="Select date"
+                          variant="filled"
+                          value={item.date ? new Date(item.date) : null}
+                          onChange={(dateString: string | null) => {
+                            updateTimelineItem(index, "date", dateString || "");
+                          }}
+                          clearable
+                          popoverProps={{ withinPortal: true, zIndex: 1200 }}
+                          allowDeselect
+                        />
+                    </SimpleGrid>
+
+                    <Textarea
+                      label="Description"
+                      placeholder="Describe this milestone or event"
+                      variant="filled"
+                      minRows={3}
+                      autosize
+                      value={item.description}
+                      onChange={(e) =>
+                        updateTimelineItem(index, "description", e.target.value)
+                      }
+                    />
+                  </Stack>
+                </Card>
+              ))}
+
+              <Button
+                variant="outline"
+                color="#CA2420"
+                leftSection={<IconPlus size={16} />}
+                onClick={addTimelineItem}
+                fullWidth
+              >
+                Add Timeline Event
+              </Button>
+            </Stack>
           )}
         </Box>
 
-        <Group justify="space-between"mt="md" style={{ padding: "0 16px 16px 16px" }}>
+        <Group
+          justify="space-between"
+          mt="md"
+          style={{ padding: "0 16px 16px 16px" }}
+        >
           <Group gap="xs">
             <ActionIcon
               variant="default"

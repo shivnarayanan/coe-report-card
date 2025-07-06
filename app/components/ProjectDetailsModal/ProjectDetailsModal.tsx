@@ -20,8 +20,11 @@ import {
   IconClock,
   IconCircle,
 } from "@tabler/icons-react";
-import { Project } from "../report/types";
-import { getProjectStatusColor } from "../report/types";
+import { Project } from "../../report/types";
+import { getProjectStatusColor } from "../../report/types";
+import ProjectOverviewPanel from "./ProjectOverviewPanel";
+import ProjectMetricsPanel from "./ProjectMetricsPanel";
+import ProjectTimelinePanel from "./ProjectTimelinePanel";
 
 interface ProjectDetailsModalProps {
   opened: boolean;
@@ -161,77 +164,15 @@ export function ProjectDetailsModal({
           >
             {/* Overview Panel */}
             <Tabs.Panel value="overview">
-              <Text fw={700} size="lg" style={{ color: "#C42138" }} mb="xs">
-                WHY WAS THIS BUILT
-              </Text>
-              {project.whyWeBuiltThis ? (
-                <Text mb="sm">{project.whyWeBuiltThis}</Text>
-              ) : (
-                <Text mb="sm" c="dimmed">
-                  No description available.
-                </Text>
-              )}
-
-              <Text fw={700} size="lg" style={{ color: "#C42138" }} mb="xs">
-                WHAT HAS BEEN BUILT
-              </Text>
-              {project.whatWeveBuilt ? (
-                <Text mb="sm">{project.whatWeveBuilt}</Text>
-              ) : (
-                <Text mb="sm" c="dimmed">
-                  No description available.
-                </Text>
-              )}
-
-              <Text fw={700} size="lg" style={{ color: "#C42138" }} mb="xs">
-                INDIVIDUALS INVOLVED
-              </Text>
-              <Box mb="md">
-                {project.individualsInvolved?.length ? (
-                  <ul style={{ margin: 0, paddingLeft: 20 }}>
-                    {project.individualsInvolved.map((name) => (
-                      <li key={name}>{name}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <Text c="dimmed">No individuals listed.</Text>
-                )}
-              </Box>
+              <ProjectOverviewPanel project={project} />
             </Tabs.Panel>
 
             <Tabs.Panel value="metrics">
-              <Text c="dimmed" ta="center" py="xl">
-                No metrics available.
-              </Text>
+              <ProjectMetricsPanel />
             </Tabs.Panel>
 
             <Tabs.Panel value="timeline">
-              {timeline.length > 0 ? (
-                <Timeline active={activeIndex} bulletSize={24} lineWidth={2}>
-                  {timeline.map((item, index) => (
-                    <Timeline.Item
-                      key={item.id}
-                      bullet={renderBullet(index)}
-                      color="#C42138"
-                      lineVariant="solid"
-                      style={{ opacity: index > activeIndex ? 0.6 : 1 }}
-                      title={item.title}
-                      aria-label={`${item.title} on ${item.date}`}
-                    >
-                      <Text size="sm" c="dimmed" mt={4}>
-                        {item.description}
-                      </Text>
-                      <Text size="xs" c="dimmed" mt={4}>
-                        {item.date}
-                      </Text>
-                    </Timeline.Item>
-                  ))}
-                </Timeline>
-              ) : (
-                <Text c="dimmed" ta="center" py="xl">
-                  No timeline data available.
-                </Text>
-              )}
+              <ProjectTimelinePanel timeline={timeline} activeIndex={activeIndex} renderBullet={renderBullet} />
             </Tabs.Panel>
           </Modal.Body>
         </Tabs>

@@ -10,7 +10,6 @@ import {
   Pill,
   ActionIcon,
   Tooltip,
-  Timeline,
   ThemeIcon,
   FocusTrap,
 } from "@mantine/core";
@@ -20,8 +19,8 @@ import {
   IconClock,
   IconCircle,
 } from "@tabler/icons-react";
-import { Project } from "../../report/types";
-import { getProjectStatusColor } from "../../report/types";
+import { Project } from "@types/types";
+import { getProjectStatusColor } from "@types/types";
 import ProjectOverviewPanel from "./ProjectOverviewPanel";
 import ProjectMetricsPanel from "./ProjectMetricsPanel";
 import ProjectTimelinePanel from "./ProjectTimelinePanel";

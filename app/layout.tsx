@@ -5,7 +5,6 @@ import {
   MantineProvider,
   ColorSchemeScript,
   mantineHtmlProps,
-  Box,
 } from "@mantine/core";
 import { theme } from "../theme";
 import { Header } from "@components/Header/Header";

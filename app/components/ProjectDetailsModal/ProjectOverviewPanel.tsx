@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Text } from "@mantine/core";
-import { Project } from "../../report/types";
+import { Project } from "@types/types";
 
 interface ProjectOverviewPanelProps {
   project: Project;

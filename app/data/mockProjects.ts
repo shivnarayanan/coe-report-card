@@ -1,4 +1,4 @@
-import { Project } from "../report/types";
+import { Project } from "@types/types";
 
 export const mockProjects: Project[] = [
   {

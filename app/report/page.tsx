@@ -16,7 +16,7 @@ import {
 } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
-import { Project } from "./types";
+import { Project } from "@types/types";
 import { mockProjects } from "../data/mockProjects";
 import { ProjectCard } from "@components/ProjectCard/ProjectCard";
 import { ProjectFormModal } from "@components/ProjectFormModal";

@@ -1,8 +1,7 @@
-// ProjectCard.tsx
 import React from "react";
 import { Card, Badge, Group, Text, Pill } from "@mantine/core";
-import { Project } from "../../report/types";
-import { getProjectStatusColor } from "../../report/types";
+import { Project } from "@types/types";
+import { getProjectStatusColor } from "@types/types";
 import styles from "./ProjectCard.module.css";
 
 export type ProjectCardProps = {

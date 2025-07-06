@@ -27,7 +27,7 @@ import {
   IconChevronUp,
   IconChevronDown,
 } from "@tabler/icons-react";
-import { Project, TimelineItem } from "../report/types";
+import { Project, TimelineItem } from "@types/types";
 
 interface ProjectFormModalProps {
   opened: boolean;

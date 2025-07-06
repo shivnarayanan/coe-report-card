@@ -20,7 +20,8 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["app/components/*"]
+      "@components/*": ["app/components/*"],
+      "@types/*": ["app/types/*"]
     },
     "plugins": [
       {

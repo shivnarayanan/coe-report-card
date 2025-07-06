@@ -126,6 +126,7 @@ export default function ReportPage() {
         <Tooltip label="New Project" withArrow position="left">
           <ActionIcon
             variant="transparent"
+            color="gray.8"
             size="lg"
             onClick={() => {
               setCurrentProject(null);
@@ -172,7 +173,6 @@ export default function ReportPage() {
         </Grid>
       )}
 
-      {/* Mantine will now handle z-indexes automatically */}
       <Modal.Stack>
         <ProjectDetailsModal
           {...detailModal}

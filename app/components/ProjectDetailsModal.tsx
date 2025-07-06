@@ -38,18 +38,10 @@ export function ProjectDetailsModal({
 }: ProjectDetailsModalProps) {
   if (!project) return null;
 
-  // Sort timeline oldest → newest
-  const sortedTimeline = useMemo(
-    () =>
-      [...(project.timeline || [])].sort(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-      ),
-    [project.timeline]
-  );
-
   // Find the active step via isStepActive flag; fallback to last item
-  const rawActive = sortedTimeline.findIndex((item) => item.isStepActive);
-  const activeIndex = rawActive >= 0 ? rawActive : sortedTimeline.length - 1;
+  const timeline = project.timeline || [];
+  const rawActive = timeline.findIndex((item) => item.isStepActive);
+  const activeIndex = rawActive >= 0 ? rawActive : timeline.length > 0 ? timeline.length - 1 : 0;
 
   // Helper to render bullets consistently
   const renderBullet = (index: number) => {
@@ -214,9 +206,9 @@ export function ProjectDetailsModal({
             </Tabs.Panel>
 
             <Tabs.Panel value="timeline">
-              {sortedTimeline.length > 0 ? (
+              {timeline.length > 0 ? (
                 <Timeline active={activeIndex} bulletSize={24} lineWidth={2}>
-                  {sortedTimeline.map((item, index) => (
+                  {timeline.map((item, index) => (
                     <Timeline.Item
                       key={item.id}
                       bullet={renderBullet(index)}

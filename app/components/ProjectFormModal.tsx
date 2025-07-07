@@ -16,6 +16,7 @@ import {
   Card,
   Checkbox,
   Tooltip,
+  ScrollArea,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
@@ -57,7 +58,7 @@ export function ProjectFormModal({
   const emptyTimelineItem = (): TimelineItem => ({
     id: Date.now().toString() + Math.random().toString(36).slice(2),
     title: "",
-    description: "",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
     date: "",
     isStepActive: false,
   });
@@ -126,7 +127,7 @@ export function ProjectFormModal({
     const newItem: TimelineItem = {
       id: Date.now().toString(),
       title: "",
-      description: "",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
       date: "",
       isStepActive: false,
     };
@@ -194,187 +195,189 @@ export function ProjectFormModal({
       style={{ overflow: "hidden" }}
     >
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Box style={{ height: "80vh", overflowY: "auto", paddingRight: 16 }}>
-          {page === 1 && (
-            <>
-              <SimpleGrid cols={{ base: 1, sm: 2 }}>
-                <TextInput
-                  label="Project Title"
-                  description="Enter a short, descriptive project name."
+        <Box style={{ height: '70vh', overflowY: 'auto' }}>
+          <ScrollArea type="auto" offsetScrollbars>
+            {page === 1 && (
+              <>
+                <SimpleGrid cols={2}>
+                  <TextInput
+                    label="Project Title"
+                    description="Enter a short, descriptive project name."
+                    variant="filled"
+                    {...form.getInputProps("title")}
+                  />
+                  <Select
+                    label="Status"
+                    description="Select the current status of the project."
+                    variant="filled"
+                    data={["DRAFT", "PILOT", "ACTIVE", "RETIRED", "MAINTENANCE"]}
+                    {...form.getInputProps("status")}
+                  />
+                </SimpleGrid>
+
+                <Textarea
+                  label="Project Description"
+                  description="Summarize the project's purpose and scope."
                   variant="filled"
-                  {...form.getInputProps("title")}
+                  minRows={4}
+                  autosize
+                  mt="sm"
+                  {...form.getInputProps("description")}
                 />
-                <Select
-                  label="Status"
-                  description="Select the current status of the project."
+
+                <Textarea
+                  label="Why was this built?"
+                  description="Explain the motivation or problem this project addresses."
                   variant="filled"
-                  data={["DRAFT", "PILOT", "ACTIVE", "RETIRED", "MAINTENANCE"]}
-                  {...form.getInputProps("status")}
+                  minRows={4}
+                  autosize
+                  mt="sm"
+                  {...form.getInputProps("whyWeBuiltThis")}
                 />
-              </SimpleGrid>
 
-              <Textarea
-                label="Project Description"
-                description="Summarize the project's purpose and scope."
-                variant="filled"
-                minRows={4}
-                autosize
-                mt="sm"
-                {...form.getInputProps("description")}
-              />
+                <Textarea
+                  label="What has been built?"
+                  description="Describe the features or deliverables completed so far."
+                  variant="filled"
+                  minRows={4}
+                  autosize
+                  mt="sm"
+                  {...form.getInputProps("whatWeveBuilt")}
+                />
 
-              <Textarea
-                label="Why was this built?"
-                description="Explain the motivation or problem this project addresses."
-                variant="filled"
-                minRows={4}
-                autosize
-                mt="sm"
-                {...form.getInputProps("whyWeBuiltThis")}
-              />
+                <MultiSelect
+                  label="Individuals Involved"
+                  description="Select team members or stakeholders involved in this project."
+                  placeholder="Type to select..."
+                  variant="filled"
+                  searchable
+                  mt="sm"
+                  {...form.getInputProps("individualsInvolved")}
+                />
 
-              <Textarea
-                label="What has been built?"
-                description="Describe the features or deliverables completed so far."
-                variant="filled"
-                minRows={4}
-                autosize
-                mt="sm"
-                {...form.getInputProps("whatWeveBuilt")}
-              />
+                <TagsInput
+                  label="Project Tags"
+                  description="Add up to 3 relevant tags to organize and improve searchability."
+                  placeholder="Type and press Enter to add tags"
+                  variant="filled"
+                  value={form.values.tags}
+                  onChange={(tags) => {
+                    if (tags.length <= 3) form.setFieldValue("tags", tags);
+                  }}
+                  mt="sm"
+                />
+              </>
+            )}
 
-              <MultiSelect
-                label="Individuals Involved"
-                description="Select team members or stakeholders involved in this project."
-                placeholder="Type to select..."
-                variant="filled"
-                searchable
-                mt="sm"
-                {...form.getInputProps("individualsInvolved")}
-              />
+            {page === 2 && (
+              <Stack gap="md">
+                {form.values.timeline.map((item, index) => (
+                  <Card key={item.id} withBorder p="md">
+                    <Stack gap="sm">
+                      <Group justify="space-between" align="flex-start">
+                        <Group>
+                          <Text fw={500}>Timeline Event {index + 1}</Text>
+                          <Checkbox
+                            label="Set Active"
+                            checked={item.isStepActive}
+                            color="#CA2420"
+                            onChange={(e) =>
+                              updateTimelineItem(
+                                index,
+                                "isStepActive",
+                                e.currentTarget.checked
+                              )
+                            }
+                          />
+                        </Group>
 
-              <TagsInput
-                label="Project Tags"
-                description="Add up to 3 relevant tags to organize and improve searchability."
-                placeholder="Type and press Enter to add tags"
-                variant="filled"
-                value={form.values.tags}
-                onChange={(tags) => {
-                  if (tags.length <= 3) form.setFieldValue("tags", tags);
-                }}
-                mt="sm"
-              />
-            </>
-          )}
-
-          {page === 2 && (
-            <Stack gap="md">
-              {form.values.timeline.map((item, index) => (
-                <Card key={item.id} withBorder p="md">
-                  <Stack gap="sm">
-                    <Group justify="space-between" align="flex-start">
-                      <Group>
-                        <Text fw={500}>Timeline Event {index + 1}</Text>
-                        <Checkbox
-                          label="Set Active"
-                          checked={item.isStepActive}
-                          color="#CA2420"
-                          onChange={(e) =>
-                            updateTimelineItem(
-                              index,
-                              "isStepActive",
-                              e.currentTarget.checked
-                            )
-                          }
-                        />
-                      </Group>
-
-                      <Group gap="md">
-                        <Group gap={4}>
-                          <Tooltip label="Move Up" withArrow zIndex={1200}>
+                        <Group gap="md">
+                          <Group gap={4}>
+                            <Tooltip label="Move Up" withArrow zIndex={1200}>
+                              <ActionIcon
+                                variant="default"
+                                onClick={() => moveTimelineItemUp(index)}
+                                disabled={index === 0}
+                              >
+                                <IconChevronUp size={25} stroke={1.5} />
+                              </ActionIcon>
+                            </Tooltip>
+                            <Tooltip label="Move Down" withArrow zIndex={1200}>
+                              <ActionIcon
+                                variant="default"
+                                onClick={() => moveTimelineItemDown(index)}
+                                disabled={
+                                  index === form.values.timeline.length - 1
+                                }
+                              >
+                                <IconChevronDown size={25} stroke={1.5} />
+                              </ActionIcon>
+                            </Tooltip>
+                          </Group>
+                          <Tooltip label="Delete Event" withArrow zIndex={1200}>
                             <ActionIcon
-                              variant="default"
-                              onClick={() => moveTimelineItemUp(index)}
-                              disabled={index === 0}
+                              variant="transparent"
+                              color="#CA2420"
+                              onClick={() => removeTimelineItem(index)}
                             >
-                              <IconChevronUp size={25} stroke={1.5} />
-                            </ActionIcon>
-                          </Tooltip>
-                          <Tooltip label="Move Down" withArrow zIndex={1200}>
-                            <ActionIcon
-                              variant="default"
-                              onClick={() => moveTimelineItemDown(index)}
-                              disabled={
-                                index === form.values.timeline.length - 1
-                              }
-                            >
-                              <IconChevronDown size={25} stroke={1.5} />
+                              <IconTrash size={25} stroke={1.5} />
                             </ActionIcon>
                           </Tooltip>
                         </Group>
-                        <Tooltip label="Delete Event" withArrow zIndex={1200}>
-                          <ActionIcon
-                            variant="transparent"
-                            color="#CA2420"
-                            onClick={() => removeTimelineItem(index)}
-                          >
-                            <IconTrash size={25} stroke={1.5} />
-                          </ActionIcon>
-                        </Tooltip>
                       </Group>
-                    </Group>
 
-                    <SimpleGrid cols={2}>
-                      <TextInput
-                        label="Title"
-                        placeholder="Enter milestone title"
+                      <SimpleGrid cols={2}>
+                        <TextInput
+                          label="Title"
+                          placeholder="Enter milestone title"
+                          variant="filled"
+                          value={item.title}
+                          onChange={(e) =>
+                            updateTimelineItem(index, "title", e.target.value)
+                          }
+                        />
+
+                        <DatePickerInput
+                          label="Date"
+                          placeholder="Select date"
+                          variant="filled"
+                          value={item.date ? new Date(item.date) : null}
+                          onChange={(dateString: string | null) => {
+                            updateTimelineItem(index, "date", dateString || "");
+                          }}
+                          clearable
+                          popoverProps={{ withinPortal: true, zIndex: 1200 }}
+                          allowDeselect
+                        />
+                      </SimpleGrid>
+
+                      <Textarea
+                        label="Description"
+                        placeholder="Describe this milestone or event"
                         variant="filled"
-                        value={item.title}
+                        minRows={3}
+                        autosize
+                        value={item.description}
                         onChange={(e) =>
-                          updateTimelineItem(index, "title", e.target.value)
+                          updateTimelineItem(index, "description", e.target.value)
                         }
                       />
+                    </Stack>
+                  </Card>
+                ))}
 
-                      <DatePickerInput
-                        label="Date"
-                        placeholder="Select date"
-                        variant="filled"
-                        value={item.date ? new Date(item.date) : null}
-                        onChange={(dateString: string | null) => {
-                          updateTimelineItem(index, "date", dateString || "");
-                        }}
-                        clearable
-                        popoverProps={{ withinPortal: true, zIndex: 1200 }}
-                        allowDeselect
-                      />
-                    </SimpleGrid>
-
-                    <Textarea
-                      label="Description"
-                      placeholder="Describe this milestone or event"
-                      variant="filled"
-                      minRows={3}
-                      autosize
-                      value={item.description}
-                      onChange={(e) =>
-                        updateTimelineItem(index, "description", e.target.value)
-                      }
-                    />
-                  </Stack>
-                </Card>
-              ))}
-
-              <Button
-                variant="outline"
-                color="#CA2420"
-                leftSection={<IconPlus size={16} />}
-                onClick={addTimelineItem}
-                fullWidth
-              >
-                Add Timeline Event
-              </Button>
-            </Stack>
-          )}
+                <Button
+                  variant="outline"
+                  color="#CA2420"
+                  leftSection={<IconPlus size={16} />}
+                  onClick={addTimelineItem}
+                  fullWidth
+                >
+                  Add Timeline Event
+                </Button>
+              </Stack>
+            )}
+          </ScrollArea>
         </Box>
 
         <Group justify="space-between" mt="md">

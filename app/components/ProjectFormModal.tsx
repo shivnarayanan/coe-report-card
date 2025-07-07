@@ -27,7 +27,7 @@ import {
   IconChevronUp,
   IconChevronDown,
 } from "@tabler/icons-react";
-import { Project, TimelineItem } from "@types/types";
+import { Project, TimelineItem } from "../types/types";
 
 interface ProjectFormModalProps {
   opened: boolean;
@@ -191,9 +191,10 @@ export function ProjectFormModal({
         </Text>
       }
       withCloseButton
+      style={{ overflow: "hidden" }}
     >
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Box style={{ height: "800px", overflowY: "auto", paddingRight: 16 }}>
+        <Box style={{ height: "80vh", overflowY: "auto", paddingRight: 16 }}>
           {page === 1 && (
             <>
               <SimpleGrid cols={{ base: 1, sm: 2 }}>

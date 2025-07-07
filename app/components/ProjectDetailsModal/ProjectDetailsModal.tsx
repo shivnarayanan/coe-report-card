@@ -19,8 +19,7 @@ import {
   IconClock,
   IconCircle,
 } from "@tabler/icons-react";
-import { Project } from "@types/types";
-import { getProjectStatusColor } from "@types/types";
+import { Project, getProjectStatusColor } from "../../types/types";
 import ProjectOverviewPanel from "./ProjectOverviewPanel";
 import ProjectMetricsPanel from "./ProjectMetricsPanel";
 import ProjectTimelinePanel from "./ProjectTimelinePanel";
@@ -43,7 +42,8 @@ export function ProjectDetailsModal({
   // Find the active step via isStepActive flag; fallback to last item
   const timeline = project.timeline || [];
   const rawActive = timeline.findIndex((item) => item.isStepActive);
-  const activeIndex = rawActive >= 0 ? rawActive : timeline.length > 0 ? timeline.length - 1 : 0;
+  const activeIndex =
+    rawActive >= 0 ? rawActive : timeline.length > 0 ? timeline.length - 1 : 0;
 
   // Helper to render bullets consistently
   const renderBullet = (index: number) => {
@@ -115,7 +115,12 @@ export function ProjectDetailsModal({
               >
                 {project.title}
                 {onEdit && (
-                  <Tooltip label="Edit Project Details" withArrow position="bottom" zIndex={1050}>
+                  <Tooltip
+                    label="Edit Project Details"
+                    withArrow
+                    position="bottom"
+                    zIndex={1050}
+                  >
                     <ActionIcon
                       variant="subtle"
                       aria-label="Edit Project"
@@ -131,11 +136,20 @@ export function ProjectDetailsModal({
                   </Tooltip>
                 )}
                 <Group gap={8} align="center">
-                  <Badge color={getProjectStatusColor(project.status)} variant="light" size="lg">
+                  <Badge
+                    color={getProjectStatusColor(project.status)}
+                    variant="light"
+                    size="lg"
+                  >
                     {project.status}
                   </Badge>
                   {project.tags.map((tag) => (
-                    <Pill key={tag} c="dimmed" size="lg" style={{ fontWeight: 400, background: "#e9ecef" }}>
+                    <Pill
+                      key={tag}
+                      c="dimmed"
+                      size="lg"
+                      style={{ fontWeight: 400, background: "#e9ecef" }}
+                    >
                       {tag}
                     </Pill>
                   ))}
@@ -159,9 +173,8 @@ export function ProjectDetailsModal({
           </Box>
 
           <Modal.Body
-            style={{ padding: rem(24), height: "600px", overflowY: "auto" }}
+            style={{ padding: rem(24), height: "60vh", overflowY: "auto" }}
           >
-            {/* Overview Panel */}
             <Tabs.Panel value="overview">
               <ProjectOverviewPanel project={project} />
             </Tabs.Panel>
@@ -171,7 +184,11 @@ export function ProjectDetailsModal({
             </Tabs.Panel>
 
             <Tabs.Panel value="timeline">
-              <ProjectTimelinePanel timeline={timeline} activeIndex={activeIndex} renderBullet={renderBullet} />
+              <ProjectTimelinePanel
+                timeline={timeline}
+                activeIndex={activeIndex}
+                renderBullet={renderBullet}
+              />
             </Tabs.Panel>
           </Modal.Body>
         </Tabs>

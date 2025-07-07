@@ -58,7 +58,7 @@ export function ProjectFormModal({
   const emptyTimelineItem = (): TimelineItem => ({
     id: Date.now().toString() + Math.random().toString(36).slice(2),
     title: "",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
+    description: "",
     date: "",
     isStepActive: false,
   });
@@ -127,7 +127,7 @@ export function ProjectFormModal({
     const newItem: TimelineItem = {
       id: Date.now().toString(),
       title: "",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
+      description: "",
       date: "",
       isStepActive: false,
     };
@@ -195,7 +195,7 @@ export function ProjectFormModal({
       style={{ overflow: "hidden" }}
     >
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Box style={{ height: '70vh', overflowY: 'auto' }}>
+        <Box style={{ height: "70vh", overflowY: "auto" }}>
           <ScrollArea type="auto" offsetScrollbars>
             {page === 1 && (
               <>
@@ -210,7 +210,14 @@ export function ProjectFormModal({
                     label="Status"
                     description="Select the current status of the project."
                     variant="filled"
-                    data={["DRAFT", "PILOT", "ACTIVE", "RETIRED", "MAINTENANCE"]}
+                    data={[
+                      "DRAFT",
+                      "PILOT",
+                      "ACTIVE",
+                      "RETIRED",
+                      "MAINTENANCE",
+                    ]}
+                    comboboxProps={{ withinPortal: false }}
                     {...form.getInputProps("status")}
                   />
                 </SimpleGrid>
@@ -293,7 +300,7 @@ export function ProjectFormModal({
 
                         <Group gap="md">
                           <Group gap={4}>
-                            <Tooltip label="Move Up" withArrow zIndex={1200}>
+                            <Tooltip label="Move Up" withArrow withinPortal={false}>
                               <ActionIcon
                                 variant="default"
                                 onClick={() => moveTimelineItemUp(index)}
@@ -302,7 +309,7 @@ export function ProjectFormModal({
                                 <IconChevronUp size={25} stroke={1.5} />
                               </ActionIcon>
                             </Tooltip>
-                            <Tooltip label="Move Down" withArrow zIndex={1200}>
+                            <Tooltip label="Move Down" withArrow withinPortal={false}>
                               <ActionIcon
                                 variant="default"
                                 onClick={() => moveTimelineItemDown(index)}
@@ -314,7 +321,7 @@ export function ProjectFormModal({
                               </ActionIcon>
                             </Tooltip>
                           </Group>
-                          <Tooltip label="Delete Event" withArrow zIndex={1200}>
+                          <Tooltip label="Delete Event" withArrow withinPortal={false}>
                             <ActionIcon
                               variant="transparent"
                               color="#CA2420"
@@ -346,7 +353,7 @@ export function ProjectFormModal({
                             updateTimelineItem(index, "date", dateString || "");
                           }}
                           clearable
-                          popoverProps={{ withinPortal: true, zIndex: 1200 }}
+                          popoverProps={{ withinPortal: true }}
                           allowDeselect
                         />
                       </SimpleGrid>
@@ -359,7 +366,11 @@ export function ProjectFormModal({
                         autosize
                         value={item.description}
                         onChange={(e) =>
-                          updateTimelineItem(index, "description", e.target.value)
+                          updateTimelineItem(
+                            index,
+                            "description",
+                            e.target.value
+                          )
                         }
                       />
                     </Stack>

@@ -46,6 +46,10 @@ export const mockProjects: Project[] = [
         isStepActive: false,
       },
     ],
+    ntiStatus: "Completed",
+    ntiLink: "https://example.com/nti/project-alpha",
+    primaryBenefitsCategory: "Employee Productivity",
+    primaryAIBenefitCategory: "Knowledge Management",
   },
   {
     id: "2",
@@ -85,6 +89,10 @@ export const mockProjects: Project[] = [
         isStepActive: false,
       },
     ],
+    ntiStatus: "In-Progress",
+    ntiLink: "https://example.com/nti/project-beta",
+    primaryBenefitsCategory: "Cost Avoidance",
+    primaryAIBenefitCategory: "Process or Workflow Automation",
   },
   {
     id: "3",
@@ -135,5 +143,9 @@ export const mockProjects: Project[] = [
         isStepActive: false,
       },
     ],
+    ntiStatus: "Not Applicable",
+    ntiLink: "",
+    primaryBenefitsCategory: "Revenue Generation",
+    primaryAIBenefitCategory: "Content Generation",
   },
 ];

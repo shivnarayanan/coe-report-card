@@ -16,6 +16,10 @@ export interface Project {
   whatWeveBuilt?: string;
   individualsInvolved?: string[];
   timeline?: TimelineItem[];
+  ntiStatus?: 'Not Applicable' | 'In-Progress' | 'Completed';
+  ntiLink?: string;
+  primaryBenefitsCategory?: 'Employee Productivity' | 'Cost Avoidance' | 'Revenue Generation';
+  primaryAIBenefitCategory?: 'Knowledge Management' | 'Code Development & Support' | 'Content Generation' | 'Data Analysis & Summarisation' | 'Document Processing' | 'Process or Workflow Automation';
 }
 
 // Shared status color map and utility

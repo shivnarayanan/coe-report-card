@@ -45,6 +45,10 @@ interface ProjectFormModalProps {
       | "whatWeveBuilt"
       | "individualsInvolved"
       | "timeline"
+      | "ntiStatus"
+      | "ntiLink"
+      | "primaryBenefitsCategory"
+      | "primaryAIBenefitCategory"
     >
   ) => void;
 }
@@ -74,6 +78,10 @@ export function ProjectFormModal({
       whatWeveBuilt: "",
       individualsInvolved: [] as string[],
       timeline: [emptyTimelineItem(), emptyTimelineItem()],
+      ntiStatus: "Not Applicable",
+      ntiLink: "",
+      primaryBenefitsCategory: "Employee Productivity",
+      primaryAIBenefitCategory: "Knowledge Management",
     },
     validate: {
       title: (v) => (v ? null : "Title is required"),
@@ -95,6 +103,10 @@ export function ProjectFormModal({
         whatWeveBuilt: project.whatWeveBuilt || "",
         individualsInvolved: project.individualsInvolved || [],
         timeline: project.timeline || [],
+        ntiStatus: project.ntiStatus || "Not Applicable",
+        ntiLink: project.ntiLink || "",
+        primaryBenefitsCategory: project.primaryBenefitsCategory || "Employee Productivity",
+        primaryAIBenefitCategory: project.primaryAIBenefitCategory || "Knowledge Management",
       });
     } else {
       form.setValues({
@@ -106,6 +118,10 @@ export function ProjectFormModal({
         whatWeveBuilt: "",
         individualsInvolved: [],
         timeline: [emptyTimelineItem(), emptyTimelineItem()],
+        ntiStatus: "Not Applicable",
+        ntiLink: "",
+        primaryBenefitsCategory: "Employee Productivity",
+        primaryAIBenefitCategory: "Knowledge Management",
       });
     }
   }, [opened, project]);
@@ -119,6 +135,10 @@ export function ProjectFormModal({
       whatWeveBuilt: values.whatWeveBuilt,
       individualsInvolved: values.individualsInvolved,
       timeline: values.timeline,
+      ntiStatus: values.ntiStatus,
+      ntiLink: values.ntiLink,
+      primaryBenefitsCategory: values.primaryBenefitsCategory,
+      primaryAIBenefitCategory: values.primaryAIBenefitCategory,
     });
     onClose();
   };
@@ -219,6 +239,57 @@ export function ProjectFormModal({
                     ]}
                     comboboxProps={{ withinPortal: false }}
                     {...form.getInputProps("status")}
+                  />
+                </SimpleGrid>
+
+                <SimpleGrid cols={2} mt="sm">
+                  <Select
+                    label="NTI Status"
+                    description="Select the NTI status."
+                    variant="filled"
+                    data={[
+                      "Not Applicable",
+                      "In-Progress",
+                      "Completed",
+                    ]}
+                    comboboxProps={{ withinPortal: false }}
+                    {...form.getInputProps("ntiStatus")}
+                  />
+                  <TextInput
+                    label="NTI Link"
+                    description="Provide the NTI link if available."
+                    variant="filled"
+                    {...form.getInputProps("ntiLink")}
+                  />
+                </SimpleGrid>
+
+                <SimpleGrid cols={2} mt="sm">
+                  <Select
+                    label="Primary Benefits Category"
+                    description="Select the primary benefits category."
+                    variant="filled"
+                    data={[
+                      "Employee Productivity",
+                      "Cost Avoidance",
+                      "Revenue Generation",
+                    ]}
+                    comboboxProps={{ withinPortal: false }}
+                    {...form.getInputProps("primaryBenefitsCategory")}
+                  />
+                  <Select
+                    label="Primary AI Benefit Category"
+                    description="Select the primary AI benefit category."
+                    variant="filled"
+                    data={[
+                      "Knowledge Management",
+                      "Code Development & Support",
+                      "Content Generation",
+                      "Data Analysis & Summarisation",
+                      "Document Processing",
+                      "Process or Workflow Automation",
+                    ]}
+                    comboboxProps={{ withinPortal: false }}
+                    {...form.getInputProps("primaryAIBenefitCategory")}
                   />
                 </SimpleGrid>
 

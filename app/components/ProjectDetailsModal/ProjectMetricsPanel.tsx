@@ -23,7 +23,9 @@ const ProjectMetricsPanel: React.FC<ProjectMetricsPanelProps> = ({
   // Helper function to format currency
   const formatCurrency = (value: string | undefined) => {
     if (!value) return "N/A";
-    return value.startsWith("$") ? value : `$${value}`;
+    if (value.startsWith("USD")) return value;
+    if (value.startsWith("$")) return value;
+    return `$${value}`;
   };
 
   // Helper function to calculate ROI

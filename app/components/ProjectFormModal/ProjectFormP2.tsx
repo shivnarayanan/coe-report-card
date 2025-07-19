@@ -63,7 +63,7 @@ export function ProjectFormP2({ form, BUSINESS_FUNCTIONS }: ProjectFormP2Props) 
       <NumberInput
         label="Investment Required"
         description="Enter the total investment amount required for this project"
-        prefix="$"
+        prefix="USD"
         step={5000}
         thousandSeparator="," 
         variant="filled"
@@ -73,7 +73,7 @@ export function ProjectFormP2({ form, BUSINESS_FUNCTIONS }: ProjectFormP2Props) 
       <NumberInput
         label="Expected Near-Term Monetary Benefits (3 Months)"
         description="Enter the expected monetary benefits within 3 months"
-        prefix="$"
+        prefix="USD"
         step={5000}
         thousandSeparator="," 
         variant="filled"
@@ -83,7 +83,7 @@ export function ProjectFormP2({ form, BUSINESS_FUNCTIONS }: ProjectFormP2Props) 
       <NumberInput
         label="Expected Long-Term Monetary Benefits (12 Months)"
         description="Enter the expected monetary benefits within 12 months"
-        prefix="$"
+        prefix="USD"
         step={5000}
         thousandSeparator="," 
         variant="filled"

@@ -6,7 +6,6 @@ import {
   Group,
   Button,
   ActionIcon,
-  Stack,
   ScrollArea,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
@@ -163,13 +162,13 @@ export function ProjectFormModal({
             PRIMARY_AI_BENEFITS
           ) ?? "Knowledge Management",
         investmentRequired: project.investmentRequired
-          ? parseFloat(project.investmentRequired.replace(/[$,]/g, ""))
+          ? parseFloat(project.investmentRequired.replace(/(USD|,)/g, ""))
           : null,
         expectedNearTermBenefits: project.expectedNearTermBenefits
-          ? parseFloat(project.expectedNearTermBenefits.replace(/[$,]/g, ""))
+          ? parseFloat(project.expectedNearTermBenefits.replace(/(USD|,)/g, ""))
           : null,
         expectedLongTermBenefits: project.expectedLongTermBenefits
-          ? parseFloat(project.expectedLongTermBenefits.replace(/[$,]/g, ""))
+          ? parseFloat(project.expectedLongTermBenefits.replace(/(USD|,)/g, ""))
           : null,
         primaryBusinessFunction: project.primaryBusinessFunction || "Finance",
       });

@@ -92,7 +92,7 @@ export function ProjectFormModal({
     initialValues: {
       title: "",
       description: "",
-      status: "PILOT",
+      status: "IDEATION",
       tags: [] as string[],
       whyWeBuiltThis: "",
       whatWeveBuilt: "",
@@ -158,7 +158,7 @@ export function ProjectFormModal({
       form.setValues({
         title: "",
         description: "",
-        status: "PILOT",
+        status: "IDEATION",
         tags: [],
         whyWeBuiltThis: "",
         whatWeveBuilt: "",
@@ -283,11 +283,9 @@ export function ProjectFormModal({
                     description="Select the current status of the project."
                     variant="filled"
                     data={[
-                      "DRAFT",
                       "PILOT",
-                      "ACTIVE",
-                      "RETIRED",
-                      "MAINTENANCE",
+                      "PROOF-OF-CONCEPT",
+                      "IDEATION",
                     ]}
                     comboboxProps={{ withinPortal: false }}
                     {...form.getInputProps("status")}
@@ -312,6 +310,7 @@ export function ProjectFormModal({
                     description="Provide the NTI link if available."
                     variant="filled"
                     {...form.getInputProps("ntiLink")}
+                    disabled={form.values.ntiStatus === 'Not Applicable'}
                   />
                 </SimpleGrid>
 
@@ -396,40 +395,61 @@ export function ProjectFormModal({
                   }}
                   mt="sm"
                 />
-                <NumberInput
-                  label="Investment Required"
-                  prefix="USD"
-                  step={5000}
-                  thousandSeparator=","
-                  variant="filled"
-                  allowNegative={false}
-                  mt="sm"
-                  {...form.getInputProps('investmentRequired')}
-                />
-                <NumberInput
-                  label="Expected Near-Term Monetary Benefits (3 Months)"
-                  prefix="USD"
-                  step={5000}
-                  thousandSeparator=","
-                  variant="filled"
-                  allowNegative={false}
-                  mt="sm"
-                  {...form.getInputProps('expectedNearTermBenefits')}
-                />
-                <NumberInput
-                  label="Expected Long-Term Monetary Benefits (12 Months)"
-                  prefix="USD"
-                  step={5000}
-                  thousandSeparator=","
-                  variant="filled"
-                  allowNegative={false}
-                  mt="sm"
-                  {...form.getInputProps('expectedLongTermBenefits')}
-                />
               </>
             )}
 
             {page === 2 && (
+              <Stack gap="lg">
+                <Card
+                  shadow="sm"
+                  padding="lg"
+                  radius="md"
+                  withBorder
+                  style={{ backgroundColor: "#f8f9fa" }}
+                >
+                  <Text fw={600} size="lg" mb="md">
+                    Financial Metrics
+                  </Text>
+                  
+                  <Stack gap="md">
+                    <NumberInput
+                      label="Investment Required"
+                      description="Enter the total investment amount required for this project"
+                      prefix="$"
+                      step={5000}
+                      thousandSeparator=","
+                      variant="filled"
+                      allowNegative={false}
+                      {...form.getInputProps('investmentRequired')}
+                    />
+                    
+                    <NumberInput
+                      label="Expected Near-Term Monetary Benefits (3 Months)"
+                      description="Enter the expected monetary benefits within 3 months"
+                      prefix="$"
+                      step={5000}
+                      thousandSeparator=","
+                      variant="filled"
+                      allowNegative={false}
+                      {...form.getInputProps('expectedNearTermBenefits')}
+                    />
+                    
+                    <NumberInput
+                      label="Expected Long-Term Monetary Benefits (12 Months)"
+                      description="Enter the expected monetary benefits within 12 months"
+                      prefix="$"
+                      step={5000}
+                      thousandSeparator=","
+                      variant="filled"
+                      allowNegative={false}
+                      {...form.getInputProps('expectedLongTermBenefits')}
+                    />
+                  </Stack>
+                </Card>
+              </Stack>
+            )}
+
+            {page === 3 && (
               <Stack gap="md">
                 {form.values.timeline.map((item, index) => (
                   <Card key={item.id} withBorder p="md">
@@ -549,7 +569,7 @@ export function ProjectFormModal({
             <ActionIcon
               variant="default"
               size="lg"
-              onClick={() => setPage(1)}
+              onClick={() => setPage(page - 1)}
               disabled={page === 1}
             >
               <IconArrowLeft size={20} />
@@ -557,8 +577,8 @@ export function ProjectFormModal({
             <ActionIcon
               variant="default"
               size="lg"
-              onClick={() => setPage(2)}
-              disabled={page === 2}
+              onClick={() => setPage(page + 1)}
+              disabled={page === 3}
             >
               <IconArrowRight size={20} />
             </ActionIcon>

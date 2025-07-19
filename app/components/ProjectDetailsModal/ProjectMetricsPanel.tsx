@@ -1,28 +1,108 @@
 import React from "react";
-import { Text, Table } from "@mantine/core";
+import {
+  Text,
+  Group,
+  Card,
+  Stack,
+  ThemeIcon,
+  SimpleGrid,
+  Box,
+} from "@mantine/core";
+import {
+  IconCurrencyDollar,
+} from "@tabler/icons-react";
 import { Project } from "../../types/types";
 
 interface ProjectMetricsPanelProps {
   project: Project;
 }
 
-const ProjectMetricsPanel: React.FC<ProjectMetricsPanelProps> = ({ project }) => (
-  <Table verticalSpacing="md" withTableBorder>
-    <Table.Tbody>
-      <Table.Tr>
-        <Table.Th w={220}>Investment Required</Table.Th>
-        <Table.Td>{project.investmentRequired || <Text c="dimmed">No data</Text>}</Table.Td>
-      </Table.Tr>
-      <Table.Tr>
-        <Table.Th w={220}>Expected Near-Term Monetary Benefits (3 Months)</Table.Th>
-        <Table.Td>{project.expectedNearTermBenefits || <Text c="dimmed">No data</Text>}</Table.Td>
-      </Table.Tr>
-      <Table.Tr>
-        <Table.Th w={220}>Expected Long-Term Monetary Benefits (12 Months)</Table.Th>
-        <Table.Td>{project.expectedLongTermBenefits || <Text c="dimmed">No data</Text>}</Table.Td>
-      </Table.Tr>
-    </Table.Tbody>
-  </Table>
-);
+const ProjectMetricsPanel: React.FC<ProjectMetricsPanelProps> = ({
+  project,
+}) => {
+  // Helper function to format currency
+  const formatCurrency = (value: string | undefined) => {
+    if (!value) return "N/A";
+    return value.startsWith("$") ? value : `$${value}`;
+  };
 
-export default ProjectMetricsPanel; 
+  // Helper function to calculate ROI
+  const calculateROI = () => {
+    const investment = project.investmentRequired
+      ? parseFloat(project.investmentRequired.replace(/[$,]/g, ""))
+      : 0;
+    const nearTerm = project.expectedNearTermBenefits
+      ? parseFloat(project.expectedNearTermBenefits.replace(/[$,]/g, ""))
+      : 0;
+    const longTerm = project.expectedLongTermBenefits
+      ? parseFloat(project.expectedLongTermBenefits.replace(/[$,]/g, ""))
+      : 0;
+
+    if (investment === 0) return "N/A";
+
+    const totalBenefits = nearTerm + longTerm;
+    const roi = ((totalBenefits - investment) / investment) * 100;
+    return `${roi.toFixed(1)}%`;
+  };
+
+  const investment = formatCurrency(project.investmentRequired);
+  const nearTermBenefits = formatCurrency(project.expectedNearTermBenefits);
+  const longTermBenefits = formatCurrency(project.expectedLongTermBenefits);
+  const roi = calculateROI();
+
+  return (
+    <Stack gap="lg">
+
+      {/* Summary Section */}
+      <Card
+        shadow="sm"
+        padding="lg"
+        radius="md"
+        withBorder
+        style={{ backgroundColor: "#f8f9fa" }}
+      >
+        <Group justify="space-between" align="center" mb="md">
+          <Text fw={600} size="lg">
+            Financial Metrics
+          </Text>
+          <ThemeIcon
+            size="md"
+            radius="xl"
+            style={{ backgroundColor: "#C42138" }}
+          >
+            <IconCurrencyDollar size={16} />
+          </ThemeIcon>
+        </Group>
+        
+        <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="md">
+          <Box>
+            <Text size="sm" c="dimmed">
+              Initial Investment
+            </Text>
+            <Text fw={600} size="lg">
+              {investment}
+            </Text>
+          </Box>
+          <Box>
+            <Text size="sm" c="dimmed">
+              Expected Benefits (3 Months)
+            </Text>
+            <Text fw={600} size="lg" style={{ color: "#28a745" }}>
+              {formatCurrency(project.expectedNearTermBenefits)}
+            </Text>
+          </Box>
+          <Box>
+            <Text size="sm" c="dimmed">
+              Expected Benefits (12 Months)
+            </Text>
+            <Text fw={600} size="lg" style={{ color: "#28a745" }}>
+              {formatCurrency(project.expectedLongTermBenefits)}
+            </Text>
+          </Box>
+        </SimpleGrid>
+      </Card>
+    </Stack>
+  );
+};
+
+export default ProjectMetricsPanel;

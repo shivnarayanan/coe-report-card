@@ -1,14 +1,16 @@
 import React from "react";
-import { Box, Text, Table } from "@mantine/core";
-import { Project } from "../../types/types";
+import { Box, Text, Table, Badge } from "@mantine/core";
+import { Project, getNTIStatusColor } from "../../types/types";
 
 interface ProjectOverviewPanelProps {
   project: Project;
 }
 
-const ProjectOverviewPanel: React.FC<ProjectOverviewPanelProps> = ({ project }) => (
+const ProjectOverviewPanel: React.FC<ProjectOverviewPanelProps> = ({
+  project,
+}) => (
   <>
-    <Text fw={700} size="lg" style={{ color: "#C42138" }} mb="xs">
+    <Text fw={700} size="md" style={{ color: "#C42138" }} mb="xs">
       WHY WAS THIS BUILT
     </Text>
     {project.whyWeBuiltThis ? (
@@ -19,7 +21,7 @@ const ProjectOverviewPanel: React.FC<ProjectOverviewPanelProps> = ({ project }) 
       </Text>
     )}
 
-    <Text fw={700} size="lg" style={{ color: "#C42138" }} mb="xs">
+    <Text fw={700} size="md" style={{ color: "#C42138" }} mb="xs">
       WHAT HAS BEEN BUILT
     </Text>
     {project.whatWeveBuilt ? (
@@ -30,7 +32,7 @@ const ProjectOverviewPanel: React.FC<ProjectOverviewPanelProps> = ({ project }) 
       </Text>
     )}
 
-    <Text fw={700} size="lg" style={{ color: "#C42138" }} mb="xs" mt="lg">
+    <Text fw={700} size="md" style={{ color: "#C42138" }} mb="xs" mt="lg">
       ADDITIONAL INFORMATION
     </Text>
     <Table variant="vertical" layout="fixed" withTableBorder mt="md">
@@ -38,40 +40,73 @@ const ProjectOverviewPanel: React.FC<ProjectOverviewPanelProps> = ({ project }) 
         <Table.Tr>
           <Table.Th w={220}>NTI Status</Table.Th>
           <Table.Td>
-            {project.ntiStatus || <Text c="dimmed">No NTI status available.</Text>}
-          </Table.Td>
-        </Table.Tr>
-        <Table.Tr>
-          <Table.Th w={220}>NTI Link</Table.Th>
-          <Table.Td>
-            {project.ntiLink ? (
-              <Text component="a" size="sm" href={project.ntiLink} target="_blank" rel="noopener noreferrer" style={{ wordBreak: 'break-all' }}>
-                {project.ntiLink}
-              </Text>
+            {project.ntiStatus ? (
+              <Badge
+                color={getNTIStatusColor(project.ntiStatus)}
+                variant="dot"
+                size="lg"
+              >
+                {project.ntiStatus}
+              </Badge>
             ) : (
-              <Text c="dimmed">No NTI link provided.</Text>
+              <Text c="dimmed">No NTI Status available.</Text>
             )}
           </Table.Td>
         </Table.Tr>
+        {project.ntiStatus !== 'Not Applicable' && (
+          <Table.Tr>
+            <Table.Th w={220}>NTI Link</Table.Th>
+            <Table.Td>
+              {project.ntiLink ? (
+                <Text
+                  component="a"
+                  size="sm"
+                  href={project.ntiLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ wordBreak: "break-all" }}
+                >
+                  {project.ntiLink}
+                </Text>
+              ) : (
+                <Text c="dimmed" size="sm">
+                  No NTI link available.
+                </Text>
+              )}
+            </Table.Td>
+          </Table.Tr>
+        )}
         <Table.Tr>
           <Table.Th w={230}>Primary Benefits Category</Table.Th>
           <Table.Td>
-            {project.primaryBenefitsCategory || <Text c="dimmed">No primary benefits category provided.</Text>}
+            {project.primaryBenefitsCategory || (
+              <Text c="dimmed" size="sm">
+                No primary benefits category provided.
+              </Text>
+            )}
           </Table.Td>
         </Table.Tr>
         <Table.Tr>
           <Table.Th w={230}>Primary AI Benefit Category</Table.Th>
           <Table.Td>
-            {project.primaryAIBenefitCategory || <Text c="dimmed">No primary AI benefit category provided.</Text>}
+            {project.primaryAIBenefitCategory || (
+              <Text c="dimmed" size="sm">
+                No primary AI benefit category provided.
+              </Text>
+            )}
           </Table.Td>
         </Table.Tr>
         <Table.Tr>
           <Table.Th w={230}>Individuals Involved</Table.Th>
           <Table.Td>
             {project.individualsInvolved?.length ? (
-              project.individualsInvolved.join(", ")
+              project.individualsInvolved.map((person, idx) => (
+                <div key={idx}>{person}</div>
+              ))
             ) : (
-              <Text c="dimmed">No individuals listed.</Text>
+              <Text c="dimmed" size="sm">
+                No individuals listed.
+              </Text>
             )}
           </Table.Td>
         </Table.Tr>
@@ -80,4 +115,4 @@ const ProjectOverviewPanel: React.FC<ProjectOverviewPanelProps> = ({ project }) 
   </>
 );
 
-export default ProjectOverviewPanel; 
+export default ProjectOverviewPanel;

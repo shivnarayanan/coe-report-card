@@ -19,7 +19,7 @@ import { showNotification } from "@mantine/notifications";
 import { Project } from "@types/types";
 import { mockProjects } from "../data/mockProjects";
 import { ProjectCard } from "@components/ProjectCard/ProjectCard";
-import { ProjectFormModal } from "@components/ProjectFormModal";
+import { ProjectFormModal } from "@components/ProjectFormModal/ProjectFormModal";
 import { ProjectDetailsModal } from "@components/ProjectDetailsModal/ProjectDetailsModal";
 
 type ModalId = "details" | "form";

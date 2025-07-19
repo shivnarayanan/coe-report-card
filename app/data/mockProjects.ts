@@ -53,6 +53,7 @@ export const mockProjects: Project[] = [
     investmentRequired: "USD100,000",
     expectedNearTermBenefits: "USD30,000",
     expectedLongTermBenefits: "USD150,000",
+    primaryBusinessFunction: "Finance",
   },
   {
     id: "2",
@@ -99,6 +100,7 @@ export const mockProjects: Project[] = [
     investmentRequired: "USD50,000",
     expectedNearTermBenefits: "USD10,000",
     expectedLongTermBenefits: "USD60,000",
+    primaryBusinessFunction: "IT",
   },
   {
     id: "3",
@@ -156,5 +158,6 @@ export const mockProjects: Project[] = [
     investmentRequired: "USD200,000",
     expectedNearTermBenefits: "USD40,000",
     expectedLongTermBenefits: "USD250,000",
+    primaryBusinessFunction: "Operations",
   },
 ];

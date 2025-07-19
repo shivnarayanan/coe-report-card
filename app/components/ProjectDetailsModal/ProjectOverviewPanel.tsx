@@ -77,6 +77,16 @@ const ProjectOverviewPanel: React.FC<ProjectOverviewPanelProps> = ({
           </Table.Tr>
         )}
         <Table.Tr>
+          <Table.Th w={230}>Primary Business Function</Table.Th>
+          <Table.Td>
+            {project.primaryBusinessFunction || (
+              <Text c="dimmed" size="sm">
+                No primary business function provided.
+              </Text>
+            )}
+          </Table.Td>
+        </Table.Tr>
+        <Table.Tr>
           <Table.Th w={230}>Primary Benefits Category</Table.Th>
           <Table.Td>
             {project.primaryBenefitsCategory || (

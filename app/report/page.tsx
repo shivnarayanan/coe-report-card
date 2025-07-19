@@ -50,9 +50,8 @@ export default function ReportPage() {
 
   const statusOptions = [
     { value: "PILOT", label: "PILOT" },
-    { value: "ACTIVE", label: "ACTIVE" },
-    { value: "RETIRED", label: "RETIRED" },
-    { value: "MAINTENANCE", label: "MAINTENANCE" },
+    { value: "PROOF-OF-CONCEPT", label: "PROOF-OF-CONCEPT" },
+    { value: "IDEATION", label: "IDEATION" },
   ];
 
   // handle create / update

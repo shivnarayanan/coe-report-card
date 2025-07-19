@@ -50,6 +50,9 @@ export const mockProjects: Project[] = [
     ntiLink: "https://example.com/nti/project-alpha",
     primaryBenefitsCategory: "Employee Productivity",
     primaryAIBenefitCategory: "Knowledge Management",
+    investmentRequired: "$100,000",
+    expectedNearTermBenefits: "$30,000 (3 months)",
+    expectedLongTermBenefits: "$150,000 (12 months)",
   },
   {
     id: "2",
@@ -93,6 +96,9 @@ export const mockProjects: Project[] = [
     ntiLink: "https://example.com/nti/project-beta",
     primaryBenefitsCategory: "Cost Avoidance",
     primaryAIBenefitCategory: "Process or Workflow Automation",
+    investmentRequired: "$50,000",
+    expectedNearTermBenefits: "$10,000 (3 months)",
+    expectedLongTermBenefits: "$60,000 (12 months)",
   },
   {
     id: "3",
@@ -147,5 +153,8 @@ export const mockProjects: Project[] = [
     ntiLink: "",
     primaryBenefitsCategory: "Revenue Generation",
     primaryAIBenefitCategory: "Content Generation",
+    investmentRequired: "$200,000",
+    expectedNearTermBenefits: "$40,000 (3 months)",
+    expectedLongTermBenefits: "$250,000 (12 months)",
   },
 ];

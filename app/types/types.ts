@@ -20,6 +20,9 @@ export interface Project {
   ntiLink?: string;
   primaryBenefitsCategory?: 'Employee Productivity' | 'Cost Avoidance' | 'Revenue Generation';
   primaryAIBenefitCategory?: 'Knowledge Management' | 'Code Development & Support' | 'Content Generation' | 'Data Analysis & Summarisation' | 'Document Processing' | 'Process or Workflow Automation';
+  investmentRequired?: string;
+  expectedNearTermBenefits?: string;
+  expectedLongTermBenefits?: string;
 }
 
 // Shared status color map and utility

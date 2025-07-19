@@ -17,6 +17,7 @@ import {
   Checkbox,
   Tooltip,
   ScrollArea,
+  NumberInput,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
@@ -49,6 +50,9 @@ interface ProjectFormModalProps {
       | "ntiLink"
       | "primaryBenefitsCategory"
       | "primaryAIBenefitCategory"
+      | "investmentRequired"
+      | "expectedNearTermBenefits"
+      | "expectedLongTermBenefits"
     >
   ) => void;
 }
@@ -68,7 +72,23 @@ export function ProjectFormModal({
   });
 
   const [page, setPage] = React.useState(1);
-  const form = useForm({
+  const form = useForm<{
+    title: string;
+    description: string;
+    status: Project['status'];
+    tags: string[];
+    whyWeBuiltThis: string;
+    whatWeveBuilt: string;
+    individualsInvolved: string[];
+    timeline: TimelineItem[];
+    ntiStatus: Project['ntiStatus'];
+    ntiLink: string;
+    primaryBenefitsCategory: Project['primaryBenefitsCategory'];
+    primaryAIBenefitCategory: Project['primaryAIBenefitCategory'];
+    investmentRequired: number | null;
+    expectedNearTermBenefits: number | null;
+    expectedLongTermBenefits: number | null;
+  }>({
     initialValues: {
       title: "",
       description: "",
@@ -78,16 +98,39 @@ export function ProjectFormModal({
       whatWeveBuilt: "",
       individualsInvolved: [] as string[],
       timeline: [emptyTimelineItem(), emptyTimelineItem()],
-      ntiStatus: "Not Applicable",
+      ntiStatus: 'Not Applicable',
       ntiLink: "",
-      primaryBenefitsCategory: "Employee Productivity",
-      primaryAIBenefitCategory: "Knowledge Management",
+      primaryBenefitsCategory: 'Employee Productivity',
+      primaryAIBenefitCategory: 'Knowledge Management',
+      investmentRequired: 100000,
+      expectedNearTermBenefits: 30000,
+      expectedLongTermBenefits: 150000,
     },
     validate: {
       title: (v) => (v ? null : "Title is required"),
       description: (v) => (v ? null : "Description is required"),
     },
   });
+
+  // Helper to safely get union type or default
+  function getOrDefault<T extends string>(value: any, allowed: readonly T[], fallback: T): T {
+    return (allowed as readonly string[]).includes(value) ? value as T : fallback;
+  }
+
+  function getOrDefaultOrUndefined<T extends string>(value: any, allowed: readonly T[]): T | undefined {
+    return (allowed as readonly string[]).includes(value) ? (value as T) : undefined;
+  }
+
+  const NTI_STATUS = (['Not Applicable', 'In-Progress', 'Completed'] as const);
+  const PRIMARY_BENEFITS = (['Employee Productivity', 'Cost Avoidance', 'Revenue Generation'] as const);
+  const PRIMARY_AI_BENEFITS = ([
+    'Knowledge Management',
+    'Code Development & Support',
+    'Content Generation',
+    'Data Analysis & Summarisation',
+    'Document Processing',
+    'Process or Workflow Automation',
+  ] as const);
 
   // Reset form/page on open or project change
   React.useEffect(() => {
@@ -103,10 +146,13 @@ export function ProjectFormModal({
         whatWeveBuilt: project.whatWeveBuilt || "",
         individualsInvolved: project.individualsInvolved || [],
         timeline: project.timeline || [],
-        ntiStatus: project.ntiStatus || "Not Applicable",
+        ntiStatus: getOrDefaultOrUndefined(project.ntiStatus, NTI_STATUS) ?? 'Not Applicable',
         ntiLink: project.ntiLink || "",
-        primaryBenefitsCategory: project.primaryBenefitsCategory || "Employee Productivity",
-        primaryAIBenefitCategory: project.primaryAIBenefitCategory || "Knowledge Management",
+        primaryBenefitsCategory: getOrDefaultOrUndefined(project.primaryBenefitsCategory, PRIMARY_BENEFITS) ?? 'Employee Productivity',
+        primaryAIBenefitCategory: getOrDefaultOrUndefined(project.primaryAIBenefitCategory, PRIMARY_AI_BENEFITS) ?? 'Knowledge Management',
+        investmentRequired: project.investmentRequired ? parseFloat(project.investmentRequired.replace(/[$,]/g, '')) : null,
+        expectedNearTermBenefits: project.expectedNearTermBenefits ? parseFloat(project.expectedNearTermBenefits.replace(/[$,]/g, '')) : null,
+        expectedLongTermBenefits: project.expectedLongTermBenefits ? parseFloat(project.expectedLongTermBenefits.replace(/[$,]/g, '')) : null,
       });
     } else {
       form.setValues({
@@ -118,10 +164,13 @@ export function ProjectFormModal({
         whatWeveBuilt: "",
         individualsInvolved: [],
         timeline: [emptyTimelineItem(), emptyTimelineItem()],
-        ntiStatus: "Not Applicable",
+        ntiStatus: 'Not Applicable' as 'Not Applicable' | 'In-Progress' | 'Completed',
         ntiLink: "",
-        primaryBenefitsCategory: "Employee Productivity",
-        primaryAIBenefitCategory: "Knowledge Management",
+        primaryBenefitsCategory: 'Employee Productivity' as 'Employee Productivity' | 'Cost Avoidance' | 'Revenue Generation',
+        primaryAIBenefitCategory: 'Knowledge Management' as 'Knowledge Management' | 'Code Development & Support' | 'Content Generation' | 'Data Analysis & Summarisation' | 'Document Processing' | 'Process or Workflow Automation',
+        investmentRequired: null,
+        expectedNearTermBenefits: null,
+        expectedLongTermBenefits: null,
       });
     }
   }, [opened, project]);
@@ -139,6 +188,9 @@ export function ProjectFormModal({
       ntiLink: values.ntiLink,
       primaryBenefitsCategory: values.primaryBenefitsCategory,
       primaryAIBenefitCategory: values.primaryAIBenefitCategory,
+      investmentRequired: values.investmentRequired ? `$${values.investmentRequired.toLocaleString()}` : "",
+      expectedNearTermBenefits: values.expectedNearTermBenefits ? `$${values.expectedNearTermBenefits.toLocaleString()}` : "",
+      expectedLongTermBenefits: values.expectedLongTermBenefits ? `$${values.expectedLongTermBenefits.toLocaleString()}` : "",
     });
     onClose();
   };
@@ -343,6 +395,36 @@ export function ProjectFormModal({
                     if (tags.length <= 3) form.setFieldValue("tags", tags);
                   }}
                   mt="sm"
+                />
+                <NumberInput
+                  label="Investment Required"
+                  prefix="USD"
+                  step={5000}
+                  thousandSeparator=","
+                  variant="filled"
+                  allowNegative={false}
+                  mt="sm"
+                  {...form.getInputProps('investmentRequired')}
+                />
+                <NumberInput
+                  label="Expected Near-Term Monetary Benefits (3 Months)"
+                  prefix="USD"
+                  step={5000}
+                  thousandSeparator=","
+                  variant="filled"
+                  allowNegative={false}
+                  mt="sm"
+                  {...form.getInputProps('expectedNearTermBenefits')}
+                />
+                <NumberInput
+                  label="Expected Long-Term Monetary Benefits (12 Months)"
+                  prefix="USD"
+                  step={5000}
+                  thousandSeparator=","
+                  variant="filled"
+                  allowNegative={false}
+                  mt="sm"
+                  {...form.getInputProps('expectedLongTermBenefits')}
                 />
               </>
             )}

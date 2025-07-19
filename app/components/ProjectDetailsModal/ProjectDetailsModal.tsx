@@ -180,7 +180,7 @@ export function ProjectDetailsModal({
             </Tabs.Panel>
 
             <Tabs.Panel value="metrics">
-              <ProjectMetricsPanel />
+              <ProjectMetricsPanel project={project} />
             </Tabs.Panel>
 
             <Tabs.Panel value="timeline">

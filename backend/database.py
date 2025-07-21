@@ -5,13 +5,15 @@ from urllib.parse import quote_plus
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv
+import os
 
 class Settings(BaseSettings):
-    SQL_SERVER_HOST: str = "aicoe.database.windows.net"
-    SQL_SERVER_PORT: int = 1433
-    SQL_SERVER_DB: str = "aicoe"
-    SQL_SERVER_USER: str = "shivnarayanan"
-    SQL_SERVER_PWD: str = "Hoffiresoq11*"
+    SQL_SERVER_HOST: str
+    SQL_SERVER_PORT: int
+    SQL_SERVER_DB: str
+    SQL_SERVER_USER: str 
+    SQL_SERVER_PWD: str
 
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -21,6 +23,8 @@ class Settings(BaseSettings):
 @lru_cache()
 def get_settings() -> Settings:
     return Settings()
+
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 def get_engine():
     s = get_settings()

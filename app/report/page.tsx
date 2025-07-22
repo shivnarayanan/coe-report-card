@@ -16,8 +16,7 @@ import {
 } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
-import { Project } from "@types/types";
-import { mockProjects } from "../data/mockProjects";
+import { Project } from "../types/types";
 import { ProjectCard } from "@components/ProjectCard/ProjectCard";
 import { ProjectFormModal } from "@components/ProjectFormModal/ProjectFormModal";
 import { ProjectDetailsModal } from "@components/ProjectDetailsModal/ProjectDetailsModal";
@@ -41,11 +40,12 @@ export default function ReportPage() {
 
   // simulate loading
   useEffect(() => {
-    const t = setTimeout(() => {
-      setProjects(mockProjects);
-      setLoading(false);
-    }, 1_000);
-    return () => clearTimeout(t);
+    fetch("/data/mockProjects.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setProjects(data);
+        setLoading(false);
+      });
   }, []);
 
   const statusOptions = [
@@ -55,18 +55,7 @@ export default function ReportPage() {
   ];
 
   // handle create / update
-  const handleSubmit = (
-    values: Pick<
-      Project,
-      | "title"
-      | "description"
-      | "status"
-      | "tags"
-      | "whyWeBuiltThis"
-      | "whatWeveBuilt"
-      | "individualsInvolved"
-    >
-  ) => {
+  const handleSubmit = (values: Project) => {
     if (currentProject) {
       setProjects((prev) =>
         prev.map((p) =>
@@ -83,7 +72,7 @@ export default function ReportPage() {
     } else {
       setProjects((prev) => [
         ...prev,
-        { id: Date.now().toString(), ...values },
+        { ...values, id: Date.now().toString() },
       ]);
       showNotification({
         message: "Project added successfully!",
@@ -184,7 +173,7 @@ export default function ReportPage() {
         <ProjectFormModal
           {...formModal}
           project={currentProject}
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit as any}
         />
       </Modal.Stack>
     </Container>

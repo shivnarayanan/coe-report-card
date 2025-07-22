@@ -8,17 +8,17 @@ class TimelineItemSchema(BaseModel):
     date: str
     is_step_active: bool
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ProjectTagSchema(BaseModel):
     tag: str
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ProjectIndividualSchema(BaseModel):
     name: str
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ProjectSchema(BaseModel):
     id: str
@@ -39,7 +39,7 @@ class ProjectSchema(BaseModel):
     tags: List[ProjectTagSchema] = []
     individuals: List[ProjectIndividualSchema] = []
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ProjectCreateSchema(BaseModel):
     id: str
@@ -58,4 +58,6 @@ class ProjectCreateSchema(BaseModel):
     primary_business_function: str = None
     timeline: List[TimelineItemSchema] = []
     tags: List[ProjectTagSchema] = []
-    individuals: List[ProjectIndividualSchema] = [] 
+    individuals: List[ProjectIndividualSchema] = []
+    class Config:
+        from_attributes = True 

@@ -20,7 +20,7 @@ export function ProjectFormP1({ form }: ProjectFormP1Props) {
           label="Status"
           description="Select the current status of the project."
           variant="filled"
-          data={["PILOT", "PROOF-OF-CONCEPT", "IDEATION"]}
+          data={["PILOT", "POC", "IDEATION"]}
           comboboxProps={{ withinPortal: false }}
           {...form.getInputProps("status")}
         />

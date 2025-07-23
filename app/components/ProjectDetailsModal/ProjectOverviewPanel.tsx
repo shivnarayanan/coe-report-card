@@ -49,7 +49,7 @@ const ProjectOverviewPanel: React.FC<ProjectOverviewPanelProps> = ({
                 {project.ntiStatus}
               </Badge>
             ) : (
-              <Text c="dimmed">No NTI Status available.</Text>
+              <Text c="dimmed" size="sm">No NTI status available.</Text>
             )}
           </Table.Td>
         </Table.Tr>

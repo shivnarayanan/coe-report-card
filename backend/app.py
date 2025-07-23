@@ -1,9 +1,9 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from . import models
-from .database import SessionLocal, engine
-from .schemas import ProjectSchema, ProjectCreateSchema, TimelineItemSchema, ProjectTagSchema, ProjectIndividualSchema
+import models
+from database import SessionLocal, engine
+from schemas import ProjectSchema, ProjectCreateSchema, TimelineItemSchema, ProjectTagSchema, ProjectIndividualSchema
 
 models.Base.metadata.create_all(bind=engine)
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Badge, Group, Text, Pill } from "@mantine/core";
-import { Project } from "@types/types";
-import { getProjectStatusColor } from "@types/types";
+import { Project } from "../../types/types";
+import { getProjectStatusColor } from "../../types/types";
 import styles from "./ProjectCard.module.css";
 
 export type ProjectCardProps = {
@@ -24,26 +24,35 @@ export function ProjectCard({
       className={styles.card}
       onClick={() => onView(project)}
     >
-      <Group justify="space-between" align="center">
-        <Group align="center">
-          <Text fw={600} size="lg">
-            {project.title}
-          </Text>
-          <Badge color={getProjectStatusColor(project.status)} variant="light" size="lg">
-            {project.status}
-          </Badge>
-        </Group>
+      <Group justify="space-between" align="flex-start">
+        <Text fw={600} size="lg" style={{ flex: 1, minWidth: 0 }}>
+          {project.title}
+        </Text>
+        <Badge 
+          color={getProjectStatusColor(project.status)} 
+          variant="light" 
+          size="lg"
+          style={{ flexShrink: 0 }}
+        >
+          {project.status}
+        </Badge>
       </Group>
-
+      
       <Text size="sm" color="dimmed" mt="sm" lineClamp={4}>
         {project.description}
       </Text>
+      
       <Group mt="md" gap={8}>
-        {project.tags.map((tag: string) => (
+        {project.tags.slice(0, 2).map((tag: string) => (
           <Pill key={tag} className={styles.departmentPill} c="dimmed" size="lg">
             {tag}
           </Pill>
         ))}
+        {project.tags.length > 2 && (
+          <Text c="dimmed" size="sm">
+            + {project.tags.length - 2} more
+          </Text>
+        )}
       </Group>
     </Card>
   );

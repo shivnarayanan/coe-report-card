@@ -10,7 +10,7 @@ export interface Project {
   id: string;
   title: string;
   description: string;
-  status: 'PILOT' | 'PROOF-OF-CONCEPT' | 'IDEATION';
+  status: 'PILOT' | 'POC' | 'IDEATION';
   tags: string[];
   whyWeBuiltThis?: string;
   whatWeveBuilt?: string;
@@ -29,7 +29,7 @@ export interface Project {
 // Shared status color map and utility
 export const PROJECT_STATUS_COLOR_MAP: Record<Project["status"], string> = {
   "PILOT": "green",
-  "PROOF-OF-CONCEPT": "blue",
+  "POC": "blue",
   "IDEATION": "yellow",
 };
 

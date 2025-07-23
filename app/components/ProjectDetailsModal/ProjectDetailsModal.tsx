@@ -87,33 +87,41 @@ export function ProjectDetailsModal({
         <FocusTrap.InitialFocus />
         <Tabs defaultValue="overview" color="#C42138">
           <Modal.Header
+            bg="#f8f9fa"
+            p={`${rem(16)} ${rem(24)} ${rem(12)} ${rem(24)}`}
             style={{
-              backgroundColor: "#f8f9fa",
               borderTopLeftRadius: rem(8),
               borderTopRightRadius: rem(8),
-              padding: `${rem(16)} ${rem(24)} ${rem(12)} ${rem(24)}`,
               flexDirection: "column",
               alignItems: "flex-start",
             }}
           >
             <Box
+              display="flex"
+              w="100%"
               style={{
-                display: "flex",
                 justifyContent: "space-between",
-                width: "100%",
-                alignItems: "center",
+                alignItems: "flex-start",
+                gap: rem(16),
               }}
             >
-              <Modal.Title
+              <Box
+                flex={1}
+                display="flex"
                 style={{
-                  fontWeight: 700,
-                  fontSize: rem(20),
-                  display: "flex",
+                  flexWrap: "wrap",
                   alignItems: "center",
-                  gap: rem(5),
+                  gap: rem(8),
                 }}
               >
-                {project.title}
+                <Text
+                  fw={700}
+                  fz={rem(20)}
+                  lh={1.2}
+                  style={{ flexShrink: 0 }}
+                >
+                  {project.title}
+                </Text>
                 {onEdit && (
                   <Tooltip
                     label="Edit Project Details"
@@ -130,41 +138,39 @@ export function ProjectDetailsModal({
                         onEdit(project);
                       }}
                       size="md"
+                      style={{ flexShrink: 0 }}
                     >
                       <IconEdit size={30} stroke={1.5} />
                     </ActionIcon>
                   </Tooltip>
                 )}
-                <Group gap={8} align="center">
-                  <Badge
-                    color={getProjectStatusColor(project.status)}
-                    variant="light"
+                <Badge
+                  color={getProjectStatusColor(project.status)}
+                  variant="light"
+                  size="lg"
+                >
+                  {project.status}
+                </Badge>
+                {project.tags.map((tag) => (
+                  <Pill
+                    key={tag}
+                    c="dimmed"
                     size="lg"
+                    fw={400}
+                    bg="#e9ecef"
                   >
-                    {project.status}
-                  </Badge>
-                  {project.tags.map((tag) => (
-                    <Pill
-                      key={tag}
-                      c="dimmed"
-                      size="lg"
-                      style={{ fontWeight: 400, background: "#e9ecef" }}
-                    >
-                      {tag}
-                    </Pill>
-                  ))}
-                </Group>
-              </Modal.Title>
-              <Group>
-                <Modal.CloseButton />
-              </Group>
+                    {tag}
+                  </Pill>
+                ))}
+              </Box>
+              <Modal.CloseButton style={{ flexShrink: 0 }} />
             </Box>
             <Text size="md" c="dimmed" mt="xs" mb="sm">
               {project.description}
             </Text>
           </Modal.Header>
 
-          <Box style={{ background: "#f8f9fa" }}>
+          <Box bg="#f8f9fa">
             <Tabs.List pl={8}>
               <Tabs.Tab value="overview">OVERVIEW</Tabs.Tab>
               <Tabs.Tab value="metrics">METRICS</Tabs.Tab>
@@ -172,9 +178,7 @@ export function ProjectDetailsModal({
             </Tabs.List>
           </Box>
 
-          <Modal.Body
-            style={{ padding: rem(24), height: "60vh", overflowY: "auto" }}
-          >
+          <Modal.Body p={rem(24)} h="60vh" style={{ overflowY: "auto" }}>
             <Tabs.Panel value="overview">
               <ProjectOverviewPanel project={project} />
             </Tabs.Panel>

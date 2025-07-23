@@ -1,93 +1,216 @@
 [
-  {
-    "id": "1",
-    "title": "Project Alpha",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    "status": "PROOF-OF-CONCEPT",
-    "tags": ["Compliance", "IWM"],
-    "whyWeBuiltThis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    "whatWeveBuilt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    "individualsInvolved": [
-      "Shiv Narayanan (Chief Data Office/SG)",
-      "Lim Zhao Yu (Chief Data Office/SG)"
-    ],
-    "timeline": [
-      {
-        "title": "Start",
-        "description": "Started project",
-        "date": "2023-01-01",
-        "isStepActive": true
-      }
-    ],
-    "expectedNearTermBenefits": "USD40,000",
-    "expectedLongTermBenefits": "USD250,000",
-    "primaryBusinessFunction": "Operations"
-  },
-  {
-    "id": "2",
-    "title": "Project Beta",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    "status": "PILOT",
-    "tags": ["Investment Banking"],
-    "whyWeBuiltThis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    "whatWeveBuilt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    "individualsInvolved": [
-      "Shiv Narayanan (Chief Data Office/SG)",
-      "Lim Zhao Yu (Chief Data Office/SG)"
-    ],
-    "timeline": [],
-    "expectedNearTermBenefits": "USD40,000",
-    "expectedLongTermBenefits": "USD250,000",
-    "primaryBusinessFunction": "Operations"
-  },
-  {
-    "id": "3",
-    "title": "Project Gamma",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    "status": "IDEATION",
-    "tags": ["Finance"],
-    "whyWeBuiltThis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    "whatWeveBuilt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    "individualsInvolved": [],
-    "timeline": [
-      {
-        "title": "Project Launch",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
-        "date": "2024-01-01",
-        "isStepActive": false
-      },
-      {
-        "title": "Development Completion",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
-        "date": "2024-01-30",
-        "isStepActive": false
-      },
-      {
-        "title": "User Acceptance Testing",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
-        "date": "2024-02-20",
-        "isStepActive": true
-      },
-      {
-        "title": "Full Deployment",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
-        "date": "2024-03-01",
-        "isStepActive": false
-      },
-      {
-        "title": "Maintenance Mode",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
-        "date": "2024-03-25",
-        "isStepActive": false
-      }
-    ],
-    "ntiStatus": "Not Applicable",
-    "ntiLink": "",
-    "primaryBenefitsCategory": "Revenue Generation",
-    "primaryAIBenefitCategory": "Content Generation",
-    "investmentRequired": "USD200,000",
-    "expectedNearTermBenefits": "USD40,000",
-    "expectedLongTermBenefits": "USD250,000",
-    "primaryBusinessFunction": "Operations"
-  }
-]
+    {
+      "id": "1",
+      "title": "Project Alpha",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "status": "POC",
+      "tags": ["Compliance", "IWM"],
+      "whyWeBuiltThis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "whatWeveBuilt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "individualsInvolved": [
+        "Shiv Narayanan (Chief Data Office/SG)",
+        "Lim Zhao Yu (Chief Data Office/SG)"
+      ],
+      "timeline": [
+        {
+          "title": "Start",
+          "description": "Started project",
+          "date": "2023-01-01",
+          "isStepActive": true
+        }
+      ],
+      "expectedNearTermBenefits": "USD40,000",
+      "expectedLongTermBenefits": "USD250,000",
+      "primaryBusinessFunction": "Operations"
+    },
+    {
+      "id": "2",
+      "title": "Project Beta",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "status": "PILOT",
+      "tags": ["Investment Banking"],
+      "whyWeBuiltThis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "whatWeveBuilt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "individualsInvolved": [
+        "Shiv Narayanan (Chief Data Office/SG)",
+        "Lim Zhao Yu (Chief Data Office/SG)"
+      ],
+      "timeline": [],
+      "expectedNearTermBenefits": "USD40,000",
+      "expectedLongTermBenefits": "USD250,000",
+      "primaryBusinessFunction": "Operations"
+    },
+    {
+      "id": "3",
+      "title": "Project Gamma",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "status": "IDEATION",
+      "tags": ["Finance"],
+      "whyWeBuiltThis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "whatWeveBuilt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "individualsInvolved": [],
+      "timeline": [
+        {
+          "title": "Project Launch",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
+          "date": "2024-01-01",
+          "isStepActive": false
+        },
+        {
+          "title": "Development Completion",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
+          "date": "2024-01-30",
+          "isStepActive": false
+        },
+        {
+          "title": "User Acceptance Testing",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
+          "date": "2024-02-20",
+          "isStepActive": true
+        },
+        {
+          "title": "Full Deployment",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
+          "date": "2024-03-01",
+          "isStepActive": false
+        },
+        {
+          "title": "Maintenance Mode",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
+          "date": "2024-03-25",
+          "isStepActive": false
+        }
+      ],
+      "ntiStatus": "Not Applicable",
+      "ntiLink": "",
+      "primaryBenefitsCategory": "Revenue Generation",
+      "primaryAIBenefitCategory": "Content Generation",
+      "investmentRequired": "USD200,000",
+      "expectedNearTermBenefits": "USD40,000",
+      "expectedLongTermBenefits": "USD250,000",
+      "primaryBusinessFunction": "Operations"
+    },
+    {
+      "id": "4",
+      "title": "Project Delta",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "status": "PRODUCTION",
+      "tags": ["Risk Management", "Analytics"],
+      "whyWeBuiltThis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "whatWeveBuilt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "individualsInvolved": [
+        "Sarah Chen (Risk Management/HK)",
+        "Michael Wong (Technology/SG)",
+        "Priya Sharma (Chief Data Office/IN)"
+      ],
+      "timeline": [
+        {
+          "title": "Inception",
+          "description": "Initial concept and requirements gathering",
+          "date": "2023-06-15",
+          "isStepActive": false
+        },
+        {
+          "title": "Production Launch",
+          "description": "Successfully deployed to production environment",
+          "date": "2024-02-01",
+          "isStepActive": true
+        }
+      ],
+      "ntiStatus": "Approved",
+      "ntiLink": "https://internal.company.com/nti/delta-2024",
+      "primaryBenefitsCategory": "Cost Reduction",
+      "primaryAIBenefitCategory": "Predictive Analytics",
+      "investmentRequired": "USD180,000",
+      "expectedNearTermBenefits": "USD45,000",
+      "expectedLongTermBenefits": "USD280,000",
+      "primaryBusinessFunction": "Risk Management"
+    },
+    {
+      "id": "5",
+      "title": "Project Epsilon",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "status": "POC",
+      "tags": ["Trading", "Automation"],
+      "whyWeBuiltThis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "whatWeveBuilt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "individualsInvolved": [
+        "James Liu (Trading/HK)",
+        "Emma Thompson (Technology/LDN)"
+      ],
+      "timeline": [
+        {
+          "title": "Proof of Concept",
+          "description": "Building initial prototype for validation",
+          "date": "2024-03-01",
+          "isStepActive": true
+        },
+        {
+          "title": "Pilot Phase",
+          "description": "Testing with selected trading desks",
+          "date": "2024-05-01",
+          "isStepActive": false
+        },
+        {
+          "title": "Production Rollout",
+          "description": "Full deployment across all regions",
+          "date": "2024-08-01",
+          "isStepActive": false
+        }
+      ],
+      "primaryBenefitsCategory": "Efficiency Improvement",
+      "primaryAIBenefitCategory": "Process Automation",
+      "investmentRequired": "USD150,000",
+      "expectedNearTermBenefits": "USD35,000",
+      "expectedLongTermBenefits": "USD220,000",
+      "primaryBusinessFunction": "Trading"
+    },
+    {
+      "id": "6",
+      "title": "Project Zeta",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "status": "PILOT",
+      "tags": ["Customer Analytics", "CRM"],
+      "whyWeBuiltThis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "whatWeveBuilt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "individualsInvolved": [
+        "Rachel Green (Marketing/NY)",
+        "David Kim (Chief Data Office/SG)",
+        "Sofia Rodriguez (Customer Experience/LDN)"
+      ],
+      "timeline": [
+        {
+          "title": "Requirements Gathering",
+          "description": "Collecting business requirements from stakeholders",
+          "date": "2023-11-01",
+          "isStepActive": false
+        },
+        {
+          "title": "Development Sprint 1",
+          "description": "Building core analytics engine",
+          "date": "2024-01-15",
+          "isStepActive": false
+        },
+        {
+          "title": "Pilot Testing",
+          "description": "Running pilot with select customer segments",
+          "date": "2024-03-10",
+          "isStepActive": true
+        },
+        {
+          "title": "Performance Evaluation",
+          "description": "Analyzing pilot results and gathering feedback",
+          "date": "2024-04-15",
+          "isStepActive": false
+        }
+      ],
+      "ntiStatus": "Pending Review",
+      "ntiLink": "",
+      "primaryBenefitsCategory": "Customer Satisfaction",
+      "primaryAIBenefitCategory": "Personalization",
+      "investmentRequired": "USD175,000",
+      "expectedNearTermBenefits": "USD50,000",
+      "expectedLongTermBenefits": "USD300,000",
+      "primaryBusinessFunction": "Marketing"
+    }
+  ]

@@ -29,6 +29,9 @@ export default function ReportPage() {
   const [currentProject, setCurrentProject] = useState<Project | null>(null);
   const [tagFilter, setTagFilter] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
+  const [businessFunctionFilter, setBusinessFunctionFilter] = useState<
+    string | null
+  >(null);
 
   // define your two modal slots
   const modalIds: ModalId[] = ["details", "form"];
@@ -50,17 +53,32 @@ export default function ReportPage() {
 
   const statusOptions = [
     { value: "PILOT", label: "PILOT" },
-    { value: "PROOF-OF-CONCEPT", label: "PROOF-OF-CONCEPT" },
+    { value: "POC", label: "POC" },
     { value: "IDEATION", label: "IDEATION" },
   ];
+
+  const businessFunctionOptions = [
+    { value: "Finance", label: "Finance" },
+    { value: "HR", label: "HR" },
+    { value: "IT", label: "IT" },
+    { value: "Operations", label: "Operations" },
+    { value: "Marketing", label: "Marketing" },
+    { value: "Sales", label: "Sales" },
+    { value: "Other", label: "Other" },
+  ];
+
+  const getDynamicWidth = (value: string | null, defaultWidth: number) => {
+    if (!value) return `${defaultWidth}px`;
+    // Estimate width based on character count (approximately 9px per character + 60px for padding/icons)
+    const estimatedWidth = Math.max(75, (value.length * 9) + 40);
+    return `${estimatedWidth}px`;
+  };
 
   // handle create / update
   const handleSubmit = (values: Project) => {
     if (currentProject) {
       setProjects((prev) =>
-        prev.map((p) =>
-          p.id === currentProject.id ? { ...p, ...values } : p
-        )
+        prev.map((p) => (p.id === currentProject.id ? { ...p, ...values } : p))
       );
       showNotification({ message: "Project updated", color: "blue" });
       stack.close("form");
@@ -87,20 +105,31 @@ export default function ReportPage() {
   const filtered = projects.filter((p) => {
     const matchesTag = tagFilter ? p.tags.includes(tagFilter) : true;
     const matchesStatus = statusFilter ? p.status === statusFilter : true;
-    return matchesTag && matchesStatus;
+    const matchesBusinessFunction = businessFunctionFilter
+      ? p.primaryBusinessFunction === businessFunctionFilter
+      : true;
+    return matchesTag && matchesStatus && matchesBusinessFunction;
   });
 
   return (
     <Container size="xl">
       <Group justify="space-between" mb="xs">
-        <Group>
+        <Group gap="xs">
+          <Select
+            placeholder="Filter by Business Function"
+            data={businessFunctionOptions}
+            value={businessFunctionFilter}
+            onChange={setBusinessFunctionFilter}
+            clearable
+            style={{ width: getDynamicWidth(businessFunctionFilter, 240) }}
+          />
           <Select
             placeholder="Filter by Tag"
             data={allTags}
             value={tagFilter}
             onChange={setTagFilter}
             clearable
-            w={200}
+            style={{ width: getDynamicWidth(tagFilter, 200) }}
           />
           <Select
             placeholder="Filter by Status"
@@ -108,7 +137,7 @@ export default function ReportPage() {
             value={statusFilter}
             onChange={setStatusFilter}
             clearable
-            w={200}
+            style={{ width: getDynamicWidth(statusFilter, 200) }}
           />
         </Group>
         <Tooltip label="New Project" withArrow position="left">

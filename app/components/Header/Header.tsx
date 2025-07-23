@@ -7,9 +7,8 @@ import { Container, Group } from "@mantine/core";
 import classes from "./Header.module.css";
 
 const links = [
-  { link: "/report", label: "Report Card" },
-  { link: "/usage", label: "Usage Metrics" },
-  { link: "/survey", label: "Survey Metrics" },
+  { link: "/overview", label: "Project Overview" },
+  { link: "/insights", label: "Project Insights" },
 ];
 
 export function Header() {

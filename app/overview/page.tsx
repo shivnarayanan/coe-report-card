@@ -41,7 +41,7 @@ export default function ReportPage() {
 
   // Fetch projects from API
   useEffect(() => {
-    fetch("http://localhost:8000/projects")
+    fetch("http://localhost:8001/projects")
       .then((res) => res.json())
       .then((data) => {
         setProjects(data);

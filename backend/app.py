@@ -26,11 +26,7 @@ def get_db():
     finally:
         db.close()
 
-@app.get("/projects", response_model=List[ProjectSchema])
-def read_projects(db: Session = Depends(get_db)):
-    return db.query(models.Project).all()
-
-@app.get("/api/projects")
+@app.get("/projects")
 def read_api_projects(db: Session = Depends(get_db)):
     projects = db.query(models.Project).all()
     

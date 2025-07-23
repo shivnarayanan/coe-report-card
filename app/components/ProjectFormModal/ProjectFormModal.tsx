@@ -66,14 +66,14 @@ export function ProjectFormModal({
     whatWeveBuilt: string;
     individualsInvolved: string[];
     timeline: TimelineItem[];
-    ntiStatus: Project["ntiStatus"];
+    ntiStatus: Project["ntiStatus"] | undefined;
     ntiLink: string;
-    primaryBenefitsCategory: Project["primaryBenefitsCategory"];
-    primaryAIBenefitCategory: Project["primaryAIBenefitCategory"];
+    primaryBenefitsCategory: Project["primaryBenefitsCategory"] | undefined;
+    primaryAIBenefitCategory: Project["primaryAIBenefitCategory"] | undefined;
     investmentRequired: number | null;
     expectedNearTermBenefits: number | null;
     expectedLongTermBenefits: number | null;
-    primaryBusinessFunction: Project["primaryBusinessFunction"];
+    primaryBusinessFunction: Project["primaryBusinessFunction"] | undefined;
   }>({
     initialValues: {
       title: "",
@@ -84,14 +84,14 @@ export function ProjectFormModal({
       whatWeveBuilt: "",
       individualsInvolved: [] as string[],
       timeline: [emptyTimelineItem(), emptyTimelineItem()],
-      ntiStatus: "Not Applicable",
+      ntiStatus: undefined,
       ntiLink: "",
-      primaryBenefitsCategory: "Employee Productivity",
-      primaryAIBenefitCategory: "Knowledge Management",
-      investmentRequired: 100000,
-      expectedNearTermBenefits: 30000,
-      expectedLongTermBenefits: 150000,
-      primaryBusinessFunction: "Finance",
+      primaryBenefitsCategory: undefined,
+      primaryAIBenefitCategory: undefined,
+      investmentRequired: null,
+      expectedNearTermBenefits: null,
+      expectedLongTermBenefits: null,
+      primaryBusinessFunction: undefined,
     },
     validate: {
       title: (v) => (v ? null : "Title is required"),
@@ -148,19 +148,18 @@ export function ProjectFormModal({
         individualsInvolved: project.individualsInvolved || [],
         timeline: project.timeline || [],
         ntiStatus:
-          getOrDefaultOrUndefined(project.ntiStatus, NTI_STATUS) ??
-          "Not Applicable",
+          getOrDefaultOrUndefined(project.ntiStatus, NTI_STATUS),
         ntiLink: project.ntiLink || "",
         primaryBenefitsCategory:
           getOrDefaultOrUndefined(
             project.primaryBenefitsCategory,
             PRIMARY_BENEFITS
-          ) ?? "Employee Productivity",
+          ),
         primaryAIBenefitCategory:
           getOrDefaultOrUndefined(
             project.primaryAIBenefitCategory,
             PRIMARY_AI_BENEFITS
-          ) ?? "Knowledge Management",
+          ),
         investmentRequired: project.investmentRequired
           ? parseFloat(project.investmentRequired.replace(/(USD|,)/g, ""))
           : null,
@@ -170,7 +169,7 @@ export function ProjectFormModal({
         expectedLongTermBenefits: project.expectedLongTermBenefits
           ? parseFloat(project.expectedLongTermBenefits.replace(/(USD|,)/g, ""))
           : null,
-        primaryBusinessFunction: project.primaryBusinessFunction || "Finance",
+        primaryBusinessFunction: project.primaryBusinessFunction,
       });
     } else {
       form.setValues({
@@ -182,14 +181,14 @@ export function ProjectFormModal({
         whatWeveBuilt: "",
         individualsInvolved: [],
         timeline: [emptyTimelineItem(), emptyTimelineItem()],
-        ntiStatus: "Not Applicable",
+        ntiStatus: undefined,
         ntiLink: "",
-        primaryBenefitsCategory: "Employee Productivity",
-        primaryAIBenefitCategory: "Knowledge Management",
+        primaryBenefitsCategory: undefined,
+        primaryAIBenefitCategory: undefined,
         investmentRequired: null,
         expectedNearTermBenefits: null,
         expectedLongTermBenefits: null,
-        primaryBusinessFunction: "Finance",
+        primaryBusinessFunction: undefined,
       });
     }
   }, [opened, project]);

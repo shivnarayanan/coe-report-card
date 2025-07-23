@@ -33,15 +33,13 @@ export default function ReportPage() {
     string | null
   >(null);
 
-  // define your two modal slots
   const modalIds: ModalId[] = ["details", "form"];
   const stack = useModalsStack<ModalId>(modalIds);
 
-  // register each slot to get opened/onClose/zIndex etc.
   const detailModal = stack.register("details");
   const formModal = stack.register("form");
 
-  // simulate loading
+  // To simulate loading
   useEffect(() => {
     fetch("/data/mockProjects.json")
       .then((res) => res.json())
@@ -52,6 +50,7 @@ export default function ReportPage() {
   }, []);
 
   const statusOptions = [
+    { value: "PRODUCTION", label: "PRODUCTION" },
     { value: "PILOT", label: "PILOT" },
     { value: "POC", label: "POC" },
     { value: "IDEATION", label: "IDEATION" },
@@ -69,12 +68,11 @@ export default function ReportPage() {
 
   const getDynamicWidth = (value: string | null, defaultWidth: number) => {
     if (!value) return `${defaultWidth}px`;
-    // Estimate width based on character count (approximately 9px per character + 60px for padding/icons)
-    const estimatedWidth = Math.max(75, (value.length * 9) + 40);
+
+    const estimatedWidth = Math.max(75, value.length * 9 + 40);
     return `${estimatedWidth}px`;
   };
 
-  // handle create / update
   const handleSubmit = (values: Project) => {
     if (currentProject) {
       setProjects((prev) =>
@@ -100,7 +98,6 @@ export default function ReportPage() {
     }
   };
 
-  // filtering logic
   const allTags = Array.from(new Set(projects.flatMap((p) => p.tags))).sort();
   const filtered = projects.filter((p) => {
     const matchesTag = tagFilter ? p.tags.includes(tagFilter) : true;

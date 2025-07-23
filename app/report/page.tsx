@@ -39,12 +39,16 @@ export default function ReportPage() {
   const detailModal = stack.register("details");
   const formModal = stack.register("form");
 
-  // To simulate loading
+  // Fetch projects from API
   useEffect(() => {
-    fetch("/data/mockProjects.json")
+    fetch("http://localhost:8000/api/projects")
       .then((res) => res.json())
       .then((data) => {
         setProjects(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching projects:", error);
         setLoading(false);
       });
   }, []);

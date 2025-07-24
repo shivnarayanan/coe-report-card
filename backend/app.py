@@ -101,4 +101,79 @@ def create_project(project: ProjectCreateSchema, db: Session = Depends(get_db)):
     db.add(db_project)
     db.commit()
     db.refresh(db_project)
+    
+    # Add tags
+    for tag_data in project.tags:
+        db_tag = models.ProjectTag(project_id=db_project.id, tag=tag_data.tag)
+        db.add(db_tag)
+    
+    # Add individuals
+    for individual_data in project.individuals:
+        db_individual = models.ProjectIndividual(project_id=db_project.id, name=individual_data.name)
+        db.add(db_individual)
+    
+    # Add timeline items
+    for timeline_data in project.timeline:
+        db_timeline = models.TimelineItem(
+            project_id=db_project.id,
+            title=timeline_data.title,
+            description=timeline_data.description,
+            date=timeline_data.date,
+            is_step_active=timeline_data.is_step_active
+        )
+        db.add(db_timeline)
+    
+    db.commit()
+    db.refresh(db_project)
+    return db_project
+
+@app.put("/projects/{project_id}", response_model=ProjectSchema)
+def update_project(project_id: str, project: ProjectCreateSchema, db: Session = Depends(get_db)):
+    db_project = db.query(models.Project).filter(models.Project.id == project_id).first()
+    if not db_project:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    # Update project fields
+    db_project.title = project.title
+    db_project.description = project.description
+    db_project.status = project.status
+    db_project.why_we_built_this = project.why_we_built_this
+    db_project.what_weve_built = project.what_weve_built
+    db_project.nti_status = project.nti_status
+    db_project.nti_link = project.nti_link
+    db_project.primary_benefits_category = project.primary_benefits_category
+    db_project.primary_ai_benefit_category = project.primary_ai_benefit_category
+    db_project.investment_required = project.investment_required
+    db_project.expected_near_term_benefits = project.expected_near_term_benefits
+    db_project.expected_long_term_benefits = project.expected_long_term_benefits
+    db_project.primary_business_function = project.primary_business_function
+    
+    # Delete existing related data
+    db.query(models.ProjectTag).filter(models.ProjectTag.project_id == project_id).delete()
+    db.query(models.ProjectIndividual).filter(models.ProjectIndividual.project_id == project_id).delete()
+    db.query(models.TimelineItem).filter(models.TimelineItem.project_id == project_id).delete()
+    
+    # Add new tags
+    for tag_data in project.tags:
+        db_tag = models.ProjectTag(project_id=project_id, tag=tag_data.tag)
+        db.add(db_tag)
+    
+    # Add new individuals
+    for individual_data in project.individuals:
+        db_individual = models.ProjectIndividual(project_id=project_id, name=individual_data.name)
+        db.add(db_individual)
+    
+    # Add new timeline items
+    for timeline_data in project.timeline:
+        db_timeline = models.TimelineItem(
+            project_id=project_id,
+            title=timeline_data.title,
+            description=timeline_data.description,
+            date=timeline_data.date,
+            is_step_active=timeline_data.is_step_active
+        )
+        db.add(db_timeline)
+    
+    db.commit()
+    db.refresh(db_project)
     return db_project 

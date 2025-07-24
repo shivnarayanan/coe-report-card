@@ -20,6 +20,8 @@ import { Project } from "../types/types";
 import { ProjectCard } from "@components/ProjectCard/ProjectCard";
 import { ProjectFormModal } from "@components/ProjectFormModal/ProjectFormModal";
 import { ProjectDetailsModal } from "@components/ProjectDetailsModal/ProjectDetailsModal";
+import { createProject, updateProject, fetchProjects, ProjectPayload } from "../utils/api";
+import { TimelineItem } from "../types/types";
 
 type ModalId = "details" | "form";
 
@@ -41,14 +43,17 @@ export default function ReportPage() {
 
   // Fetch projects from API
   useEffect(() => {
-    fetch("http://localhost:8001/projects")
-      .then((res) => res.json())
+    fetchProjects()
       .then((data) => {
         setProjects(data);
         setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching projects:", error);
+        showNotification({
+          message: "Failed to fetch projects",
+          color: "red",
+        });
         setLoading(false);
       });
   }, []);
@@ -77,28 +82,81 @@ export default function ReportPage() {
     return `${estimatedWidth}px`;
   };
 
-  const handleSubmit = (values: Project) => {
-    if (currentProject) {
-      setProjects((prev) =>
-        prev.map((p) => (p.id === currentProject.id ? { ...p, ...values } : p))
-      );
-      showNotification({ message: "Project updated", color: "blue" });
-      stack.close("form");
-      // after close, re-open details with updated data
-      setTimeout(() => {
-        setCurrentProject({ ...currentProject, ...values });
-        stack.open("details");
-      }, 0);
-    } else {
-      setProjects((prev) => [
-        ...prev,
-        { ...values, id: Date.now().toString() },
-      ]);
+  const transformToApiPayload = (values: Partial<Project>): ProjectPayload => {
+    return {
+      id: values.id || Date.now().toString(),
+      title: values.title || "",
+      description: values.description || "",
+      status: values.status || "IDEATION",
+      tags: (values.tags || []).map(tag => ({ tag })),
+      why_we_built_this: values.whyWeBuiltThis || "",
+      what_weve_built: values.whatWeveBuilt || "",
+      individuals: (values.individualsInvolved || []).map(name => ({ name })),
+      timeline: (values.timeline || []).map((item: TimelineItem) => ({
+        title: item.title,
+        description: item.description,
+        date: item.date,
+        is_step_active: item.isStepActive,
+      })),
+      nti_status: values.ntiStatus || "",
+      nti_link: values.ntiLink || "",
+      primary_benefits_category: values.primaryBenefitsCategory || "",
+      primary_ai_benefit_category: values.primaryAIBenefitCategory || "",
+      investment_required: values.investmentRequired || "",
+      expected_near_term_benefits: values.expectedNearTermBenefits || "",
+      expected_long_term_benefits: values.expectedLongTermBenefits || "",
+      primary_business_function: values.primaryBusinessFunction || "",
+    };
+  };
+
+  const handleSubmit = async (values: Partial<Project>) => {
+    try {
+      const payload = transformToApiPayload(values);
+      
+      if (currentProject) {
+        // Update existing project
+        await updateProject(currentProject.id, payload);
+        
+        // Update local state
+        setProjects((prev) =>
+          prev.map((p) => (p.id === currentProject.id ? { ...p, ...values } : p))
+        );
+        
+        showNotification({ 
+          message: "Project updated successfully!", 
+          color: "blue" 
+        });
+        
+        stack.close("form");
+        
+        // Re-open details with updated data
+        setTimeout(() => {
+          setCurrentProject({ ...currentProject, ...values });
+          stack.open("details");
+        }, 0);
+      } else {
+        // Create new project
+        const newProject = await createProject(payload);
+        
+        // Add to local state
+        setProjects((prev) => [
+          ...prev,
+          { ...values, id: newProject.id } as Project,
+        ]);
+        
+        showNotification({
+          message: "Project added successfully!",
+          color: "green",
+        });
+        
+        stack.close("form");
+      }
+    } catch (error) {
+      console.error("Error saving project:", error);
       showNotification({
-        message: "Project added successfully!",
-        color: "green",
+        message: `Failed to ${currentProject ? 'update' : 'create'} project`,
+        color: "red",
       });
-      stack.close("form");
     }
   };
 

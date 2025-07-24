@@ -1,11 +1,13 @@
 import "@mantine/core/styles.css";
 import '@mantine/dates/styles.css';
+import '@mantine/notifications/styles.css';
 import React from "react";
 import {
   MantineProvider,
   ColorSchemeScript,
   mantineHtmlProps,
 } from "@mantine/core";
+import { Notifications } from '@mantine/notifications';
 import { theme } from "../theme";
 import { Header } from "@components/Header/Header";
 
@@ -27,6 +29,7 @@ export default function RootLayout({ children }: { children: any }) {
       </head>
       <body style={{ backgroundColor: '#f8f9fa' }}>
         <MantineProvider theme={theme}>
+          <Notifications />
           <Header />
           {children}
         </MantineProvider>

@@ -12,7 +12,7 @@ import { theme } from "../theme";
 import { Header } from "@components/Header/Header";
 
 export const metadata = {
-  title: "CHINOU Report Card",
+  title: "CHINOU",
   description: "",
 };
 

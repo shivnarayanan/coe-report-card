@@ -10,7 +10,7 @@ import { theme } from "../theme";
 import { Header } from "@components/Header/Header";
 
 export const metadata = {
-  title: "CHINOU",
+  title: "CHINOU Report Card",
   description: "",
 };
 
@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: any }) {
     <html lang="en" {...mantineHtmlProps}>
       <head>
         <ColorSchemeScript />
-        <link rel="shortcut icon" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/chinou-icon.png" />
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"

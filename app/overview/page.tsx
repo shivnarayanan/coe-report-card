@@ -231,7 +231,7 @@ export default function ReportPage() {
         <Grid>
           {[...Array(6)].map((_, i) => (
             <Grid.Col key={i} span={4}>
-              <Skeleton height={200} radius="md" />
+              <Skeleton height={220} radius="md" />
             </Grid.Col>
           ))}
         </Grid>

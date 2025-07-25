@@ -16,7 +16,7 @@ export default function InsightsPage() {
           Project Insights
         </Title>
         <Text size="lg" c="dimmed">
-          Project insights and analytics coming soon...
+          Coming Soon
         </Text>
       </Center>
     </Container>

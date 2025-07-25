@@ -212,5 +212,149 @@
       "expectedNearTermBenefits": "USD50,000",
       "expectedLongTermBenefits": "USD300,000",
       "primaryBusinessFunction": "Marketing"
+    },
+    {
+      "id": "7",
+      "title": "Project Theta",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "status": "PRODUCTION",
+      "tags": ["HR", "Talent Management"],
+      "whyWeBuiltThis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "whatWeveBuilt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "individualsInvolved": [
+        "Jennifer Park (HR/SG)",
+        "Mark Anderson (Technology/NY)",
+        "Lisa Chen (Talent Acquisition/HK)"
+      ],
+      "timeline": [
+        {
+          "title": "System Analysis",
+          "description": "Analyzing current HR systems and identifying gaps",
+          "date": "2023-09-01",
+          "isStepActive": false
+        },
+        {
+          "title": "MVP Development",
+          "description": "Building minimum viable product for talent management",
+          "date": "2023-12-15",
+          "isStepActive": false
+        },
+        {
+          "title": "Production Launch",
+          "description": "Successfully deployed across all HR departments",
+          "date": "2024-02-28",
+          "isStepActive": true
+        },
+        {
+          "title": "Optimization Phase",
+          "description": "Continuous improvement based on user feedback",
+          "date": "2024-05-01",
+          "isStepActive": false
+        }
+      ],
+      "ntiStatus": "Approved",
+      "ntiLink": "https://internal.company.com/nti/theta-2024",
+      "primaryBenefitsCategory": "Operational Excellence",
+      "primaryAIBenefitCategory": "Talent Analytics",
+      "investmentRequired": "USD120,000",
+      "expectedNearTermBenefits": "USD30,000",
+      "expectedLongTermBenefits": "USD200,000",
+      "primaryBusinessFunction": "HR"
+    },
+    {
+      "id": "8",
+      "title": "Project Iota",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "status": "IDEATION",
+      "tags": ["Blockchain", "Settlement"],
+      "whyWeBuiltThis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "whatWeveBuilt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "individualsInvolved": [
+        "Alex Zhang (Blockchain Team/SG)",
+        "Maria Santos (Operations/LDN)"
+      ],
+      "timeline": [
+        {
+          "title": "Research Phase",
+          "description": "Investigating blockchain technologies for settlement",
+          "date": "2024-01-15",
+          "isStepActive": true
+        },
+        {
+          "title": "Technical Design",
+          "description": "Designing system architecture and specifications",
+          "date": "2024-04-01",
+          "isStepActive": false
+        },
+        {
+          "title": "Partner Evaluation",
+          "description": "Evaluating potential technology partners",
+          "date": "2024-06-15",
+          "isStepActive": false
+        }
+      ],
+      "ntiStatus": "Not Started",
+      "ntiLink": "",
+      "primaryBenefitsCategory": "Innovation",
+      "primaryAIBenefitCategory": "Smart Contracts",
+      "investmentRequired": "USD300,000",
+      "expectedNearTermBenefits": "USD25,000",
+      "expectedLongTermBenefits": "USD500,000",
+      "primaryBusinessFunction": "Operations"
+    },
+    {
+      "id": "9",
+      "title": "Project Kappa",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "status": "PILOT",
+      "tags": ["Cybersecurity", "AI Detection"],
+      "whyWeBuiltThis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "whatWeveBuilt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "individualsInvolved": [
+        "Robert Johnson (Cybersecurity/NY)",
+        "Yuki Tanaka (IT Security/TYO)",
+        "Hassan Ali (Chief Data Office/DXB)",
+        "Elena Petrov (Risk Management/LDN)"
+      ],
+      "timeline": [
+        {
+          "title": "Threat Assessment",
+          "description": "Analyzing current security threats and vulnerabilities",
+          "date": "2023-10-01",
+          "isStepActive": false
+        },
+        {
+          "title": "AI Model Training",
+          "description": "Training machine learning models for threat detection",
+          "date": "2024-01-01",
+          "isStepActive": false
+        },
+        {
+          "title": "Pilot Deployment",
+          "description": "Testing AI detection system in controlled environment",
+          "date": "2024-03-15",
+          "isStepActive": true
+        },
+        {
+          "title": "Performance Monitoring",
+          "description": "Monitoring system performance and accuracy metrics",
+          "date": "2024-04-01",
+          "isStepActive": false
+        },
+        {
+          "title": "Production Readiness",
+          "description": "Preparing for full production deployment",
+          "date": "2024-06-01",
+          "isStepActive": false
+        }
+      ],
+      "ntiStatus": "Under Review",
+      "ntiLink": "https://internal.company.com/nti/kappa-2024-draft",
+      "primaryBenefitsCategory": "Risk Mitigation",
+      "primaryAIBenefitCategory": "Anomaly Detection",
+      "investmentRequired": "USD250,000",
+      "expectedNearTermBenefits": "USD60,000",
+      "expectedLongTermBenefits": "USD400,000",
+      "primaryBusinessFunction": "IT"
     }
   ]

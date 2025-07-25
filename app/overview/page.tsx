@@ -13,6 +13,7 @@ import {
   Select,
   Modal,
   useModalsStack,
+  Pagination,
 } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
@@ -34,6 +35,8 @@ export default function ReportPage() {
   const [businessFunctionFilter, setBusinessFunctionFilter] = useState<
     string | null
   >(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   const modalIds: ModalId[] = ["details", "form"];
   const stack = useModalsStack<ModalId>(modalIds);
@@ -170,6 +173,16 @@ export default function ReportPage() {
     return matchesTag && matchesStatus && matchesBusinessFunction;
   });
 
+  // Pagination logic
+  const totalPages = Math.ceil(filtered.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedProjects = filtered.slice(startIndex, startIndex + itemsPerPage);
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [tagFilter, statusFilter, businessFunctionFilter]);
+
   return (
     <Container size="xl">
       <Group justify="space-between" mb="xs">
@@ -216,7 +229,7 @@ export default function ReportPage() {
 
       {loading ? (
         <Grid>
-          {[...Array(3)].map((_, i) => (
+          {[...Array(6)].map((_, i) => (
             <Grid.Col key={i} span={4}>
               <Skeleton height={200} radius="md" />
             </Grid.Col>
@@ -229,23 +242,36 @@ export default function ReportPage() {
           </Text>
         </Center>
       ) : (
-        <Grid>
-          {filtered.map((proj) => (
-            <Grid.Col key={proj.id} span={4}>
-              <ProjectCard
-                project={proj}
-                onEdit={(p) => {
-                  setCurrentProject(p);
-                  stack.open("form");
-                }}
-                onView={(p) => {
-                  setCurrentProject(p);
-                  stack.open("details");
-                }}
+        <>
+          <Grid>
+            {paginatedProjects.map((proj) => (
+              <Grid.Col key={proj.id} span={4}>
+                <ProjectCard
+                  project={proj}
+                  onEdit={(p) => {
+                    setCurrentProject(p);
+                    stack.open("form");
+                  }}
+                  onView={(p) => {
+                    setCurrentProject(p);
+                    stack.open("details");
+                  }}
+                />
+              </Grid.Col>
+            ))}
+          </Grid>
+          
+          {totalPages > 1 && (
+            <Group justify="flex-end" mt="xl">
+              <Pagination
+                total={totalPages}
+                value={currentPage}
+                onChange={setCurrentPage}
+                size="md"
               />
-            </Grid.Col>
-          ))}
-        </Grid>
+            </Group>
+          )}
+        </>
       )}
 
       <Modal.Stack>

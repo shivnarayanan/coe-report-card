@@ -54,7 +54,8 @@ export default function ReportPage() {
       .catch((error) => {
         console.error("Error fetching projects:", error);
         showNotification({
-          message: "Failed to fetch projects",
+          title: "Error Loading Projects",
+          message: "Unable to retrieve projects from the database. Please check your connection and try again.",
           color: "red",
         });
         setLoading(false);
@@ -126,8 +127,9 @@ export default function ReportPage() {
         );
         
         showNotification({ 
-          message: "Project updated successfully!", 
-          color: "blue" 
+          title: "Project Updated Succesfully",
+          message: `"${values.title || currentProject.title}" has been successfully updated with your changes.`, 
+          color: "green" 
         });
         
         stack.close("form");
@@ -148,7 +150,8 @@ export default function ReportPage() {
         ]);
         
         showNotification({
-          message: "Project added successfully!",
+          title: "Project Created Succesfully",
+          message: `New project "${values.title}" has been successfully added to your portfolio.`,
           color: "green",
         });
         
@@ -157,7 +160,8 @@ export default function ReportPage() {
     } catch (error) {
       console.error("Error saving project:", error);
       showNotification({
-        message: `Failed to ${currentProject ? 'update' : 'create'} project`,
+        title: "Project Save Failed",
+        message: `Unable to ${currentProject ? 'update' : 'create'} the project "${values.title || currentProject?.title || 'Untitled'}". Please try again.`,
         color: "red",
       });
     }

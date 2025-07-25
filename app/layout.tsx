@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: any }) {
       </head>
       <body style={{ backgroundColor: '#f8f9fa' }}>
         <MantineProvider theme={theme}>
-          <Notifications />
+          <Notifications position="top-right" zIndex={10000} />
           <Header />
           {children}
         </MantineProvider>

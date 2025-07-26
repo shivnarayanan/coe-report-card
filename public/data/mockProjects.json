@@ -19,6 +19,11 @@
           "isStepActive": true
         }
       ],
+      "ntiStatus": "In-Progress",
+      "ntiLink": "https://internal.company.com/nti/alpha-2024",
+      "primaryBenefitsCategory": "Employee Productivity",
+      "primaryAIBenefitCategory": "Data Analysis & Summarisation",
+      "investmentRequired": "USD100,000",
       "expectedNearTermBenefits": "USD40,000",
       "expectedLongTermBenefits": "USD250,000",
       "primaryBusinessFunction": "Operations"
@@ -36,6 +41,11 @@
         "Lim Zhao Yu (Chief Data Office/SG)"
       ],
       "timeline": [],
+      "ntiStatus": "Not Applicable",
+      "ntiLink": "",
+      "primaryBenefitsCategory": "Cost Avoidance",
+      "primaryAIBenefitCategory": "Process or Workflow Automation",
+      "investmentRequired": "USD75,000",
       "expectedNearTermBenefits": "USD40,000",
       "expectedLongTermBenefits": "USD250,000",
       "primaryBusinessFunction": "Operations"
@@ -117,10 +127,10 @@
           "isStepActive": true
         }
       ],
-      "ntiStatus": "Approved",
+      "ntiStatus": "Completed",
       "ntiLink": "https://internal.company.com/nti/delta-2024",
-      "primaryBenefitsCategory": "Cost Reduction",
-      "primaryAIBenefitCategory": "Predictive Analytics",
+      "primaryBenefitsCategory": "Cost Avoidance",
+      "primaryAIBenefitCategory": "Data Analysis & Summarisation",
       "investmentRequired": "USD180,000",
       "expectedNearTermBenefits": "USD45,000",
       "expectedLongTermBenefits": "USD280,000",
@@ -158,12 +168,14 @@
           "isStepActive": false
         }
       ],
-      "primaryBenefitsCategory": "Efficiency Improvement",
-      "primaryAIBenefitCategory": "Process Automation",
+      "ntiStatus": "Completed",
+      "ntiLink": "https://internal.company.com/nti/epsilon-2024",
+      "primaryBenefitsCategory": "Employee Productivity",
+      "primaryAIBenefitCategory": "Process or Workflow Automation",
       "investmentRequired": "USD150,000",
       "expectedNearTermBenefits": "USD35,000",
       "expectedLongTermBenefits": "USD220,000",
-      "primaryBusinessFunction": "Trading"
+      "primaryBusinessFunction": "Global Markets"
     },
     {
       "id": "6",
@@ -204,14 +216,14 @@
           "isStepActive": false
         }
       ],
-      "ntiStatus": "Pending Review",
+      "ntiStatus": "In-Progress",
       "ntiLink": "",
-      "primaryBenefitsCategory": "Customer Satisfaction",
-      "primaryAIBenefitCategory": "Personalization",
+      "primaryBenefitsCategory": "Revenue Generation",
+      "primaryAIBenefitCategory": "Content Generation",
       "investmentRequired": "USD175,000",
       "expectedNearTermBenefits": "USD50,000",
       "expectedLongTermBenefits": "USD300,000",
-      "primaryBusinessFunction": "Marketing"
+      "primaryBusinessFunction": "Chief Data Office"
     },
     {
       "id": "7",
@@ -252,14 +264,14 @@
           "isStepActive": false
         }
       ],
-      "ntiStatus": "Approved",
+      "ntiStatus": "Completed",
       "ntiLink": "https://internal.company.com/nti/theta-2024",
-      "primaryBenefitsCategory": "Operational Excellence",
-      "primaryAIBenefitCategory": "Talent Analytics",
+      "primaryBenefitsCategory": "Employee Productivity",
+      "primaryAIBenefitCategory": "Process or Workflow Automation",
       "investmentRequired": "USD120,000",
       "expectedNearTermBenefits": "USD30,000",
       "expectedLongTermBenefits": "USD200,000",
-      "primaryBusinessFunction": "HR"
+      "primaryBusinessFunction": "Human Resources"
     },
     {
       "id": "8",
@@ -293,10 +305,10 @@
           "isStepActive": false
         }
       ],
-      "ntiStatus": "Not Started",
+      "ntiStatus": "Not Applicable",
       "ntiLink": "",
-      "primaryBenefitsCategory": "Innovation",
-      "primaryAIBenefitCategory": "Smart Contracts",
+      "primaryBenefitsCategory": "Revenue Generation",
+      "primaryAIBenefitCategory": "Knowledge Management",
       "investmentRequired": "USD300,000",
       "expectedNearTermBenefits": "USD25,000",
       "expectedLongTermBenefits": "USD500,000",
@@ -348,13 +360,13 @@
           "isStepActive": false
         }
       ],
-      "ntiStatus": "Under Review",
+      "ntiStatus": "In-Progress",
       "ntiLink": "https://internal.company.com/nti/kappa-2024-draft",
-      "primaryBenefitsCategory": "Risk Mitigation",
-      "primaryAIBenefitCategory": "Anomaly Detection",
+      "primaryBenefitsCategory": "Cost Avoidance",
+      "primaryAIBenefitCategory": "Data Analysis & Summarisation",
       "investmentRequired": "USD250,000",
       "expectedNearTermBenefits": "USD60,000",
       "expectedLongTermBenefits": "USD400,000",
-      "primaryBusinessFunction": "IT"
+      "primaryBusinessFunction": "Operations"
     }
   ]

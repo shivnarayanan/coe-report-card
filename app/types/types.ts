@@ -23,7 +23,7 @@ export interface Project {
   investmentRequired?: string;
   expectedNearTermBenefits?: string;
   expectedLongTermBenefits?: string;
-  primaryBusinessFunction: 'Finance' | 'HR' | 'IT' | 'Operations' | 'Marketing' | 'Sales' | 'Other';
+  primaryBusinessFunction: 'Human Resources' | 'Risk Management' | 'Global Markets' | 'Chief Data Office' | 'Operations' | 'Finance';
 }
 
 // Shared status color map and utility

@@ -125,13 +125,12 @@ export function ProjectFormModal({
     "Process or Workflow Automation",
   ] as const;
   const BUSINESS_FUNCTIONS = [
-    "Finance",
-    "HR",
-    "IT",
+    "Human Resources",
+    "Risk Management", 
+    "Global Markets",
+    "Chief Data Office",
     "Operations",
-    "Marketing",
-    "Sales",
-    "Other",
+    "Finance",
   ] as const;
 
   React.useEffect(() => {

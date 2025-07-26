@@ -10,6 +10,7 @@ import {
   Skeleton,
   Badge,
   SimpleGrid,
+  Center,
 } from "@mantine/core";
 import { BarChart, PieChart, DonutChart } from "@mantine/charts";
 import { 

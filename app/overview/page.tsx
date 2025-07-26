@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import {
-  Container,
   Grid,
   Group,
   Text,
@@ -21,6 +20,7 @@ import { Project, TimelineItem } from "../types/types";
 import { ProjectCard } from "@components/ProjectCard/ProjectCard";
 import { ProjectFormModal } from "@components/ProjectFormModal/ProjectFormModal";
 import { ProjectDetailsModal } from "@components/ProjectDetailsModal/ProjectDetailsModal";
+import { PageBackground } from "@components/PageBackground/PageBackground";
 import { createProject, updateProject, fetchProjects, ProjectPayload } from "../utils/api";
 
 type ModalId = "details" | "form";
@@ -187,7 +187,7 @@ export default function ReportPage() {
   }, [tagFilter, statusFilter, businessFunctionFilter]);
 
   return (
-    <Container size="xl">
+    <PageBackground>
       <Group justify="space-between" mb="xs">
         <Group gap="xs">
           <Select
@@ -293,6 +293,6 @@ export default function ReportPage() {
           onSubmit={handleSubmit as any}
         />
       </Modal.Stack>
-    </Container>
+    </PageBackground>
   );
 }

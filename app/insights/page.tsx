@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import {
-  Container,
   Title,
   Grid,
   Card,
@@ -19,6 +18,7 @@ import {
   IconTarget,
   IconChartBar
 } from "@tabler/icons-react";
+import { PageBackground } from "@components/PageBackground/PageBackground";
 import { fetchAnalyticsOverview, fetchTimelineAnalytics, AnalyticsOverview, TimelineAnalytics } from "../utils/api";
 
 export default function InsightsPage() {
@@ -48,7 +48,7 @@ export default function InsightsPage() {
 
   if (loading) {
     return (
-      <Container size="xl" py="md">
+      <PageBackground>
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="lg" mb="xl">
           {[...Array(4)].map((_, i) => (
             <Skeleton key={i} height={120} radius="md" />
@@ -66,33 +66,33 @@ export default function InsightsPage() {
             <Skeleton height={150} radius="md" />
           </Grid.Col>
         </Grid>
-      </Container>
+      </PageBackground>
     );
   }
 
   if (error) {
     return (
-      <Container size="xl">
+      <PageBackground>
         <Center style={{ height: 400, flexDirection: "column" }}>
           <Title order={2} mb="md" c="red">
             Error Loading Dashboard
           </Title>
           <Text c="dimmed">{error}</Text>
         </Center>
-      </Container>
+      </PageBackground>
     );
   }
 
   if (!analyticsData || !timelineData) {
     return (
-      <Container size="xl">
+      <PageBackground>
         <Center style={{ height: 400, flexDirection: "column" }}>
           <Title order={2} mb="md">
             No Data Available
           </Title>
           <Text c="dimmed">Unable to load analytics data</Text>
         </Center>
-      </Container>
+      </PageBackground>
     );
   }
 
@@ -128,7 +128,7 @@ export default function InsightsPage() {
   }));
 
   return (
-    <Container size="xl" py="md">
+    <PageBackground>
       <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="lg" mb="xl">
         <Card shadow="sm" padding="lg" radius="md" withBorder>
           <Group justify="space-between" mb="xs">
@@ -246,6 +246,6 @@ export default function InsightsPage() {
           </Card>
         </Grid.Col>
       </Grid>
-    </Container>
+    </PageBackground>
   );
 }

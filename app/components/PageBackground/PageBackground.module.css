@@ -1,0 +1,6 @@
+.pageContainer {
+  min-height: 100vh; 
+  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8));
+  padding-top: 20px;
+  padding-bottom: 40px;
+}

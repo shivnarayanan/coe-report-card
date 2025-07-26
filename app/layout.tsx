@@ -10,6 +10,7 @@ import {
 import { Notifications } from '@mantine/notifications';
 import { theme } from "../theme";
 import { Header } from "@components/Header/Header";
+import { ThemeProvider } from "./providers/ThemeProvider";
 
 export const metadata = {
   title: "CHINOU",
@@ -27,11 +28,13 @@ export default function RootLayout({ children }: { children: any }) {
           content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
         />
       </head>
-      <body style={{ backgroundColor: '#f8f9fa' }}>
+      <body>
         <MantineProvider theme={theme}>
-          <Notifications position="top-right" zIndex={10000} />
-          <Header />
-          {children}
+          <ThemeProvider>
+            <Notifications position="top-right" zIndex={10000} />
+            <Header />
+            {children}
+          </ThemeProvider>
         </MantineProvider>
       </body>
     </html>

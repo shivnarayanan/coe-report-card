@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Container, Group } from "@mantine/core";
+import { ThemeToggle } from "../ThemeToggle/ThemeToggle";
 import classes from "./Header.module.css";
 
 const links = [
@@ -38,6 +39,7 @@ export function Header() {
               {label}
             </Link>
           ))}
+          <ThemeToggle />
         </Group>
       </Container>
     </header>

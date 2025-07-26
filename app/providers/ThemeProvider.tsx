@@ -8,7 +8,7 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const { setColorScheme } = useMantineColorScheme();
+  const { setColorScheme, colorScheme } = useMantineColorScheme();
 
   useEffect(() => {
     // Load saved theme preference from localStorage on mount
@@ -17,6 +17,23 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       setColorScheme(savedScheme);
     }
   }, [setColorScheme]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === 'd') {
+        event.preventDefault();
+        const newScheme = colorScheme === 'dark' ? 'light' : 'dark';
+        setColorScheme(newScheme);
+        localStorage.setItem('mantine-color-scheme', newScheme);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [colorScheme, setColorScheme]);
 
   return <>{children}</>;
 }

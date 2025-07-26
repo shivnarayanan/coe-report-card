@@ -6,7 +6,6 @@ import {
   Tabs,
   rem,
   Badge,
-  Group,
   Pill,
   ActionIcon,
   Tooltip,
@@ -87,9 +86,9 @@ export function ProjectDetailsModal({
         <FocusTrap.InitialFocus />
         <Tabs defaultValue="overview" color="#C42138">
           <Modal.Header
-            bg="#f8f9fa"
             p={`${rem(16)} ${rem(24)} ${rem(12)} ${rem(24)}`}
             style={{
+              backgroundColor: 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8))',
               borderTopLeftRadius: rem(8),
               borderTopRightRadius: rem(8),
               flexDirection: "column",
@@ -170,7 +169,7 @@ export function ProjectDetailsModal({
             </Text>
           </Modal.Header>
 
-          <Box bg="#f8f9fa">
+          <Box style={{ backgroundColor: 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8))' }}>
             <Tabs.List pl={8}>
               <Tabs.Tab value="overview">OVERVIEW</Tabs.Tab>
               <Tabs.Tab value="metrics">METRICS</Tabs.Tab>

@@ -27,7 +27,7 @@ export function ThemeToggle({ size = 'md', variant = 'default' }: ThemeTogglePro
       <ActionIcon
         onClick={toggleColorScheme}
         variant={variant}
-        size={size}
+        size="lg"
         aria-label="Toggle color scheme"
       >
         {computedColorScheme === 'dark' ? (

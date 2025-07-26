@@ -48,3 +48,8 @@
   display: flex;
   align-items: center;
 }
+
+.logo img {
+  filter: light-dark(none, invert(1) brightness(1));
+  transition: filter 0.2s ease;
+}

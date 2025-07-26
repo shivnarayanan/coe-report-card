@@ -61,7 +61,7 @@ const ProjectMetricsPanel: React.FC<ProjectMetricsPanelProps> = ({
         padding="lg"
         radius="md"
         withBorder
-        style={{ backgroundColor: "#f8f9fa" }}
+        style={{ backgroundColor: 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))' }}
       >
         <Group justify="space-between" align="center" mb="md">
           <Text fw={600} size="lg">
@@ -70,7 +70,7 @@ const ProjectMetricsPanel: React.FC<ProjectMetricsPanelProps> = ({
           <ThemeIcon
             size="md"
             radius="xl"
-            style={{ backgroundColor: "#C42138" }}
+            color="NomuraRed"
           >
             <IconCurrencyDollar size={16} />
           </ThemeIcon>
@@ -89,7 +89,7 @@ const ProjectMetricsPanel: React.FC<ProjectMetricsPanelProps> = ({
             <Text size="sm" c="dimmed">
               Expected Benefits (3 Months)
             </Text>
-            <Text fw={600} size="lg" style={{ color: "#28a745" }}>
+            <Text fw={600} size="lg" c="green">
               {formatCurrency(project.expectedNearTermBenefits)}
             </Text>
           </Box>
@@ -97,7 +97,7 @@ const ProjectMetricsPanel: React.FC<ProjectMetricsPanelProps> = ({
             <Text size="sm" c="dimmed">
               Expected Benefits (12 Months)
             </Text>
-            <Text fw={600} size="lg" style={{ color: "#28a745" }}>
+            <Text fw={600} size="lg" c="green">
               {formatCurrency(project.expectedLongTermBenefits)}
             </Text>
           </Box>

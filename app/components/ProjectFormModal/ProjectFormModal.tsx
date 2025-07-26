@@ -330,10 +330,10 @@ export function ProjectFormModal({
             </ActionIcon>
           </Group>
           <Group gap={0}>
-            <Button variant="transparent" color="#495057" onClick={onClose}>
+            <Button variant="transparent" c="dimmed" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit" color="#CA2420" radius="sm">
+            <Button type="submit" color="NomuraRed" radius="sm">
               {project ? "Update" : "Add Project"}
             </Button>
           </Group>

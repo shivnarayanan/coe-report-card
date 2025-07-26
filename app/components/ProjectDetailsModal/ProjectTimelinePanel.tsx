@@ -29,7 +29,7 @@ const ProjectTimelinePanel: React.FC<ProjectTimelinePanelProps> = ({ timeline, a
         <Timeline.Item
           key={item.id}
           bullet={renderBullet(index)}
-          color="#C42138"
+          color="NomuraRed"
           lineVariant="solid"
           style={{ opacity: index > activeIndex ? 0.6 : 1 }}
           title={item.title}

@@ -51,7 +51,7 @@ export function ProjectDetailsModal({
 
     if (isCompleted) {
       return (
-        <ThemeIcon color="#C42138" variant="filled" size={24} radius="xl">
+        <ThemeIcon color="NomuraRed" variant="filled" size={24} radius="xl">
           <IconCheck size={16} />
         </ThemeIcon>
       );
@@ -59,14 +59,14 @@ export function ProjectDetailsModal({
 
     if (isActive) {
       return (
-        <ThemeIcon color="#C42138" variant="filled" size={24} radius="xl">
+        <ThemeIcon color="NomuraRed" variant="filled" size={24} radius="xl">
           <IconClock size={16} />
         </ThemeIcon>
       );
     }
 
     return (
-      <ThemeIcon color="#C42138" variant="subtle" size={24} radius="xl">
+      <ThemeIcon color="NomuraRed" variant="subtle" size={24} radius="xl">
         <IconCircle size={16} />
       </ThemeIcon>
     );
@@ -84,7 +84,7 @@ export function ProjectDetailsModal({
       <Modal.Overlay />
       <Modal.Content style={{ overflow: "hidden" }}>
         <FocusTrap.InitialFocus />
-        <Tabs defaultValue="overview" color="#C42138">
+        <Tabs defaultValue="overview" color="NomuraRed">
           <Modal.Header
             p={`${rem(16)} ${rem(24)} ${rem(12)} ${rem(24)}`}
             style={{
@@ -131,7 +131,7 @@ export function ProjectDetailsModal({
                     <ActionIcon
                       variant="subtle"
                       aria-label="Edit Project"
-                      color="#adb5bd"
+                      c="dimmed"
                       onClick={(e) => {
                         e.stopPropagation();
                         onEdit(project);
@@ -156,7 +156,7 @@ export function ProjectDetailsModal({
                     c="dimmed"
                     size="lg"
                     fw={400}
-                    bg="#e9ecef"
+                    style={{ backgroundColor: 'light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-5))' }}
                   >
                     {tag}
                   </Pill>

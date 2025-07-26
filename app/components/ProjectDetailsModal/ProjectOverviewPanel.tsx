@@ -10,7 +10,7 @@ const ProjectOverviewPanel: React.FC<ProjectOverviewPanelProps> = ({
   project,
 }) => (
   <>
-    <Text fw={700} size="md" style={{ color: "#C42138" }} mb="xs">
+    <Text fw={700} size="md" c="NomuraRed" mb="xs">
       WHY WAS THIS BUILT
     </Text>
     {project.whyWeBuiltThis ? (
@@ -21,7 +21,7 @@ const ProjectOverviewPanel: React.FC<ProjectOverviewPanelProps> = ({
       </Text>
     )}
 
-    <Text fw={700} size="md" style={{ color: "#C42138" }} mb="xs">
+    <Text fw={700} size="md" c="NomuraRed" mb="xs">
       WHAT HAS BEEN BUILT
     </Text>
     {project.whatWeveBuilt ? (
@@ -32,7 +32,7 @@ const ProjectOverviewPanel: React.FC<ProjectOverviewPanelProps> = ({
       </Text>
     )}
 
-    <Text fw={700} size="md" style={{ color: "#C42138" }} mb="xs" mt="lg">
+    <Text fw={700} size="md" c="NomuraRed" mb="xs" mt="lg">
       ADDITIONAL INFORMATION
     </Text>
     <Table variant="vertical" layout="fixed" withTableBorder mt="md">

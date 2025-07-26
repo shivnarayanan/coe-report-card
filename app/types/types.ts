@@ -40,7 +40,7 @@ export function getProjectStatusColor(status: Project["status"]): string {
 
 // NTI Status color map and utility
 export const NTI_STATUS_COLOR_MAP: Record<NonNullable<Project["ntiStatus"]>, string> = {
-  "Not Applicable": "gray",
+  "Not Applicable": "light-dark(var(--mantine-color-gray-5), var(--mantine-color-dark-2))",
   "In-Progress": "yellow",
   "Completed": "green",
 };

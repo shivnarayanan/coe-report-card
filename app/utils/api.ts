@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = "http://localhost:8001";
 
 export interface ProjectPayload {
   id: string;
@@ -62,6 +62,49 @@ export async function fetchProjects() {
   
   if (!response.ok) {
     throw new Error(`Failed to fetch projects: ${response.statusText}`);
+  }
+
+  return response.json();
+}
+
+export interface AnalyticsOverview {
+  totalProjects: number;
+  activeMilestones: number;
+  projectsByStatus: Array<{ status: string; count: number }>;
+  projectsByFunction: Array<{ function: string; count: number }>;
+  projectsByBenefits: Array<{ category: string; count: number }>;
+  projectsByAIBenefits: Array<{ category: string; count: number }>;
+  topTags: Array<{ tag: string; count: number }>;
+}
+
+export interface TimelineAnalytics {
+  projectProgress: Array<{
+    projectId: string;
+    projectTitle: string;
+    status: string;
+    totalMilestones: number;
+    activeMilestones: number;
+    completedMilestones: number;
+    progressPercentage: number;
+  }>;
+  totalTimelineItems: number;
+}
+
+export async function fetchAnalyticsOverview(): Promise<AnalyticsOverview> {
+  const response = await fetch(`${API_BASE_URL}/analytics/overview`);
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch analytics overview: ${response.statusText}`);
+  }
+
+  return response.json();
+}
+
+export async function fetchTimelineAnalytics(): Promise<TimelineAnalytics> {
+  const response = await fetch(`${API_BASE_URL}/analytics/timeline`);
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch timeline analytics: ${response.statusText}`);
   }
 
   return response.json();

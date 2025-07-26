@@ -1,7 +1,8 @@
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from typing import List
+from sqlalchemy import func
+from typing import List, Dict, Any
 import models
 from database import SessionLocal, engine
 from schemas import ProjectSchema, ProjectCreateSchema, TimelineItemSchema, ProjectTagSchema, ProjectIndividualSchema
@@ -176,4 +177,95 @@ def update_project(project_id: str, project: ProjectCreateSchema, db: Session = 
     
     db.commit()
     db.refresh(db_project)
-    return db_project 
+    return db_project
+
+@app.get("/analytics/overview")
+def get_analytics_overview(db: Session = Depends(get_db)) -> Dict[str, Any]:
+    """Get dashboard overview metrics"""
+    
+    # Total projects count
+    total_projects = db.query(models.Project).count()
+    
+    # Projects by status
+    projects_by_status = db.query(
+        models.Project.status, 
+        func.count(models.Project.id).label('count')
+    ).group_by(models.Project.status).all()
+    
+    # Projects by business function
+    projects_by_function = db.query(
+        models.Project.primary_business_function, 
+        func.count(models.Project.id).label('count')
+    ).filter(models.Project.primary_business_function.isnot(None)).group_by(
+        models.Project.primary_business_function
+    ).all()
+    
+    # Projects by benefits category
+    projects_by_benefits = db.query(
+        models.Project.primary_benefits_category, 
+        func.count(models.Project.id).label('count')
+    ).filter(models.Project.primary_benefits_category.isnot(None)).group_by(
+        models.Project.primary_benefits_category
+    ).all()
+    
+    # Projects by AI benefit category
+    projects_by_ai_benefits = db.query(
+        models.Project.primary_ai_benefit_category, 
+        func.count(models.Project.id).label('count')
+    ).filter(models.Project.primary_ai_benefit_category.isnot(None)).group_by(
+        models.Project.primary_ai_benefit_category
+    ).all()
+    
+    # Count active timeline items
+    active_milestones = db.query(models.TimelineItem).filter(
+        models.TimelineItem.is_step_active == True
+    ).count()
+    
+    # Most used tags
+    top_tags = db.query(
+        models.ProjectTag.tag, 
+        func.count(models.ProjectTag.tag).label('count')
+    ).group_by(models.ProjectTag.tag).order_by(
+        func.count(models.ProjectTag.tag).desc()
+    ).limit(10).all()
+    
+    return {
+        "totalProjects": total_projects,
+        "activeMilestones": active_milestones,
+        "projectsByStatus": [{"status": row.status, "count": row.count} for row in projects_by_status],
+        "projectsByFunction": [{"function": row.primary_business_function, "count": row.count} for row in projects_by_function],
+        "projectsByBenefits": [{"category": row.primary_benefits_category, "count": row.count} for row in projects_by_benefits],
+        "projectsByAIBenefits": [{"category": row.primary_ai_benefit_category, "count": row.count} for row in projects_by_ai_benefits],
+        "topTags": [{"tag": row.tag, "count": row.count} for row in top_tags]
+    }
+
+@app.get("/analytics/timeline")
+def get_timeline_analytics(db: Session = Depends(get_db)) -> Dict[str, Any]:
+    """Get timeline and progress analytics"""
+    
+    # Timeline items grouped by month (assuming date field exists)
+    timeline_items = db.query(models.TimelineItem).all()
+    
+    # Group timeline items by project and status
+    project_progress = []
+    projects = db.query(models.Project).all()
+    
+    for project in projects:
+        total_items = len(project.timeline)
+        active_items = sum(1 for item in project.timeline if item.is_step_active)
+        completed_items = total_items - active_items
+        
+        project_progress.append({
+            "projectId": project.id,
+            "projectTitle": project.title,
+            "status": project.status,
+            "totalMilestones": total_items,
+            "activeMilestones": active_items,
+            "completedMilestones": completed_items,
+            "progressPercentage": (completed_items / total_items * 100) if total_items > 0 else 0
+        })
+    
+    return {
+        "projectProgress": project_progress,
+        "totalTimelineItems": len(timeline_items)
+    }

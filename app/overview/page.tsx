@@ -17,12 +17,11 @@ import {
 } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
-import { Project } from "../types/types";
+import { Project, TimelineItem } from "../types/types";
 import { ProjectCard } from "@components/ProjectCard/ProjectCard";
 import { ProjectFormModal } from "@components/ProjectFormModal/ProjectFormModal";
 import { ProjectDetailsModal } from "@components/ProjectDetailsModal/ProjectDetailsModal";
 import { createProject, updateProject, fetchProjects, ProjectPayload } from "../utils/api";
-import { TimelineItem } from "../types/types";
 
 type ModalId = "details" | "form";
 

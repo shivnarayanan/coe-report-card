@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
-import { Project, TimelineItem } from "../types/types";
+import { Project, TimelineItem } from "../../types/types";
 import { ProjectFormP1 } from "./ProjectFormP1";
 import { ProjectFormP2 } from "./ProjectFormP2";
 import { ProjectFormP3 } from "./ProjectFormP3";
@@ -215,7 +215,7 @@ export function ProjectFormModal({
       expectedLongTermBenefits: values.expectedLongTermBenefits
         ? `$${values.expectedLongTermBenefits.toLocaleString()}`
         : "",
-      primaryBusinessFunction: values.primaryBusinessFunction,
+      primaryBusinessFunction: values.primaryBusinessFunction || "Other",
     });
     onClose();
   };

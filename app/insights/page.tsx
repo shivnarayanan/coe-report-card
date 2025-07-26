@@ -8,8 +8,7 @@ import {
   Card,
   Text,
   Group,
-  Loader,
-  Center,
+  Skeleton,
   Badge,
   SimpleGrid,
 } from "@mantine/core";
@@ -49,10 +48,24 @@ export default function InsightsPage() {
 
   if (loading) {
     return (
-      <Container size="xl">
-        <Center style={{ height: 400 }}>
-          <Loader size="lg" />
-        </Center>
+      <Container size="xl" py="md">
+        <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="lg" mb="xl">
+          {[...Array(4)].map((_, i) => (
+            <Skeleton key={i} height={120} radius="md" />
+          ))}
+        </SimpleGrid>
+
+        <Grid>
+          {[...Array(4)].map((_, i) => (
+            <Grid.Col key={i} span={{ base: 12, lg: 6 }}>
+              <Skeleton height={400} radius="md" />
+            </Grid.Col>
+          ))}
+          
+          <Grid.Col span={12}>
+            <Skeleton height={150} radius="md" />
+          </Grid.Col>
+        </Grid>
       </Container>
     );
   }

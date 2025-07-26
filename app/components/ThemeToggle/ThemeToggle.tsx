@@ -39,7 +39,7 @@ export function ThemeToggle({ size = 'md', variant = 'default' }: ThemeTogglePro
 
   return (
     <Tooltip 
-      label={computedColorScheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+      label={computedColorScheme === 'dark' ? 'Light Mode' : 'Dark Mode'}
       position="bottom"
     >
       <ActionIcon

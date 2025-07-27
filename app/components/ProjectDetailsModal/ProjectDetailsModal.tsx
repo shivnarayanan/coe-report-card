@@ -88,7 +88,8 @@ export function ProjectDetailsModal({
           <Modal.Header
             p={`${rem(16)} ${rem(24)} ${rem(12)} ${rem(24)}`}
             style={{
-              backgroundColor: 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8))',
+              backgroundColor:
+                "light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8))",
               borderTopLeftRadius: rem(8),
               borderTopRightRadius: rem(8),
               flexDirection: "column",
@@ -113,12 +114,7 @@ export function ProjectDetailsModal({
                   gap: rem(8),
                 }}
               >
-                <Text
-                  fw={700}
-                  fz={rem(20)}
-                  lh={1.2}
-                  style={{ flexShrink: 0 }}
-                >
+                <Text fw={700} fz={rem(20)} lh={1.2} style={{ flexShrink: 0 }}>
                   {project.title}
                 </Text>
                 {onEdit && (
@@ -129,7 +125,7 @@ export function ProjectDetailsModal({
                     zIndex={1050}
                   >
                     <ActionIcon
-                      variant="subtle"
+                      variant="transparent"
                       aria-label="Edit Project"
                       c="dimmed"
                       onClick={(e) => {
@@ -156,7 +152,10 @@ export function ProjectDetailsModal({
                     c="dimmed"
                     size="lg"
                     fw={400}
-                    style={{ backgroundColor: 'light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-5))' }}
+                    style={{
+                      backgroundColor:
+                        "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-5))",
+                    }}
                   >
                     {tag}
                   </Pill>
@@ -169,7 +168,12 @@ export function ProjectDetailsModal({
             </Text>
           </Modal.Header>
 
-          <Box style={{ backgroundColor: 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8))' }}>
+          <Box
+            style={{
+              backgroundColor:
+                "light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8))",
+            }}
+          >
             <Tabs.List pl={8}>
               <Tabs.Tab value="overview">OVERVIEW</Tabs.Tab>
               <Tabs.Tab value="metrics">METRICS</Tabs.Tab>

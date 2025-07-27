@@ -155,6 +155,8 @@ export function ProjectDetailsModal({
                     style={{
                       backgroundColor:
                         "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-5))",
+                      minWidth: "fit-content",
+                      whiteSpace: "nowrap",
                     }}
                   >
                     {tag}

@@ -35,6 +35,7 @@ export default function ReportPage() {
     string | null
   >(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [focusedFilter, setFocusedFilter] = useState<string | null>(null);
   const itemsPerPage = 6;
 
   const modalIds: ModalId[] = ["details", "form"];
@@ -78,10 +79,10 @@ export default function ReportPage() {
     { value: "Other", label: "Other" },
   ];
 
-  const getDynamicWidth = (value: string | null, defaultWidth: number) => {
-    if (!value) return `${defaultWidth}px`;
+  const getDynamicWidth = (value: string | null, defaultWidth: number, filterKey: string) => {
+    if (!value || focusedFilter === filterKey) return `${defaultWidth}px`;
 
-    const estimatedWidth = Math.max(75, value.length * 9 + 40);
+    const estimatedWidth = Math.max(75, value.length * 9 + 50);
     return `${estimatedWidth}px`;
   };
 
@@ -191,28 +192,34 @@ export default function ReportPage() {
       <Group justify="space-between" mb="xs">
         <Group gap="xs">
           <Select
-            placeholder="Filter by Business Function"
+            placeholder="Business Function Filter"
             data={businessFunctionOptions}
             value={businessFunctionFilter}
             onChange={setBusinessFunctionFilter}
             clearable
-            style={{ width: getDynamicWidth(businessFunctionFilter, 240) }}
+            style={{ width: getDynamicWidth(businessFunctionFilter, 240, 'businessFunction') }}
+            onClick={() => setFocusedFilter('businessFunction')}
+            onBlur={() => setFocusedFilter(null)}
           />
           <Select
-            placeholder="Filter by Tag"
+            placeholder="Tag Filter"
             data={allTags}
             value={tagFilter}
             onChange={setTagFilter}
             clearable
-            style={{ width: getDynamicWidth(tagFilter, 200) }}
+            style={{ width: getDynamicWidth(tagFilter, 200, 'tag') }}
+            onClick={() => setFocusedFilter('tag')}
+            onBlur={() => setFocusedFilter(null)}
           />
           <Select
-            placeholder="Filter by Status"
+            placeholder="Status Filter"
             data={statusOptions}
             value={statusFilter}
             onChange={setStatusFilter}
             clearable
-            style={{ width: getDynamicWidth(statusFilter, 200) }}
+            style={{ width: getDynamicWidth(statusFilter, 200, 'status') }}
+            onClick={() => setFocusedFilter('status')}
+            onBlur={() => setFocusedFilter(null)}
           />
         </Group>
         <Tooltip label="New Project" withArrow position="left">

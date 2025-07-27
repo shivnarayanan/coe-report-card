@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "CHINOU | Project Overview",
+  title: "CHINOU | All Use Cases",
   description: "",
 };
 

@@ -8,8 +8,8 @@ import { ThemeToggle } from "../ThemeToggle/ThemeToggle";
 import classes from "./Header.module.css";
 
 const links = [
-  { link: "/overview", label: "Project Overview" },
-  { link: "/insights", label: "Project Insights" },
+  { link: "/overview", label: "All Use Cases" },
+  { link: "/insights", label: "Key Insights" },
 ];
 
 export function Header() {

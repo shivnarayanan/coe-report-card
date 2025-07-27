@@ -5,11 +5,10 @@ import { ActionIcon, useMantineColorScheme, useComputedColorScheme, Tooltip } fr
 import { IconSun, IconMoon } from '@tabler/icons-react';
 
 interface ThemeToggleProps {
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   variant?: 'subtle' | 'filled' | 'outline' | 'light' | 'default' | 'transparent' | 'gradient';
 }
 
-export function ThemeToggle({ size = 'md', variant = 'default' }: ThemeToggleProps) {
+export function ThemeToggle({ variant = 'default' }: ThemeToggleProps) {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
   const [mounted, setMounted] = useState(false);

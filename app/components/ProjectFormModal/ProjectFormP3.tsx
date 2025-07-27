@@ -18,7 +18,7 @@ export function ProjectFormP3({ form, addTimelineItem, removeTimelineItem, updat
   return (
     <Stack gap="md">
       {form.values.timeline.map((item: TimelineItem, index: number) => (
-        <Card key={item.id} withBorder p="md">
+        <Card key={item.id || `timeline-${index}`} withBorder p="md">
           <Stack gap="sm">
             <Group justify="space-between" align="flex-start">
               <Group>

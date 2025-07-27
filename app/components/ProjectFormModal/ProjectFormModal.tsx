@@ -145,7 +145,10 @@ export function ProjectFormModal({
         whyWeBuiltThis: project.whyWeBuiltThis || "",
         whatWeveBuilt: project.whatWeveBuilt || "",
         individualsInvolved: project.individualsInvolved || [],
-        timeline: project.timeline || [],
+        timeline: (project.timeline || []).map(item => ({
+          ...item,
+          id: item.id || Date.now().toString() + Math.random().toString(36).slice(2)
+        })),
         ntiStatus:
           getOrDefaultOrUndefined(project.ntiStatus, NTI_STATUS),
         ntiLink: project.ntiLink || "",

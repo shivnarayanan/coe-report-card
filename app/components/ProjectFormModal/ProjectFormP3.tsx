@@ -82,12 +82,24 @@ export function ProjectFormP3({ form, addTimelineItem, removeTimelineItem, updat
                 label="Date"
                 placeholder="Select date"
                 variant="filled"
-                value={item.date ? new Date(item.date) : null}
-                onChange={(dateString: string | null) => {
-                  updateTimelineItem(index, "date", dateString || "");
+                value={item.date && item.date !== "" ? new Date(item.date) : null}
+                onChange={(date) => {
+                  if (date && typeof date === 'object' && 'toISOString' in date) {
+                    const dateString = (date as Date).toISOString().split('T')[0];
+                    updateTimelineItem(index, "date", dateString);
+                  } else if (typeof date === 'string') {
+                    updateTimelineItem(index, "date", date);
+                  } else {
+                    updateTimelineItem(index, "date", "");
+                  }
                 }}
                 clearable
-                popoverProps={{ withinPortal: true }}
+                popoverProps={{ 
+                  withinPortal: true, 
+                  zIndex: 1300,
+                  position: "bottom-start",
+                  offset: 5
+                }}
                 allowDeselect
               />
             </SimpleGrid>

@@ -288,11 +288,10 @@ export function ProjectFormModal({
         </Text>
       }
       withCloseButton
-      style={{ overflow: "hidden" }}
     >
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Box style={{ height: "70vh", overflowY: "auto" }}>
-          <ScrollArea type="auto" offsetScrollbars>
+        <Box style={{ height: "70vh", overflowY: "auto", overflowX: "visible" }}>
+          <ScrollArea type="auto" offsetScrollbars scrollbarSize={8}>
             {page === 1 && <ProjectFormP1 form={form} />}
             {page === 2 && (
               <ProjectFormP2

@@ -19,6 +19,7 @@ interface ProjectFormModalProps {
   opened: boolean;
   onClose: () => void;
   project?: Project | null;
+  initialPage?: number;
   onSubmit: (
     values: Pick<
       Project,
@@ -46,6 +47,7 @@ export function ProjectFormModal({
   opened,
   onClose,
   project,
+  initialPage = 1,
   onSubmit,
 }: ProjectFormModalProps) {
   const emptyTimelineItem = (): TimelineItem => ({
@@ -56,7 +58,7 @@ export function ProjectFormModal({
     isStepActive: false,
   });
 
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = React.useState(initialPage);
   const form = useForm<{
     title: string;
     description: string;
@@ -135,7 +137,7 @@ export function ProjectFormModal({
 
   React.useEffect(() => {
     if (!opened) return;
-    setPage(1);
+    setPage(initialPage);
     if (project) {
       form.setValues({
         title: project.title,
@@ -193,7 +195,7 @@ export function ProjectFormModal({
         primaryBusinessFunction: undefined,
       });
     }
-  }, [opened, project]);
+  }, [opened, project, initialPage]);
 
   const handleSubmit = (values: typeof form.values) => {
     onSubmit({

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import {
   Modal,
   Box,
@@ -27,7 +27,7 @@ interface ProjectDetailsModalProps {
   opened: boolean;
   onClose: () => void;
   project: Project | null;
-  onEdit?: (project: Project) => void;
+  onEdit?: (project: Project, activeTab?: string) => void;
 }
 
 export function ProjectDetailsModal({
@@ -36,6 +36,15 @@ export function ProjectDetailsModal({
   project,
   onEdit,
 }: ProjectDetailsModalProps) {
+  const [activeTab, setActiveTab] = useState<string>("overview");
+  
+  // Reset tab to overview when modal is closed and reopened
+  useEffect(() => {
+    if (opened) {
+      setActiveTab("overview");
+    }
+  }, [opened]);
+  
   if (!project) return null;
 
   // Find the active step via isStepActive flag; fallback to last item
@@ -84,7 +93,7 @@ export function ProjectDetailsModal({
       <Modal.Overlay />
       <Modal.Content style={{ overflow: "hidden" }}>
         <FocusTrap.InitialFocus />
-        <Tabs defaultValue="overview" color="NomuraRed">
+        <Tabs value={activeTab} onChange={(value) => setActiveTab(value || "overview")} color="NomuraRed">
           <Modal.Header
             p={`${rem(16)} ${rem(24)} ${rem(12)} ${rem(24)}`}
             style={{
@@ -130,7 +139,7 @@ export function ProjectDetailsModal({
                       c="dimmed"
                       onClick={(e) => {
                         e.stopPropagation();
-                        onEdit(project);
+                        onEdit(project, activeTab);
                       }}
                       size="md"
                       style={{ flexShrink: 0 }}

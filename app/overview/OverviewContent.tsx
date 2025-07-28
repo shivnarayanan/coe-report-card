@@ -37,6 +37,7 @@ export default function OverviewContent() {
   >(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [focusedFilter, setFocusedFilter] = useState<string | null>(null);
+  const [initialFormPage, setInitialFormPage] = useState(1);
   const itemsPerPage = 6;
 
   const searchParams = useSearchParams();
@@ -128,6 +129,20 @@ export default function OverviewContent() {
 
     const estimatedWidth = Math.max(75, value.length * 9 + 50);
     return `${estimatedWidth}px`;
+  };
+
+  // Map tabs to form pages
+  const getFormPageFromTab = (activeTab: string): number => {
+    switch (activeTab) {
+      case "overview":
+        return 1;
+      case "metrics":
+        return 2;
+      case "timeline":
+        return 3;
+      default:
+        return 1;
+    }
   };
 
   const transformToApiPayload = (values: Partial<Project>): ProjectPayload => {
@@ -276,6 +291,7 @@ export default function OverviewContent() {
             size="lg"
             onClick={() => {
               setCurrentProject(null);
+              setInitialFormPage(1); // New project always starts at page 1
               stack.open("form");
             }}
           >
@@ -307,6 +323,7 @@ export default function OverviewContent() {
                   project={proj}
                   onEdit={(p) => {
                     setCurrentProject(p);
+                    setInitialFormPage(1); // ProjectCard edit always starts at page 1
                     stack.open("form");
                   }}
                   onView={(p) => {
@@ -335,8 +352,9 @@ export default function OverviewContent() {
           opened={detailModal.opened}
           onClose={() => updateURL(null)}
           project={currentProject}
-          onEdit={(p) => {
+          onEdit={(p, activeTab = "overview") => {
             setCurrentProject(p);
+            setInitialFormPage(getFormPageFromTab(activeTab));
             stack.open("form");
           }}
         />
@@ -345,6 +363,7 @@ export default function OverviewContent() {
           {...formModal}
           project={currentProject}
           onSubmit={handleSubmit as any}
+          initialPage={initialFormPage}
         />
       </Modal.Stack>
     </PageBackground>

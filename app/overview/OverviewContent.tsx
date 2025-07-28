@@ -166,9 +166,13 @@ export default function OverviewContent() {
         await updateProject(currentProject.id, payload);
         
         // Update local state
+        const updatedProject = { ...currentProject, ...values } as Project;
         setProjects((prev) =>
-          prev.map((p) => (p.id === currentProject.id ? { ...p, ...values } : p))
+          prev.map((p) => (p.id === currentProject.id ? updatedProject : p))
         );
+        
+        // Update current project with new data
+        setCurrentProject(updatedProject);
         
         showNotification({ 
           title: "Project Updated Succesfully",

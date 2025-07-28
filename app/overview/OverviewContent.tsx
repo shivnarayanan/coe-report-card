@@ -136,7 +136,7 @@ export default function OverviewContent() {
     switch (activeTab) {
       case "overview":
         return 1;
-      case "metrics":
+      case "benefits":
         return 2;
       case "timeline":
         return 3;

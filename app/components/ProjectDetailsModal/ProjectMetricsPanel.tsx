@@ -65,7 +65,7 @@ const ProjectMetricsPanel: React.FC<ProjectMetricsPanelProps> = ({
       >
         <Group justify="space-between" align="center" mb="md">
           <Text fw={600} size="lg">
-            Financial Metrics
+            Financial Benefits
           </Text>
           <ThemeIcon
             size="md"

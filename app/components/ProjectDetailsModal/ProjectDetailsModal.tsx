@@ -187,7 +187,7 @@ export function ProjectDetailsModal({
           >
             <Tabs.List pl={8}>
               <Tabs.Tab value="overview">OVERVIEW</Tabs.Tab>
-              <Tabs.Tab value="metrics">METRICS</Tabs.Tab>
+              <Tabs.Tab value="benefits">BENEFITS</Tabs.Tab>
               <Tabs.Tab value="timeline">TIMELINE</Tabs.Tab>
             </Tabs.List>
           </Box>
@@ -197,7 +197,7 @@ export function ProjectDetailsModal({
               <ProjectOverviewPanel project={project} />
             </Tabs.Panel>
 
-            <Tabs.Panel value="metrics">
+            <Tabs.Panel value="benefits">
               <ProjectMetricsPanel project={project} />
             </Tabs.Panel>
 

@@ -284,6 +284,7 @@ export function ProjectFormModal({
       size="xl"
       zIndex={1100}
       centered
+      trapFocus={false}
       title={
         <Text fw={700} size="lg">
           {project ? "Edit Project" : "Add New Project"}

@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 from typing import List, Dict, Any
 import models
+import uvicorn
 from database import SessionLocal, engine
 from schemas import ProjectSchema, ProjectCreateSchema, TimelineItemSchema, ProjectTagSchema, ProjectIndividualSchema
 
@@ -269,3 +270,13 @@ def get_timeline_analytics(db: Session = Depends(get_db)) -> Dict[str, Any]:
         "projectProgress": project_progress,
         "totalTimelineItems": len(timeline_items)
     }
+    
+if __name__ == '__main__':
+ 
+    uvicorn.run(
+        "app:app",
+        host="127.0.0.1",
+        port=8000,
+        reload=True,
+        log_level="info"
+    )

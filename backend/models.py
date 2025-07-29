@@ -1,5 +1,6 @@
 import uuid
-from sqlalchemy import Column, String, Integer, Boolean, ForeignKey, Text
+from datetime import datetime
+from sqlalchemy import Column, String, Integer, Boolean, ForeignKey, Text, DateTime
 from sqlalchemy.orm import relationship, declarative_base
 
 Base = declarative_base()
@@ -10,7 +11,16 @@ def gen_uuid() -> str:
     return str(uuid.uuid4())
 
 
-class Project(Base):
+class AuditMixin:
+    """Mixin class to add audit columns to models"""
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+    created_by = Column(String(100), nullable=True)  # Username or user ID
+    updated_by = Column(String(100), nullable=True)  # Username or user ID
+    is_active = Column(Boolean, default=True, nullable=False)
+
+
+class Project(Base, AuditMixin):
     __tablename__ = "projects"
 
     # use a 36-char UUID rather than VARCHAR(max)
@@ -43,7 +53,7 @@ class Project(Base):
     )
 
 
-class TimelineItem(Base):
+class TimelineItem(Base, AuditMixin):
     __tablename__ = "timeline_items"
 
     # simple int PK so no VARCHAR(max) problems
@@ -57,7 +67,7 @@ class TimelineItem(Base):
     project = relationship("Project", back_populates="timeline")
 
 
-class ProjectTag(Base):
+class ProjectTag(Base, AuditMixin):
     __tablename__ = "project_tags"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -67,7 +77,7 @@ class ProjectTag(Base):
     project = relationship("Project", back_populates="tags")
 
 
-class ProjectIndividual(Base):
+class ProjectIndividual(Base, AuditMixin):
     __tablename__ = "project_individuals"
 
     id = Column(Integer, primary_key=True, autoincrement=True)

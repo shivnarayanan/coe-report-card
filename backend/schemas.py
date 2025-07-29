@@ -1,7 +1,15 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
+from datetime import datetime
 
-class TimelineItemSchema(BaseModel):
+class AuditFieldsMixin(BaseModel):
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+    created_by: Optional[str] = None
+    updated_by: Optional[str] = None
+    is_active: Optional[bool] = True
+
+class TimelineItemSchema(AuditFieldsMixin):
     title: str
     description: str
     date: str
@@ -9,17 +17,17 @@ class TimelineItemSchema(BaseModel):
     class Config:
         from_attributes = True
 
-class ProjectTagSchema(BaseModel):
+class ProjectTagSchema(AuditFieldsMixin):
     tag: str
     class Config:
         from_attributes = True
 
-class ProjectIndividualSchema(BaseModel):
+class ProjectIndividualSchema(AuditFieldsMixin):
     name: str
     class Config:
         from_attributes = True
 
-class ProjectSchema(BaseModel):
+class ProjectSchema(AuditFieldsMixin):
     id: str
     title: str
     description: str

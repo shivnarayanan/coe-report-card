@@ -353,7 +353,13 @@ export default function OverviewContent() {
       <Modal.Stack>
         <ProjectDetailsModal
           opened={detailModal.opened}
-          onClose={() => updateURL(null)}
+          onClose={() => {
+            stack.close("details");
+            // Delay URL update to allow modal transition to complete
+            setTimeout(() => {
+              updateURL(null);
+            }, 200);
+          }}
           project={currentProject}
           onEdit={(p, activeTab = "overview") => {
             setCurrentProject(p);

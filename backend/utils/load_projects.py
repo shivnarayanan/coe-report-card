@@ -1,15 +1,29 @@
 import json
+import sys
+import os
 from pathlib import Path
-from database import SessionLocal
-from models import Project, TimelineItem, ProjectTag, ProjectIndividual
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-data_path = Path(__file__).parent.parent / "public" / "data" / "mockProjects.json"
+from database import SessionLocal, engine
+from models import Project, TimelineItem, ProjectTag, ProjectIndividual, Base
+from utils.schema_manager import ensure_schema_exists
+
+data_path = Path(__file__).parent.parent.parent / "public" / "data" / "mockProjects.json"
 with open(data_path) as f:
     mock_projects = json.load(f)
 
-# Converted mockProjects data from JSON to Python
+# Schema name (should match the one used in models)
+SCHEMA_NAME = "registry"
 
 def load_projects():
+    # Ensure schema exists and create tables if needed
+    if not ensure_schema_exists(engine, SCHEMA_NAME):
+        print(f"Failed to ensure schema '{SCHEMA_NAME}' exists")
+        return
+    
+    # Create tables in the schema
+    Base.metadata.create_all(bind=engine)
+    
     db = SessionLocal()
     try:
         for proj in mock_projects:

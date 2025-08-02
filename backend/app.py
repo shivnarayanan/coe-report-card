@@ -7,9 +7,15 @@ import models
 import uvicorn
 from database import SessionLocal, engine
 from schemas import ProjectSchema, ProjectCreateSchema, TimelineItemSchema, ProjectTagSchema, ProjectIndividualSchema
-from audit_utils import auto_populate_audit_fields, get_active_only_filter, soft_delete
+from utils.audit_utils import auto_populate_audit_fields, get_active_only_filter, soft_delete
+from utils.schema_manager import ensure_schema_exists
 
-models.Base.metadata.create_all(bind=engine)
+# Ensure the registry schema exists before creating tables
+SCHEMA_NAME = "registry"
+if ensure_schema_exists(engine, SCHEMA_NAME):
+    models.Base.metadata.create_all(bind=engine)
+else:
+    raise RuntimeError(f"Failed to ensure schema '{SCHEMA_NAME}' exists")
 
 app = FastAPI()
 
@@ -335,7 +341,7 @@ if __name__ == '__main__':
     uvicorn.run(
         "app:app",
         host="127.0.0.1",
-        port=8002,
+        port=8001,
         reload=True,
         log_level="info"
     )

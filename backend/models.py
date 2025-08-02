@@ -22,6 +22,7 @@ class AuditMixin:
 
 class Project(Base, AuditMixin):
     __tablename__ = "projects"
+    __table_args__ = {"schema": "registry"}
 
     # use a 36-char UUID rather than VARCHAR(max)
     id = Column(String(GUID_LENGTH), primary_key=True, default=gen_uuid)
@@ -55,10 +56,11 @@ class Project(Base, AuditMixin):
 
 class TimelineItem(Base, AuditMixin):
     __tablename__ = "timeline_items"
+    __table_args__ = {"schema": "registry"}
 
     # simple int PK so no VARCHAR(max) problems
     id = Column(Integer, primary_key=True, autoincrement=True)
-    project_id = Column(String(GUID_LENGTH), ForeignKey("projects.id"), nullable=False)
+    project_id = Column(String(GUID_LENGTH), ForeignKey("registry.projects.id"), nullable=False)
     title = Column(String(255), nullable=False)
     description = Column(Text, nullable=False)
     date = Column(String(50), nullable=False)
@@ -69,9 +71,10 @@ class TimelineItem(Base, AuditMixin):
 
 class ProjectTag(Base, AuditMixin):
     __tablename__ = "project_tags"
+    __table_args__ = {"schema": "registry"}
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    project_id = Column(String(GUID_LENGTH), ForeignKey("projects.id"), nullable=False)
+    project_id = Column(String(GUID_LENGTH), ForeignKey("registry.projects.id"), nullable=False)
     tag = Column(String(50), nullable=False)
 
     project = relationship("Project", back_populates="tags")
@@ -79,9 +82,10 @@ class ProjectTag(Base, AuditMixin):
 
 class ProjectIndividual(Base, AuditMixin):
     __tablename__ = "project_individuals"
+    __table_args__ = {"schema": "registry"}
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    project_id = Column(String(GUID_LENGTH), ForeignKey("projects.id"), nullable=False)
+    project_id = Column(String(GUID_LENGTH), ForeignKey("registry.projects.id"), nullable=False)
     name = Column(String(100), nullable=False)
 
     project = relationship("Project", back_populates="individuals")

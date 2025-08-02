@@ -77,7 +77,10 @@ export default function OverviewContent() {
       if (project && (!currentProject || currentProject.id !== projectId)) {
         setCurrentProject(project);
         if (!detailModal.opened) {
-          stack.open("details");
+          // Add a small delay to ensure proper animation
+          setTimeout(() => {
+            stack.open("details");
+          }, 50);
         }
       } else if (!project) {
         // Project not found, remove from URL

@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime
-from sqlalchemy import Column, String, Integer, Boolean, ForeignKey, Text, DateTime
+from sqlalchemy import Column, String, Integer, Boolean, ForeignKey, Text, DateTime, JSON
 from sqlalchemy.orm import relationship, declarative_base
 
 Base = declarative_base()
@@ -89,3 +89,18 @@ class ProjectIndividual(Base, AuditMixin):
     name = Column(String(100), nullable=False)
 
     project = relationship("Project", back_populates="individuals")
+
+
+class AuditLog(Base):
+    __tablename__ = "audit_log"
+    __table_args__ = {"schema": "registry"}
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    table_name = Column(String(100), nullable=False)
+    row_id = Column(String(GUID_LENGTH), nullable=False)
+    action = Column(String(10), nullable=False)  # INSERT, UPDATE, DELETE
+    old_data = Column(JSON, nullable=True)
+    new_data = Column(JSON, nullable=True)
+    timestamp = Column(DateTime, default=datetime.utcnow, nullable=False)
+    actor = Column(String(100), default="system", nullable=False)
+    context = Column(String(255), nullable=True)  # Additional context like "replace-all", "user-update"

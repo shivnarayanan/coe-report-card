@@ -9,11 +9,21 @@ from database import SessionLocal, engine
 from schemas import ProjectSchema, ProjectCreateSchema, TimelineItemSchema, ProjectTagSchema, ProjectIndividualSchema
 from utils.audit_utils import auto_populate_audit_fields, get_active_only_filter, soft_delete
 from utils.schema_manager import ensure_schema_exists
+from utils.smart_update import (
+    compare_and_update_project_tags,
+    compare_and_update_project_individuals,
+    compare_and_update_timeline_items,
+    has_project_fields_changed,
+    update_project_fields
+)
+import audit_logging
 
 # Ensure the registry schema exists before creating tables
 SCHEMA_NAME = "registry"
 if ensure_schema_exists(engine, SCHEMA_NAME):
     models.Base.metadata.create_all(bind=engine)
+    # Initialize audit logging
+    audit_logging.setup_audit_logging()
 else:
     raise RuntimeError(f"Failed to ensure schema '{SCHEMA_NAME}' exists")
 
@@ -141,10 +151,25 @@ def create_project(project: ProjectCreateSchema, db: Session = Depends(get_db)):
     
     db.commit()
     db.refresh(db_project)
+    
+    # Log audit trail for project creation
+    audit_logging.log_insert(db, db_project, context="new-project")
+    
+    # Log audit trail for related entities
+    for tag in db_project.tags:
+        audit_logging.log_insert(db, tag, context="new-project")
+    
+    for individual in db_project.individuals:
+        audit_logging.log_insert(db, individual, context="new-project")
+    
+    for timeline_item in db_project.timeline:
+        audit_logging.log_insert(db, timeline_item, context="new-project")
+    
     return db_project
 
 @app.put("/projects/{project_id}", response_model=ProjectSchema)
 def update_project(project_id: str, project: ProjectCreateSchema, db: Session = Depends(get_db)):
+    """Smart update that only changes what's actually different"""
     db_project = db.query(models.Project).filter(
         models.Project.id == project_id,
         get_active_only_filter(models.Project)
@@ -152,53 +177,45 @@ def update_project(project_id: str, project: ProjectCreateSchema, db: Session = 
     if not db_project:
         raise HTTPException(status_code=404, detail="Project not found")
     
-    # Update project fields
-    db_project.title = project.title
-    db_project.description = project.description
-    db_project.status = project.status
-    db_project.why_we_built_this = project.why_we_built_this
-    db_project.what_weve_built = project.what_weve_built
-    db_project.nti_status = project.nti_status
-    db_project.nti_link = project.nti_link
-    db_project.primary_benefits_category = project.primary_benefits_category
-    db_project.primary_ai_benefit_category = project.primary_ai_benefit_category
-    db_project.investment_required = project.investment_required
-    db_project.expected_near_term_benefits = project.expected_near_term_benefits
-    db_project.expected_long_term_benefits = project.expected_long_term_benefits
-    db_project.primary_business_function = project.primary_business_function
-    auto_populate_audit_fields(db_project, is_update=True)
+    print(f"Smart update for project {project_id}")
     
-    # Delete existing related data
-    db.query(models.ProjectTag).filter(models.ProjectTag.project_id == project_id).delete()
-    db.query(models.ProjectIndividual).filter(models.ProjectIndividual.project_id == project_id).delete()
-    db.query(models.TimelineItem).filter(models.TimelineItem.project_id == project_id).delete()
+    # Check if main project fields have changed
+    project_fields_changed = has_project_fields_changed(db_project, project)
+    old_project_data = None
     
-    # Add new tags
-    for tag_data in project.tags:
-        db_tag = models.ProjectTag(project_id=project_id, tag=tag_data.tag)
-        auto_populate_audit_fields(db_tag, is_update=False)
-        db.add(db_tag)
+    if project_fields_changed:
+        # Capture old data before making changes
+        old_project_data = audit_logging.serialize_object(db_project)
+        # Update project fields
+        update_project_fields(db_project, project)
+        print("Project fields updated")
+    else:
+        print("No project field changes detected")
     
-    # Add new individuals
-    for individual_data in project.individuals:
-        db_individual = models.ProjectIndividual(project_id=project_id, name=individual_data.name)
-        auto_populate_audit_fields(db_individual, is_update=False)
-        db.add(db_individual)
+    # Smart update for related entities
+    # Get existing related data
+    existing_tags = db_project.tags
+    existing_individuals = db_project.individuals  
+    existing_timeline = db_project.timeline
     
-    # Add new timeline items
-    for timeline_data in project.timeline:
-        db_timeline = models.TimelineItem(
-            project_id=project_id,
-            title=timeline_data.title,
-            description=timeline_data.description,
-            date=timeline_data.date,
-            is_step_active=timeline_data.is_step_active
-        )
-        auto_populate_audit_fields(db_timeline, is_update=False)
-        db.add(db_timeline)
+    # Compare and update tags
+    compare_and_update_project_tags(db, project_id, project.tags, existing_tags)
     
+    # Compare and update individuals
+    compare_and_update_project_individuals(db, project_id, project.individuals, existing_individuals)
+    
+    # Compare and update timeline items
+    compare_and_update_timeline_items(db, project_id, project.timeline, existing_timeline)
+    
+    # Commit all changes
     db.commit()
     db.refresh(db_project)
+    
+    # Log audit trail only for main project changes
+    if project_fields_changed:
+        audit_logging.log_update(db, db_project, old_project_data, context="smart-update")
+        print("Project update logged to audit trail")
+    
     return db_project
 
 @app.delete("/projects/{project_id}")
@@ -210,6 +227,22 @@ def delete_project(project_id: str, db: Session = Depends(get_db)):
     ).first()
     if not db_project:
         raise HTTPException(status_code=404, detail="Project not found")
+    
+    # Log audit trail for deletions before soft deleting
+    audit_logging.log_delete(db, db_project, context="soft-delete")
+    
+    # Log deletions for related items before soft deleting
+    for tag in db_project.tags:
+        if tag.is_active:
+            audit_logging.log_delete(db, tag, context="soft-delete")
+    
+    for individual in db_project.individuals:
+        if individual.is_active:
+            audit_logging.log_delete(db, individual, context="soft-delete")
+    
+    for timeline_item in db_project.timeline:
+        if timeline_item.is_active:
+            audit_logging.log_delete(db, timeline_item, context="soft-delete")
     
     # Soft delete the project and all related items
     soft_delete(db, db_project)
@@ -303,6 +336,28 @@ def get_analytics_overview(db: Session = Depends(get_db)) -> Dict[str, Any]:
         "topTags": [{"tag": row.tag, "count": row.count} for row in top_tags]
     }
 
+@app.get("/audit/recent")
+def get_recent_audit_logs(limit: int = 50, db: Session = Depends(get_db)) -> List[Dict[str, Any]]:
+    """Get recent audit log entries"""
+    audit_logs = db.query(models.AuditLog).order_by(
+        models.AuditLog.timestamp.desc()
+    ).limit(limit).all()
+    
+    return [
+        {
+            "id": log.id,
+            "table_name": log.table_name,
+            "row_id": log.row_id,
+            "action": log.action,
+            "context": log.context,
+            "timestamp": log.timestamp.isoformat(),
+            "actor": log.actor,
+            "old_data": log.old_data,
+            "new_data": log.new_data
+        }
+        for log in audit_logs
+    ]
+
 @app.get("/analytics/timeline")
 def get_timeline_analytics(db: Session = Depends(get_db)) -> Dict[str, Any]:
     """Get timeline and progress analytics"""
@@ -341,7 +396,7 @@ if __name__ == '__main__':
     uvicorn.run(
         "app:app",
         host="127.0.0.1",
-        port=8001,
+        port=8002,
         reload=True,
         log_level="info"
     )

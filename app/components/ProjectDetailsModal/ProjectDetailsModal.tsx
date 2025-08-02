@@ -37,20 +37,12 @@ export function ProjectDetailsModal({
   onEdit,
 }: ProjectDetailsModalProps) {
   const [activeTab, setActiveTab] = useState<string>("overview");
-  const [isClosing, setIsClosing] = useState(false);
-  
   // Reset tab to overview when modal is closed and reopened
   useEffect(() => {
     if (opened) {
       setActiveTab("overview");
-      setIsClosing(false);
     }
   }, [opened]);
-
-  const handleClose = () => {
-    setIsClosing(true);
-    onClose();
-  };
   
   if (!project) return null;
 
@@ -91,16 +83,11 @@ export function ProjectDetailsModal({
   return (
     <Modal.Root
       opened={opened}
-      onClose={handleClose}
+      onClose={onClose}
       size="xl"
       radius="lg"
       zIndex={1000}
       centered
-      transitionProps={{
-        transition: isClosing ? 'fade-up' : 'fade-down',
-        duration: 150,
-        timingFunction: 'ease-out'
-      }}
     >
       <Modal.Overlay />
       <Modal.Content style={{ overflow: "hidden" }}>
@@ -184,7 +171,7 @@ export function ProjectDetailsModal({
                   </Pill>
                 ))}
               </Box>
-              <Modal.CloseButton style={{ flexShrink: 0 }} onClick={handleClose} />
+              <Modal.CloseButton style={{ flexShrink: 0 }} />
             </Box>
             <Text size="md" c="dimmed" mt="xs" mb="sm">
               {project.description}

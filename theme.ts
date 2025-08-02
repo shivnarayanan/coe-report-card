@@ -18,9 +18,16 @@ export const theme = createTheme({
   colors: {
     NomuraRed,
   },
-  defaultRadius: 'md',
+  defaultRadius: "md",
   fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
   headings: {
     fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+  },
+  components: {
+    Notification: {
+      defaultProps: {
+        radius: "sm",
+      },
+    },
   },
 });

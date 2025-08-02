@@ -11,7 +11,6 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   const { setColorScheme, colorScheme } = useMantineColorScheme();
 
   useEffect(() => {
-    // Load saved theme preference from localStorage on mount
     const savedScheme = localStorage.getItem('mantine-color-scheme');
     if (savedScheme === 'light' || savedScheme === 'dark' || savedScheme === 'auto') {
       setColorScheme(savedScheme);
